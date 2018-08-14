@@ -1,33 +1,25 @@
+<!-- <ion-header color="teal">
+  <h4> Under Construction  </h4>          
+</ion-header> -->
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Find Restaurants"></ion-searchbar>
-  </ion-toolbar>
+    <ion-navbar hideBackButton color="teal">
+    <ion-title>
+      Testing
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-list [hidden]="autocompleteItems.length == 0">
-    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-      {{ item.description }}
-    </ion-item>
-  </ion-list>
-  <ion-grid *ngIf="nearbyItems.length == 0">
-    <ion-row>
-      <ion-col col-12>
-        <h3>
-          Please type a place on the Search bar to see nearby Restaurants
-        </h3>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-list *ngIf="nearbyItems.length > 0">
-    <ion-item *ngFor="let place of nearbyItems">
-      <h2>{{place.name}}</h2>
-      <p>{{place.vicinity}}</p>
-      <p>Rating {{place.rating}}</p>
-      <button ion-button clear item-end *ngIf="(place.opening_hours && !place.opening_hours.open_now)">CLOSED</button>
-      <button ion-button clear item-end *ngIf="(place.opening_hours && place.opening_hours.open_now)">OPEN NOW</button>
-    </ion-item>
-  </ion-list>
-
+    <label> Safe Area: </label>
+    <ion-range  [(ngModel)]="target.safeArea" #value1  min="5" max="30" pin = "true" ></ion-range>
+    <ion-item>
+        <ion-label color="primary">Latitude:</ion-label>
+        <ion-input [(ngModel)]="target.testLat"  #value2 ></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label color="primary">Longitude:</ion-label>
+          <ion-input [(ngModel)]="target.testLng"  #value3 ></ion-input>
+      </ion-item>
+    <button ion-button color="gold" class="center_button" (click) = "changeValue(value1.value,value2.value,value3.value)"> Save </button>
 </ion-content>

@@ -1,21 +1,32 @@
-<ion-header>
+<!-- <ion-header color="teal">
+ <h4>Home  </h4>
   <ion-toolbar color="primary">
     <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar>
   </ion-toolbar>
+</ion-header> -->
+<ion-header>
+  <ion-navbar hideBackButton color="teal">
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-navbar>
 </ion-header>
+
 
 
 <ion-content>
 
-  <ion-list [hidden]="autocompleteItems.length == 0">
+  <!-- <ion-list [hidden]="autocompleteItems.length == 0">
     <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
       {{ item.description }}
     </ion-item>
-  </ion-list>
+  </ion-list> -->
+  <div class ="viewArea">
+      <div id='map'></div>
+      <button *ngIf= "!checking" class="center_button" ion-button  color="gold" (click)="tryGeolocation()"> Check </button>
+      <button *ngIf= "checking" class="center_button" ion-button  color="gold" (click)="stopGeo()"> Stop Checking </button>
+  </div>
 
-  <div id='map'></div>
 </ion-content>
 
-<ion-footer>
-  <button class="geolocation-btn" ion-button full (click)="tryGeolocation()"> Try Geolocation </button>
-</ion-footer>
+

@@ -9,6 +9,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MapPage } from '../pages/map/map';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { PlacesPage } from '../pages/places/places';
+import { LocationTracker } from '../providers/location-tracker/location-tracker';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { ToastController } from 'ionic-angular';
+import { TargetProvider } from '../providers/target/target';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +36,11 @@ import { PlacesPage } from '../pages/places/places';
   providers: [
     SplashScreen,
     StatusBar,
-    Geolocation
+    Geolocation,
+    ToastController,
+    BackgroundGeolocation,
+    LocationTracker,
+    TargetProvider
   ]
 })
 export class AppModule {}

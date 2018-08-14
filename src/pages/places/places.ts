@@ -1,5 +1,8 @@
 import { Component, NgZone } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, NavController } from 'ionic-angular';
+import { TargetProvider } from '../../providers/target/target';
+import { AlertController } from 'ionic-angular';
+
 
 @Component({
   selector: 'places-map',
@@ -14,8 +17,11 @@ export class PlacesPage {
   nearbyItems: any = new Array<any>();
   loading: any;
 
+
   constructor(
     public zone: NgZone,
+    public target : TargetProvider, 
+    public alertCtrl: AlertController,
     public loadingCtrl: LoadingController
   ) {
 
@@ -30,6 +36,18 @@ export class PlacesPage {
     this.loading = this.loadingCtrl.create();
   }
 
+  changeValue(value1:any,value2:any,value3:any){
+    this.target.safeArea = value1;
+    this.target.testLat = value2;
+    this.target.testLng = value3;
+    this.target.alertGiven = false;
+    let alert = this.alertCtrl.create({
+      title: 'Done',
+      subTitle: 'Changes applied, navigate back to the map to view changes!',
+      buttons: ['Close']
+    });
+    alert.present();
+  }
 
   updateSearchResults(){
     if (this.autocomplete.input == '') {
