@@ -12,34 +12,43 @@ page-map {
     //   border-color: teal;
     // }
     .viewArea{
-      display: inline-block !important;
-      justify-content: center !important;
-      align-items: center !important;
-      align-content: center !important;
+      display: grid !important;
+      // justify-content: center !important;
+      // align-items: center !important;
+      // align-content: center !important;
       height: 100%;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 5%;
+      position: relative !important;
+      z-index: 0;
       }
     #map{
-      margin: 5%;
-      border-style: solid;
-      border-radius: 10px;
-      border-width: 5px;
-      border-color: teal;
-      display:flex !important;
+      // margin: 5%;
+      // border-style: solid;
+      // border-radius: 10px;
+      // border-width: 5px;
+      // border-color: teal;
+      display:grid !important;
       justify-content: center!important;
       align-items:center!important;
-      height: 80%;
-      width: auto;
+      height: 100%;
+      width: 100%;
       background: transparent !important;
+      z-index: 1;
+      position: absolute !important;
     }
     .center_button{
-      display:flex !important;
+      display: grid !important ;
       align-self: center !important;
-      margin-left: auto;
-      margin-right: auto;
+      margin-left: 45% !important;
+      margin-right: 55% !important;
       justify-content: center!important;
       align-items:center!important;
+      z-index: 2;
+      position: absolute  !important;
+      // right: 45% !important;
+      // left: 45% !important;
+      bottom: 5%;
     }
 }
 // .geolocation-btn{
