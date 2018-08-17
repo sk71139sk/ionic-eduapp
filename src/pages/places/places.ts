@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import { LoadingController, NavController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { AlertController } from 'ionic-angular';
+import { ApiProvider } from '../../providers/api/api';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class PlacesPage {
     public zone: NgZone,
     public target : TargetProvider, 
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public navCtrl : NavController,
+    public api : ApiProvider
   ) {
 
     this.geocoder = new google.maps.Geocoder;
@@ -36,10 +39,11 @@ export class PlacesPage {
     this.loading = this.loadingCtrl.create();
   }
 
-  changeValue(value1:any,value2:any,value3:any){
+  changeValue(value1:any,value2:any,value3:any,value4:any){
     this.target.safeArea = value1;
     this.target.testLat = value2;
     this.target.testLng = value3;
+    this.api.baseUrl = value4;
     this.target.alertGiven = false;
     let alert = this.alertCtrl.create({
       title: 'Done',

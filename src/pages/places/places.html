@@ -13,7 +13,7 @@
 <ion-content>
     <label> Safe Area: </label>
     <ion-range  [(ngModel)]="target.safeArea" #value1  min="5" max="30" pin = "true" ></ion-range>
-    <ion-item>
+      <ion-item>
         <ion-label color="primary">Latitude:</ion-label>
         <ion-input [(ngModel)]="target.testLat"  #value2 ></ion-input>
       </ion-item>
@@ -21,5 +21,9 @@
           <ion-label color="primary">Longitude:</ion-label>
           <ion-input [(ngModel)]="target.testLng"  #value3 ></ion-input>
       </ion-item>
-    <button ion-button color="gold" class="center_button" (click) = "changeValue(value1.value,value2.value,value3.value)"> Save </button>
+      <ion-item>
+        <ion-label color="primary">API HostName:</ion-label>
+        <ion-input [(ngModel)]="api.baseUrl"  #value4 ></ion-input>
+    </ion-item>
+    <button ion-button color="gold" class="center_button" (click) = "changeValue(value1.value,value2.value,value3.value,value4.value)"> Save </button>
 </ion-content>

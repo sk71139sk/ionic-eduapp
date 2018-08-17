@@ -17,4 +17,6 @@ export class TargetProvider {
   testLat: any = -18.147871;
   testLng: any = 178.443096;
   alertGiven: boolean = false;
+  cat_id :any;
+  lev_id :any;
 }

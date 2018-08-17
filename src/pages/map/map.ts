@@ -5,6 +5,7 @@ import { TargetProvider } from '../../providers/target/target';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
 
 @Component({
@@ -37,6 +38,7 @@ export class MapPage {
     public zone: NgZone,
     private toastCtrl : ToastController,
     public geolocation: Geolocation,
+    public api : ApiProvider,
     public target : TargetProvider, 
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
@@ -90,6 +92,16 @@ export class MapPage {
             buttons: ['Dismiss']
           });
           alert.present();
+          this.api.checkIfLastlevel(this.target.lev_id,this.target.cat_id).subscribe(
+            res=>{
+                console.log(res);
+                if (res == "1"){
+      
+                  console.log("returned true");
+                }else{
+                  console.log("returned false")
+                }
+          })
           this.target.alertGiven = true;
           console.log("alert appears");
         }
