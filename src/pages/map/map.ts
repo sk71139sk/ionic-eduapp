@@ -7,6 +7,7 @@ import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
+import { NgIf } from '../../../node_modules/@angular/common';
 
 @Component({
   selector: 'page-map',
@@ -30,12 +31,14 @@ export class MapPage {
   public lng: any;
   circle: any;
   checking: boolean;
+  levFinished : boolean = false;
   //alertGiven: boolean = false;
   // loading: any;
   // BtnContent : any;
 
   constructor(
     public zone: NgZone,
+    public loadingController:LoadingController,
     private toastCtrl : ToastController,
     public geolocation: Geolocation,
     public api : ApiProvider,
@@ -53,101 +56,108 @@ export class MapPage {
     };
     this.autocompleteItems = [];
     this.markers = [];
+
+    let loader = this.loadingController.create({
+      content: "Loading Game",
+      duration: 3000
+    });  
+    loader.present();
+    this.loadFirstLevel(this.target.cat_id);
+    loader.dismiss();
     // this.loading = this.loadingCtrl.create();
   }
 
   ionViewDidEnter(){
-      // let infoWindow = new google.maps.InfoWindow({map: map});
-      //Set latitude and longitude of some place
 
-    // this.BtnContent = "Check";
+    this.loadMap();
+    console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
+    this.createCircle(this.target.testLat,this.target.testLng);
+    this.createAndListen();
+ 
+  }
 
-    // this.zone.run(() => {
-    //   this.map = new google.maps.Map(document.getElementById('map'), {
-    //     center: new google.maps.LatLng(-18.148540, 178.445526),
-    //     zoom: 20,
-    //     disableDefaultUI : true,
-    //     mapTypeId: google.maps.MapTypeId.ROADMAP
-    //   });
-    // });
+  createAndListen(){
+
+    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/*&& (this.checking)*/){
+        let alert = this.alertCtrl.create({
+          title: 'Level ' + this.target.lev_id + ' Appears',
+          subTitle: 'You have found a question! Click Dismiss for the next Level',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+        this.target.alertGiven = true;
+        this.levFinished = true;
+       if (this.target.numLev  > 0 && this.levFinished){
+        this.loadNextLevel();
+      }
+      else{
+        let endAlert = this.alertCtrl.create({
+          title: 'Congratulations',
+          subTitle: 'You have finished the game',
+          buttons: ['Dismiss']
+        });
+          this.circle.setMap(null);
+          alert.onDidDismiss( () => {
+            endAlert.present();
+          });
+
+
+
+      }
+      }
+    });
+    
+  }
+
+  loadMap(){
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-18.148540, 178.445526),
       zoom: 20,
       disableDefaultUI : true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+  }
 
-      this.createCircle(this.target.testLat,this.target.testLng);
+  loadFirstLevel(value:any){
+    this.api.getLevelCoords(value).subscribe(
+      res => 
+      {
+        console.log('response received: ', res.lat,res.lng);
+        console.log('{map} value passed: ', value);
+      this.target.testLat = res.lat;
+      this.target.testLng = res.lng;
+      console.log('values assigned: ',this.target.testLat,this.target.testLng );
+      this.target.numLev = this.target.numLev - 1;
+      console.log('{map} levels remaining: ',this.target.numLev);
+      this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
+
+      
+    })
+  }
+
+  loadNextLevel(){
+          this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
+      res => 
+      {
+      this.levFinished = false;
+      this.target.numLev = this.target.numLev - 1;
+      this.target.lev_id = this.target.lev_id + 1;
+      console.log("Levels Remaining: ", this.target.numLev );
+      console.log("Current Level: ", this.target.lev_id);
+      this.target.testLat = res.lat;
+      this.target.testLng = res.lng;
+
+
+      this.target.alertGiven = false;
+      this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
+    })
+
+    this.createAndListen();
   
-      // this.createCircle(-18.147997, 178.443251);
-      
-      // this.createCircle(-18.149582, 178.446138);
-
-      // google.maps.event.clearListeners(this.circle,'dragend');
-      google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-        if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng) ,this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)&& (this.checking)){
-          let alert = this.alertCtrl.create({
-            title: 'Congratulations',
-            subTitle: 'You have found a question!',
-            buttons: ['Dismiss']
-          });
-          alert.present();
-          this.api.checkIfLastlevel(this.target.lev_id,this.target.cat_id).subscribe(
-            res=>{
-                console.log(res);
-                if (res == "1"){
-      
-                  console.log("returned true");
-                }else{
-                  console.log("returned false")
-                }
-          })
-          this.target.alertGiven = true;
-          console.log("alert appears");
-        }
-      //   if (this.circle.getBounds().contains(this.map.getCenter().LatLng)){
-      //             let toast2 = this.toastCtrl.create({
-      //     message: "Question appears here",
-      //     duration: 8000,
-      //     showCloseButton: true                      
-      //   })
-      //   toast2.present();
-      //   console.log("toast appears");
-      //   }
 
 
-      });
-        
-      
-      //  google.maps.event.clearListeners(this.circle, 'mouseout');
-      
 
-      // // Bounds for North America
-      // var strictBounds = new google.maps.LatLngBounds(
-      //   new google.maps.LatLng(-18.155848, 178.438287),
-      //   new google.maps.LatLng(-18.146352, 178.449348));
-
-      // // Listen for the dragend event
-      // google.maps.event.addListener(this.map, 'dragend', function () {
-      //     if (strictBounds.contains(this.map.getCenter())) return;
-
-      //     // We're out of bounds - Move the map back within the bounds
-
-      //     var c = this.map.getCenter(),
-      //         x = c.lng(),
-      //         y = c.lat(),
-      //         maxX = strictBounds.getNorthEast().lng(),
-      //         maxY = strictBounds.getNorthEast().lat(),
-      //         minX = strictBounds.getSouthWest().lng(),
-      //         minY = strictBounds.getSouthWest().lat();
-
-      //     if (x < minX) x = minX;
-      //     if (x > maxX) x = maxX;
-      //     if (y < minY) y = minY;
-      //     if (y > maxY) y = maxY;
-
-      //     this.map.setCenter(new google.maps.LatLng(y, x));
-      // });
     
   }
 

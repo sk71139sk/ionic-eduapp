@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
+import { LoadingController } from 'ionic-angular';
 
 import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 
@@ -20,10 +21,8 @@ import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 export class MenuPage {
 
 categories : any[];
-coords : any[];
-coordlat : any;
-coordlng : any;
-last : any;
+
+
 // data: any;
   constructor(public navCtrl: NavController, public target: TargetProvider, public api : ApiProvider, public navParams: NavParams) {
 
@@ -44,32 +43,18 @@ last : any;
 
   startGame(value:any){
 
-    
-    // console.log(value);
     this.target.cat_id = value;
-    this.target.lev_id = 1;
+    console.log('{menu} category id: ',this.target.cat_id);
+    this.api.checkNumLevel(this.target.cat_id).subscribe(
+      res => {
+        this.target.numLev = res[0].numLev;  
+        console.log("{menu} Total Number of Levels: " , this.target.numLev); 
+    })
+    this.navCtrl.setRoot(TabsNavigationPage); 
+
 
     
-
-
-    // console.log(this.last);
-
-  
- 
-    //this.loadFirstLevel(value);
-
-   
   }
 
-  loadFirstLevel(value:any){
-    this.api.getLevelCoords(value).subscribe(
-      res => 
-      {this.coords = res;
-      console.log('my coords:', res.lat, res.lng)
-      this.target.testLat = res.lat;
-      this.target.testLng = res.lng;
-      console.log(this.target.testLat,this.target.testLng);
-      this.navCtrl.setRoot(TabsNavigationPage);
-    })
-  }
+
 }

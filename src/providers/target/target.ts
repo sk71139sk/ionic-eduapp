@@ -18,5 +18,6 @@ export class TargetProvider {
   testLng: any = 178.443096;
   alertGiven: boolean = false;
   cat_id :any;
-  lev_id :any;
+  lev_id :any = 1;
+  numLev: any ;
 }
