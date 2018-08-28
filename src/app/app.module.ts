@@ -9,6 +9,8 @@ import {HttpModule} from '@angular/http';
 
 import { MapPage } from '../pages/map/map';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
+import { ModalPage } from '../pages/modal/modal';
+
 import { MenuPage } from '../pages/menu/menu';
 import { PlacesPage } from '../pages/places/places';
 import { LocationTracker } from '../providers/location-tracker/location-tracker';
@@ -22,6 +24,7 @@ import { ApiProvider } from '../providers/api/api';
   declarations: [
     MyApp,
     MapPage,
+    ModalPage,
     TabsNavigationPage,
     MenuPage,
     PlacesPage
@@ -34,6 +37,7 @@ import { ApiProvider } from '../providers/api/api';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    ModalPage,
     MapPage,
     MenuPage,
     TabsNavigationPage,

@@ -1,6 +1,6 @@
 import { Component, NgZone,Injectable } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { LoadingController, Nav, Tab, Tabs } from 'ionic-angular';
+import { LoadingController, Nav, Tab, Tabs, NavController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController } from 'ionic-angular';
@@ -8,6 +8,8 @@ import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
 import { NgIf } from '../../../node_modules/@angular/common';
+import {ModalController } from 'ionic-angular';
+import { ModalPage } from '../modal/modal';
 
 @Component({
   selector: 'page-map',
@@ -32,6 +34,9 @@ export class MapPage {
   circle: any;
   checking: boolean;
   levFinished : boolean = false;
+  // public score : any = 0;
+  public alertScore : any;
+
   //alertGiven: boolean = false;
   // loading: any;
   // BtnContent : any;
@@ -42,9 +47,12 @@ export class MapPage {
     private toastCtrl : ToastController,
     public geolocation: Geolocation,
     public api : ApiProvider,
-    public target : TargetProvider, 
+    public target : TargetProvider,
+    public navCtrl : NavController,
     public loadingCtrl: LoadingController,
+
     private alertCtrl: AlertController,
+    public modalCtrl :ModalController,
     public backgroundGeolocation: BackgroundGeolocation
   ) {
     this.geocoder = new google.maps.Geocoder;
@@ -59,18 +67,17 @@ export class MapPage {
 
     let loader = this.loadingController.create({
       content: "Loading Game",
-      duration: 3000
+      duration: 2000
     });  
     loader.present();
     this.loadFirstLevel(this.target.cat_id);
-    loader.dismiss();
-    // this.loading = this.loadingCtrl.create();
   }
 
   ionViewDidEnter(){
-
+    let initial:number = 0;
+    localStorage.setItem('userScore', initial.toString() );
     this.loadMap();
-    console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
+    // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
     this.createCircle(this.target.testLat,this.target.testLng);
     this.createAndListen();
  
@@ -80,40 +87,73 @@ export class MapPage {
 
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/*&& (this.checking)*/){
-        let alert = this.alertCtrl.create({
-          title: 'Level ' + this.target.lev_id + ' Appears',
-          subTitle: 'You have found a question! Click Dismiss for the next Level',
-          buttons: ['Dismiss']
-        });
-        alert.present();
+        // let alert = this.alertCtrl.create({
+        //   title: 'Level ' + this.target.lev_id + ' Appears',
+        //   subTitle: 'You have found a question! Click Dismiss for the next Level',
+        //   buttons: ['Dismiss']
+        // });
+        // alert.present();
+        let modalQs = this.modalCtrl.create(ModalPage);
+
+        modalQs.present();
+        // let alertScore = this.alertCtrl.create({
+        //   title: 'Score',
+        //   subTitle: 'Score: '+  localStorage.getItem('score ') + ' '
+        // })
+
+        modalQs.onDidDismiss( ()=>{
+          this.checkScore();
+          // this.api.loadScore(this.target.answers.toLocaleString()).subscribe(
+          //   res => {            
+          //     console.log("this is score response: " , res.score);      
+          //     // this.target.setScore(res.score); 
+  
+          //     localStorage.setItem('score',res.score );  //assign score to a variable
+          //     console.log("this is score stored:", localStorage.getItem ('score'));
+          //     this.alertScore = this.alertCtrl.create({
+          //       title: 'Score',
+          //       subTitle: 'Score: '+ res.score
+          //     })
+      
+          //     this.alertScore.present();
+          //     let temp:any = parseInt(localStorage.getItem('userScore')) +  parseInt(res.score)
+          //     localStorage.setItem('userScore',temp ); 
+
+
+      
+          //   }
+          // );
+        }
+
+        )
+
         this.target.alertGiven = true;
         this.levFinished = true;
        if (this.target.numLev  > 0 && this.levFinished){
+
         this.loadNextLevel();
+        console.log("loadNextLevel happens");
       }
       else{
+        console.log("game over");
         let endAlert = this.alertCtrl.create({
           title: 'Congratulations',
           subTitle: 'You have finished the game',
           buttons: ['Dismiss']
         });
           this.circle.setMap(null);
-          alert.onDidDismiss( () => {
+          if (this.target.gameOver ==  true) {
             endAlert.present();
-          });
-
-
-
-      }
+          }
+        }
       }
     });
-    
   }
 
   loadMap(){
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-18.148540, 178.445526),
-      zoom: 20,
+      zoom: 15,
       disableDefaultUI : true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -125,47 +165,57 @@ export class MapPage {
       {
         console.log('response received: ', res.lat,res.lng);
         console.log('{map} value passed: ', value);
-      this.target.testLat = res.lat;
-      this.target.testLng = res.lng;
-      console.log('values assigned: ',this.target.testLat,this.target.testLng );
-      this.target.numLev = this.target.numLev - 1;
-      console.log('{map} levels remaining: ',this.target.numLev);
-      this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
-
-      
+        this.target.testLat = res.lat;
+        this.target.testLng = res.lng;
+        console.log('values assigned: ',this.target.testLat,this.target.testLng );
+        this.target.numLev = this.target.numLev - 1;
+        console.log('{map} levels remaining: ',this.target.numLev);
+        this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
     })
   }
 
   loadNextLevel(){
-          this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
+    this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
       res => 
       {
       this.levFinished = false;
-      this.target.numLev = this.target.numLev - 1;
-      this.target.lev_id = this.target.lev_id + 1;
+
       console.log("Levels Remaining: ", this.target.numLev );
       console.log("Current Level: ", this.target.lev_id);
       this.target.testLat = res.lat;
       this.target.testLng = res.lng;
-
 
       this.target.alertGiven = false;
       this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
     })
 
     this.createAndListen();
-  
-
-
-
-    
   }
 
-  //  // Limit the zoom level
-  //  google.maps.event.addListener(map, 'zoom_changed', function () {
-  //      if (this.map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
-  //  });
-  //   }
+  checkScore(){
+          this.api.loadScore(this.target.answers.toLocaleString()).subscribe(
+        res => {            
+          console.log("this is score response: " , res.score);      
+          // this.target.setScore(res.score); 
+
+          localStorage.setItem('score',res.score );  //assign score to a variable
+          console.log("this is score stored:", localStorage.getItem ('score'));
+          this.alertScore = this.alertCtrl.create({
+            title: 'Score',
+            subTitle: 'Score: '+ res.score
+          })
+
+          this.alertScore.present();
+          let temp:any = parseInt(localStorage.getItem('userScore')) +  parseInt(res.score)
+          localStorage.setItem('userScore',temp ); 
+
+
+
+        }
+      );
+  }
+
+
 
   tryGeolocation(){
     // this.loading.present();
@@ -176,35 +226,7 @@ export class MapPage {
       duration: 3000
     })
     toast.present();
- 
 
-
-    // let location = new google.maps.Point(-18.147874, 178.443069);
-    // let myLocation = (google.maps.Point) this.geolocation.getCurrentPosition();
-    // if 
-
-    //remove previous markers 
-    // this.BtnContent = "Checking";
-    
-
-    // this.geolocation.getCurrentPosition().then((resp) => {
-      // let pos = {
-      //   lat: ,
-      //   lng: 
-      // };
-
-
-
-    
-
-
-      // this.loading.dismiss();
-
-
-    // }).catch((error) => {
-    //   console.log('Error getting location', error);
-    //   this.loading.dismiss();
-    // });
   }
 
   stopGeo(){
@@ -261,8 +283,6 @@ export class MapPage {
 
   startTracking() {
     // Background Tracking
-
-
     let config = {
       desiredAccuracy: 0,
       stationaryRadius: 10,
@@ -364,6 +384,4 @@ export class MapPage {
     });
     // this.circle.bindTo('center', marker, 'position');
     }
-    
-
 }

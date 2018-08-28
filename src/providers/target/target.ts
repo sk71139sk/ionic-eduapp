@@ -20,4 +20,11 @@ export class TargetProvider {
   cat_id :any;
   lev_id :any = 1;
   numLev: any ;
+  public answers : Array<any> = [];
+  public score : any ;
+  public gameOver:boolean = false;
+
+  public setScore(value:any){
+    this.score = value;
+  }
 }
