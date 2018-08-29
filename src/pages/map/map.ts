@@ -10,6 +10,7 @@ import 'rxjs/add/operator/filter';
 import { NgIf } from '../../../node_modules/@angular/common';
 import {ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
+import { Title } from '../../../node_modules/@angular/platform-browser';
 
 @Component({
   selector: 'page-map',
@@ -36,6 +37,9 @@ export class MapPage {
   levFinished : boolean = false;
   // public score : any = 0;
   public alertScore : any;
+  public numcircles : number = null ;
+  public circle1 : any;
+  public circle2 : any;
 
   //alertGiven: boolean = false;
   // loading: any;
@@ -71,6 +75,7 @@ export class MapPage {
     });  
     loader.present();
     this.loadFirstLevel(this.target.cat_id);
+
   }
 
   ionViewDidEnter(){
@@ -79,6 +84,8 @@ export class MapPage {
     this.loadMap();
     // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
     this.createCircle(this.target.testLat,this.target.testLng);
+    this.create1stDummyCircle();
+    this.create2ndDummyCircle();
     this.createAndListen();
  
   }
@@ -86,50 +93,68 @@ export class MapPage {
   createAndListen(){
 
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/*&& (this.checking)*/){
-        // let alert = this.alertCtrl.create({
-        //   title: 'Level ' + this.target.lev_id + ' Appears',
-        //   subTitle: 'You have found a question! Click Dismiss for the next Level',
-        //   buttons: ['Dismiss']
-        // });
-        // alert.present();
+      while ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() 
+      , this.circle1.getCenter()) <= this.target.safeArea )&& (!this.target.dummy1given) &&(!this.target.quesFound)/*&& (this.checking)*/){
+        let dummyAlert = this.alertCtrl.create(
+          {
+            title : 'Oooops',
+            message: 'Sorry Try Another Location!'
+          }
+        )
+        dummyAlert.present();
+        this.target.dummy1given = true;
+        this.circle1.setCenter(this.target.coord_Default);
+      }
+    }); 
+
+    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
+      while ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,
+      this.circle2.getCenter()) <= this.target.safeArea )&& (!this.target.dummy2given)&&(!this.target.quesFound)/*&& (this.checking)*/){
+        let dummyAlert2 = this.alertCtrl.create(
+          {
+            title : 'Oooops',
+            message: 'Sorry Try Another Location!'
+          }
+        )
+        dummyAlert2.present();
+        this.target.dummy2given = true;
+        this.circle2.setCenter(this.target.coord_Default);
+      }
+    });  
+
+
+// main listener
+    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,
+      this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/*&& (this.checking)*/){
         let modalQs = this.modalCtrl.create(ModalPage);
-
         modalQs.present();
-        // let alertScore = this.alertCtrl.create({
-        //   title: 'Score',
-        //   subTitle: 'Score: '+  localStorage.getItem('score ') + ' '
-        // })
-
+        this.target.quesFound = true;
+        this.circle1.setCenter(this.target.coord_Default);
+        this.circle2.setCenter(this.target.coord_Default);
         modalQs.onDidDismiss( ()=>{
           this.checkScore();
-          // this.api.loadScore(this.target.answers.toLocaleString()).subscribe(
-          //   res => {            
-          //     console.log("this is score response: " , res.score);      
-          //     // this.target.setScore(res.score); 
-  
-          //     localStorage.setItem('score',res.score );  //assign score to a variable
-          //     console.log("this is score stored:", localStorage.getItem ('score'));
-          //     this.alertScore = this.alertCtrl.create({
-          //       title: 'Score',
-          //       subTitle: 'Score: '+ res.score
-          //     })
-      
-          //     this.alertScore.present();
-          //     let temp:any = parseInt(localStorage.getItem('userScore')) +  parseInt(res.score)
-          //     localStorage.setItem('userScore',temp ); 
-
-
-      
-          //   }
-          // );
-        }
-
-        )
-
+        })
         this.target.alertGiven = true;
         this.levFinished = true;
        if (this.target.numLev  > 0 && this.levFinished){
+          // if(this.numcircles == 2){
+          //     console.log("numcircle = ",this.numcircles);
+          //       this.api.getOneRandomCoords().subscribe(
+          //         res=>{
+          //           this.createDummyCircle(res.lat,res.lat);
+          //         }
+          //       );
+          // }
+          // else if (this.numcircles ==3){
+          //   console.log("numcircle = ",this.numcircles);
+          //   this.api.getTwoRandomCoords().subscribe(
+          //     res=>{
+          //       this.createDummyCircle(res[0].lat,res[0].lat);
+          //       this.createAnotherDummyCircles(res[1].lat,res[1].lat);
+          //     }
+          //   );
+          // }
 
         this.loadNextLevel();
         console.log("loadNextLevel happens");
@@ -142,8 +167,10 @@ export class MapPage {
           buttons: ['Dismiss']
         });
           this.circle.setMap(null);
+          
           if (this.target.gameOver ==  true) {
             endAlert.present();
+            this.loadMap();
           }
         }
       }
@@ -153,13 +180,14 @@ export class MapPage {
   loadMap(){
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: new google.maps.LatLng(-18.148540, 178.445526),
-      zoom: 15,
+      zoom: 18,
       disableDefaultUI : true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
   }
 
   loadFirstLevel(value:any){
+    
     this.api.getLevelCoords(value).subscribe(
       res => 
       {
@@ -171,6 +199,7 @@ export class MapPage {
         this.target.numLev = this.target.numLev - 1;
         console.log('{map} levels remaining: ',this.target.numLev);
         this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
+        this.target.quesFound = false;
     })
   }
 
@@ -186,10 +215,28 @@ export class MapPage {
       this.target.testLng = res.lng;
 
       this.target.alertGiven = false;
+      this.target.quesFound = false;
       this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
     })
 
     this.createAndListen();
+  }
+
+  createDummyCircle(lat:any,lng:any){
+ 
+    this.circle1.setCenter(new google.maps.LatLng(lat,lng));
+    console.log("set a new dummy at: "+ lat,lng);
+    this.target.dummy1given = false;
+
+ 
+  }
+
+  createAnotherDummyCircles(lat:any,lng:any){
+
+    this.circle2.setCenter(new google.maps.LatLng(lat,lng));
+    console.log("set a new dummy at: "+ lat,lng);
+    this.target.dummy2given = false;
+
   }
 
   checkScore(){
@@ -202,10 +249,32 @@ export class MapPage {
           console.log("this is score stored:", localStorage.getItem ('score'));
           this.alertScore = this.alertCtrl.create({
             title: 'Score',
-            subTitle: 'Score: '+ res.score
+            subTitle: 'Score: '+ res.score + '%'
           })
 
           this.alertScore.present();
+          if (res.score == 100){
+            this.numcircles = 1;
+          }
+          else if(res.score > 50){
+            this.numcircles = 2;
+            console.log("numcircle = ",this.numcircles);
+            this.api.getOneRandomCoords().subscribe(
+              res=>{
+                this.createDummyCircle(res.lat,res.lng);
+              }
+            );
+          }
+          else{
+            this.numcircles = 3;
+            console.log("numcircle = ",this.numcircles);
+            this.api.getTwoRandomCoords().subscribe(
+              res=>{
+                this.createDummyCircle(res[0].lat,res[0].lng);
+                this.createAnotherDummyCircles(res[1].lat,res[1].lng);
+              }
+            );
+          }
           let temp:any = parseInt(localStorage.getItem('userScore')) +  parseInt(res.score)
           localStorage.setItem('userScore',temp ); 
 
@@ -365,12 +434,7 @@ export class MapPage {
   //-18.148929, 178.444548
 
   createCircle(lat:any,lng:any){
-    // Create marker 
-  //   var marker = new google.maps.Marker({
-  //   map: this.map,
-  //   position: new google.maps.LatLng(lat,lng)
-  // });
-  //   marker.setVisible(false);
+
     var pos = new google.maps.LatLng(lat,lng)
 
 
@@ -384,4 +448,36 @@ export class MapPage {
     });
     // this.circle.bindTo('center', marker, 'position');
     }
+
+    create1stDummyCircle(){
+
+      var pos = this.target.coord_ausAid;
+  
+  
+    // Add circle overlay and bind to marker
+      this.circle1 = new google.maps.Circle({
+      map: this.map,
+      radius: this.target.safeArea,    // in metres
+      fillColor: '#0085a9',
+      strokeOpacity: 0,
+      center: pos
+      });
+      // this.circle.bindTo('center', marker, 'position');
+      }
+
+      create2ndDummyCircle(){
+
+        var pos = this.target.coord_busBay;
+    
+    
+      // Add circle overlay and bind to marker
+        this.circle2 = new google.maps.Circle({
+        map: this.map,
+        radius: this.target.safeArea,    // in metres
+        fillColor: '#0085a9',
+        strokeOpacity: 0,
+        center: pos
+        });
+        // this.circle.bindTo('center', marker, 'position');
+        }
 }

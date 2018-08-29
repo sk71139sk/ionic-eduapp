@@ -126,4 +126,39 @@ public baseUrl : string = "http://127.0.0.1/";
     })
   }
 
+  getOneRandomCoords(){
+    console.log("inside function");
+    return  this.http.get(this.baseUrl + 'getRan/1' )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+          
+  
+     
+        // console.log("res from api: ", res);
+         return (res.json());
+      }
+      else{
+        console.log('server timeout');
+      }
+
+    })
+  }
+  
+  getTwoRandomCoords(){
+    return  this.http.get(this.baseUrl + 'getRan/2' )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+           console.log(res);
+  
+     
+        // console.log("res from api: ", res);
+         return (res.json());
+      }
+      else{
+        console.log('server timeout');
+      }
+
+    })
+  }
+
 }

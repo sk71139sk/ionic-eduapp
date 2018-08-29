@@ -14,11 +14,11 @@
 
 <ion-content padding>
  <ion-card class="cards" *ngFor="let data of questions; let i = index">
-    <ion-card-header  text-wrap> <p> {{i+1}}.  {{data.Content}} </p> </ion-card-header>
+    <ion-card-header  text-wrap> <p> Question {{i+1}}   </p> </ion-card-header>
       <ion-card-content > 
               <ion-list radio-group  >
-                <ion-list-header>
-                    Select an answer
+                <ion-list-header text-wrap>
+                    {{data.Content}}
                 </ion-list-header>
                 <ion-item class="item" *ngFor="let ans of data.answers" text-wrap>
                     <ion-label  ><P>{{ans.ans_content}}</P> </ion-label>
@@ -28,6 +28,6 @@
     </ion-card-content>
   </ion-card>
   <ion-fab bottom center>
-      <button ion-fab color="secondary"(click) = "closeModal()"> Done </button>
+      <button  ion-fab color="secondary"(click) = "closeModal()"> Done </button>
    </ion-fab>
 </ion-content>

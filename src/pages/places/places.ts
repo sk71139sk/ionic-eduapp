@@ -40,6 +40,11 @@ export class PlacesPage {
   }
 
   changeValue(value1:any,value2:any,value3:any,value4:any){
+    // this.api.getTwoRandomCoords().subscribe(
+    //   res=>{
+    //     console.log("api response here: lat1:", res[0].lat,' lng1:',res[0].lng,"lat2:", res[1].lat,' lng2:',res[1].lng);
+    //   }
+    // );
     this.target.safeArea = value1;
     this.target.testLat = value2;
     this.target.testLng = value3;

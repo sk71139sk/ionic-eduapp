@@ -26,6 +26,7 @@ categories : any[];
 // data: any;
   constructor(public navCtrl: NavController, public target: TargetProvider, public api : ApiProvider, public navParams: NavParams) {
     this.loadCat();
+
     // this.api.checkApi();
   }
 

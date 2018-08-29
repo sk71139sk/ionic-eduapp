@@ -20,7 +20,7 @@ import { AlertController } from 'ionic-angular';
 export class ModalPage {
 
 public questions : Array<any>;
-public answers : Array<any> = [];
+// public answers : Array<any> = [];
 // public alertScore : any;
 
   constructor(private view: ViewController , private navParams: NavParams, private alertCtrl: AlertController,public api:ApiProvider,public target:TargetProvider) {
@@ -64,7 +64,7 @@ public answers : Array<any> = [];
   }
 
   pushAns(valueq:any,valuea:any){
-    this.target.answers.splice(valueq,this.target.answers.length ,valuea);    
+    this.target.answers.splice(valueq,this.target.answers.length ,valuea);   
     // console.log("this is pressed: ",valueq,valuea);
     // console.log("this is stored",this.answers)
   }
