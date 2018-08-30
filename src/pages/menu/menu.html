@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-list> 
-    <ion-item *ngFor="let cat of categories"  (click)="startGame(cat.cat_id)"> <p>{{cat.cat_name}} </p> </ion-item>
+    <ion-item *ngFor="let cat of categories"  (click)="startGame(cat.cat_id,cat.cat_name)"> <p>{{cat.cat_name}} </p> </ion-item>
   </ion-list>
   <!-- <button color="gold" class="center_button" ion-button (click)="loadTabsPage()"> Submit  </button> -->
 </ion-content>

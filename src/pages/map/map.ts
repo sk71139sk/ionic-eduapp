@@ -3,7 +3,7 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { LoadingController, Nav, Tab, Tabs, NavController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
-import { ToastController } from 'ionic-angular';
+import { ToastController, Events } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
@@ -47,6 +47,7 @@ export class MapPage {
 
   constructor(
     public zone: NgZone,
+    public event: Events,
     public loadingController:LoadingController,
     private toastCtrl : ToastController,
     public geolocation: Geolocation,
@@ -75,7 +76,6 @@ export class MapPage {
     });  
     loader.present();
     this.loadFirstLevel(this.target.cat_id);
-
   }
 
   ionViewDidEnter(){
@@ -160,7 +160,7 @@ export class MapPage {
         console.log("loadNextLevel happens");
       }
       else{
-        console.log("game over");
+        
         let endAlert = this.alertCtrl.create({
           title: 'Congratulations',
           subTitle: 'You have finished the game',
@@ -168,10 +168,13 @@ export class MapPage {
         });
           this.circle.setMap(null);
           
-          if (this.target.gameOver ==  true) {
-            endAlert.present();
-            this.loadMap();
-          }
+          this.event.subscribe('GameOver',(data)=>{
+            if(data == true){
+              endAlert.present();
+              this.loadMap();
+            }
+
+          })
         }
       }
     });
@@ -204,6 +207,7 @@ export class MapPage {
   }
 
   loadNextLevel(){
+    
     this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
       res => 
       {
@@ -245,7 +249,8 @@ export class MapPage {
           console.log("this is score response: " , res.score);      
           // this.target.setScore(res.score); 
 
-          localStorage.setItem('score',res.score );  //assign score to a variable
+          localStorage.setItem('score',res.score );
+          this.target.setScore(parseInt(res.score));  //assign score to a variable
           console.log("this is score stored:", localStorage.getItem ('score'));
           this.alertScore = this.alertCtrl.create({
             title: 'Score',
@@ -253,6 +258,15 @@ export class MapPage {
           })
 
           this.alertScore.present();
+          this.alertScore.onDidDismiss( ()=>{
+            console.log("Current Level for this score: ", this.target.lev_id);
+            console.log("Levels Remaining after showing score: ", this.target.numLev );
+            if (this.target.numLev < 0){
+              let data = true;
+              this.event.publish('GameOver',data);
+            }
+            
+          });
           if (res.score == 100){
             this.numcircles = 1;
           }

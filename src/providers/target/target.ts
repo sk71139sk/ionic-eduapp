@@ -21,10 +21,11 @@ export class TargetProvider {
   dummy2given : boolean = false;
   quesFound : boolean = false;
   cat_id :any;
+  cat_name : any;
   lev_id :any = 1;
   numLev: any ;
   public answers : Array<any> = [];
-  public score : any ;
+  public score : number =0;
   public gameOver:boolean = false;
 
   //coords for dummy circles
@@ -32,7 +33,9 @@ export class TargetProvider {
   public coord_ausAid = new google.maps.LatLng(-18.147747, 178.446832);
   public coord_Default = new google.maps.LatLng(-89.345309, 115.326015);
 
-  public setScore(value:any){
-    this.score = value;
+  public setScore(value:number){
+    this.score = this.score + value;
   }
+
+
 }

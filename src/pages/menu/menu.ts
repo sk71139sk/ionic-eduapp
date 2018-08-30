@@ -38,13 +38,14 @@ categories : any[];
   loadCat(){
     this.api.getCategories().subscribe(
       res => {
-         this.categories =  res;
+        this.categories =  res;
       })
   }
 
-  startGame(value:any){
+  startGame(value:any,name:any){
 
     this.target.cat_id = value;
+    this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
