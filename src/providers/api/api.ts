@@ -10,6 +10,7 @@ export class ApiProvider {
 
 public baseUrl : string = "http://27.123.150.94/" ;
 // public baseUrl : string = "http://127.0.0.1/";
+// public baseUrl : string = "http://192.168.8.180/";
 
   constructor(public http: Http) {
     // console.log('Hello ApiProvider Provider');

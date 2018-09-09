@@ -93,8 +93,9 @@ export class MapPage {
   createAndListen(){
 
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-      while ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() 
-      , this.circle1.getCenter()) <= this.target.safeArea )&& (!this.target.dummy1given) &&(!this.target.quesFound)/*&& (this.checking)*/){
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.circle1.getCenter()) <= this.target.safeArea )&& (!this.target.dummy1given) &&(!this.target.quesFound)/* && (this.checking) */){
+        this.stopGeo();
         let dummyAlert = this.alertCtrl.create(
           {
             title : 'Oooops',
@@ -108,8 +109,9 @@ export class MapPage {
     }); 
 
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-      while ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,
-      this.circle2.getCenter()) <= this.target.safeArea )&& (!this.target.dummy2given)&&(!this.target.quesFound)/*&& (this.checking)*/){
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
+      this.circle2.getCenter()) <= this.target.safeArea )&& (!this.target.dummy2given)&&(!this.target.quesFound)/* && (this.checking) */){
+        this.stopGeo();
         let dummyAlert2 = this.alertCtrl.create(
           {
             title : 'Oooops',
@@ -125,17 +127,19 @@ export class MapPage {
 
 // main listener
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/*new google.maps.LatLng(this.lat,this.lng)*/this.map.getCenter() ,
-      this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/*&& (this.checking)*/){
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter() ,
+      this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/* && (this.checking) */){
+        this.stopGeo();
         let modalQs = this.modalCtrl.create(ModalPage);
         modalQs.present();
+        this.target.alertGiven = true;
         this.target.quesFound = true;
         this.circle1.setCenter(this.target.coord_Default);
         this.circle2.setCenter(this.target.coord_Default);
         modalQs.onDidDismiss( ()=>{
           this.checkScore();
         })
-        this.target.alertGiven = true;
+        
         this.levFinished = true;
        if (this.target.numLev  > 0 && this.levFinished){
           // if(this.numcircles == 2){
@@ -185,7 +189,8 @@ export class MapPage {
       center: new google.maps.LatLng(-18.148540, 178.445526),
       zoom: 18,
       disableDefaultUI : true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      tilt: 45
     });
   }
 
@@ -368,10 +373,10 @@ export class MapPage {
     // Background Tracking
     let config = {
       desiredAccuracy: 0,
-      stationaryRadius: 10,
-      distanceFilter: 10,
+      stationaryRadius: 5,
+      distanceFilter: 5,
       debug: false,
-      interval: 1000
+      interval: 500
     };
 
     this.backgroundGeolocation.configure(config).subscribe((location) => {
@@ -397,7 +402,7 @@ export class MapPage {
     // Foreground Tracking
 
     let options = {
-      frequency: 1000, 
+      frequency: 500, 
       enableHighAccuracy: true
     };
 
@@ -457,15 +462,19 @@ export class MapPage {
     map: this.map,
     radius: this.target.safeArea,    // in metres
     fillColor: '#0085a9',
-    strokeOpacity: 0,
+    fillOpacity: 0,
+    strokeColor: '#0085a9',
+    strokeWeight:2,
+    strokeOpacity: 1,
     center: pos
     });
+    this.animateCircle(this.circle);
     // this.circle.bindTo('center', marker, 'position');
     }
 
     create1stDummyCircle(){
 
-      var pos = this.target.coord_ausAid;
+      var pos = this.target.coord_Default;
   
   
     // Add circle overlay and bind to marker
@@ -473,15 +482,19 @@ export class MapPage {
       map: this.map,
       radius: this.target.safeArea,    // in metres
       fillColor: '#0085a9',
-      strokeOpacity: 0,
+      fillOpacity: 0,
+      strokeColor: '#0085a9',
+      strokeWeight:2,
+      strokeOpacity: 1,
       center: pos
       });
+      this.animateCircle(this.circle1);
       // this.circle.bindTo('center', marker, 'position');
       }
 
       create2ndDummyCircle(){
 
-        var pos = this.target.coord_busBay;
+        var pos = this.target.coord_Default;
     
     
       // Add circle overlay and bind to marker
@@ -489,9 +502,56 @@ export class MapPage {
         map: this.map,
         radius: this.target.safeArea,    // in metres
         fillColor: '#0085a9',
-        strokeOpacity: 0,
+        fillOpacity: 0,
+        strokeColor: '#0085a9',
+        strokeWeight:2,
+        strokeOpacity: 1,
         center: pos
         });
+        this.animateCircle(this.circle2);
+        
         // this.circle.bindTo('center', marker, 'position');
         }
+
+        //animate the circle
+        animateCircle(circleP:any){
+          var num = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+          var num2 = Math.floor(Math.random() * (3000 - 1000 + 1000)) + 1000;
+          var timer = 50;
+          var seen = true;
+          
+          var direction = 0.25;
+          var rMin = 0, rMax = this.target.safeArea;
+                  setInterval( ()=>
+        {
+          var radius = circleP.getRadius();
+
+            if(!seen)
+            {
+
+            setTimeout(()=>{
+              if(radius == rMin){
+                seen = true;
+                circleP.setVisible(true);
+              }
+
+ 
+            },num2 );
+            }
+
+
+          if ((radius > rMax) || (radius < rMin)) {
+              direction *= -1;
+          }
+          if ((radius == rMin)){
+            circleP.setVisible(false);
+            seen = false;
+          }
+            circleP.setRadius(radius + direction * num/2);
+        },
+          timer
+        );
+        }
+
+  
 }

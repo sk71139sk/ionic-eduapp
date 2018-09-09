@@ -3,6 +3,7 @@ ion-app._gmaps_cdv_ .nav-decor{
 }
 
 page-map {
+
     // #map {
     //   height: 80%;
     //   width: 80%;
@@ -21,6 +22,7 @@ page-map {
       border-radius: 5%;
       position: relative !important;
       z-index: 0;
+
       }
     #map{
       // margin: 5%;
@@ -33,9 +35,16 @@ page-map {
       align-items:center!important;
       height: 100%;
       width: 100%;
+      // left: -50%;
+      // top: -50%;
       background: transparent !important;
       z-index: 1;
       position: absolute !important;
+      // -webkit-transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
+      // -moz-transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
+      // -o-transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
+      // transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
+
     }
     .center_button{
       display: grid !important ;

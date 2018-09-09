@@ -13,7 +13,7 @@ export class TargetProvider {
   constructor() {
     
   }
-  safeArea: any = 10;
+  safeArea: any = 8;
   testLat: any = -18.147871;
   testLng: any = 178.443096;
   alertGiven: boolean = false;
