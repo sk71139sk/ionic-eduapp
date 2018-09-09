@@ -95,7 +95,7 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.circle1.getCenter()) <= this.target.safeArea )&& (!this.target.dummy1given) &&(!this.target.quesFound)/* && (this.checking) */){
-        this.stopGeo();
+        // this.stopGeo();
         let dummyAlert = this.alertCtrl.create(
           {
             title : 'Oooops',
@@ -111,7 +111,7 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
       this.circle2.getCenter()) <= this.target.safeArea )&& (!this.target.dummy2given)&&(!this.target.quesFound)/* && (this.checking) */){
-        this.stopGeo();
+        // this.stopGeo();
         let dummyAlert2 = this.alertCtrl.create(
           {
             title : 'Oooops',
@@ -129,7 +129,7 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed' , ()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter() ,
       this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/* && (this.checking) */){
-        this.stopGeo();
+        // this.stopGeo();
         let modalQs = this.modalCtrl.create(ModalPage);
         modalQs.present();
         this.target.alertGiven = true;
