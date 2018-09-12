@@ -4,7 +4,8 @@ import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
 import { LoadingController } from 'ionic-angular';
 
-import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
+// import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
+import {MapPage} from '../map/map';
 
 /**
  * Generated class for the MenuPage page.
@@ -27,11 +28,12 @@ categories : any[];
   constructor(public navCtrl: NavController, public target: TargetProvider, public api : ApiProvider, public navParams: NavParams) {
     this.loadCat();
 
-    // this.api.checkApi();
+   
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad MenuPage');
+
 
   }
 
@@ -40,6 +42,8 @@ categories : any[];
       res => {
         this.categories =  res;
       })
+
+
   }
 
   startGame(value:any,name:any){
@@ -52,11 +56,13 @@ categories : any[];
         this.target.numLev = res[0].numLev;  
         console.log("{menu} Total Number of Levels: " , this.target.numLev); 
     })
-    this.navCtrl.setRoot(TabsNavigationPage); 
-
+    // this.navCtrl.setRoot(TabsNavigationPage); 
+    this.navCtrl.push(MapPage);
 
     
   }
+
+
 
 
 }

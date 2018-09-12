@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http,Headers,RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
@@ -8,8 +8,8 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ApiProvider {
 
-public baseUrl : string = "http://27.123.150.94/" ;
-// public baseUrl : string = "http://127.0.0.1/";
+// public baseUrl : string = "http://27.123.150.94/" ;
+public baseUrl : string = "http://127.0.0.1/";
 // public baseUrl : string = "http://192.168.8.180/";
 
   constructor(public http: Http) {
@@ -75,7 +75,7 @@ public baseUrl : string = "http://27.123.150.94/" ;
   checkApi(){
     var header = { "headers": {"Content-Type": "application/json"} };
     console.log('function running');
-    return  this.http.post('http://mlearn.usp.ac.fj/uspmobile/app_authenticate/?username=s11109314&password=$k171639sk' , header)
+    return  this.http.post('http://mlearn.usp.ac.fj/uspmobile/app_authenticate/' , header)
    
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -87,6 +87,33 @@ public baseUrl : string = "http://27.123.150.94/" ;
 
     })
   }
+
+  checkUSPApi(username:any,password:any) {
+    var headers = new Headers();
+    // headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json' );
+    const requestOptions = new RequestOptions({ headers: headers });
+
+    let postData = {
+            "username": username,
+            "password": password
+    }
+
+       return this.http.post("http://mlearn.usp.ac.fj/uspmobile/IEP_authenticate/?username="+username+"&password="+password ,JSON.stringify(postData) , requestOptions)
+    .map((res:Response)=>{
+
+      return res.json();
+    });
+      // .subscribe(data => {
+      //   console.log("actual data: ",data['_body']);
+
+      //  }, error => {
+      //   console.log("Actual error: ",error);
+
+
+      // });
+  }
+
 
   loadNextLevel(lev_id:any,cat_id:any){
     // console.log('running function');

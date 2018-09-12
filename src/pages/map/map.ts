@@ -12,6 +12,8 @@ import {ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
 import { Title } from '../../../node_modules/@angular/platform-browser';
 
+
+
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html'
@@ -32,7 +34,7 @@ export class MapPage {
   public watch: any;
   public lat: any;
   public lng: any;
-  circle: any;
+  public circle: any ;
   checking: boolean;
   levFinished : boolean = false;
   // public score : any = 0;
@@ -76,6 +78,7 @@ export class MapPage {
     });  
     loader.present();
     this.loadFirstLevel(this.target.cat_id);
+ 
   }
 
   ionViewDidEnter(){
@@ -175,7 +178,10 @@ export class MapPage {
           this.event.subscribe('GameOver',(data)=>{
             if(data == true){
               endAlert.present();
-              this.loadMap();
+              endAlert.onDidDismiss(()=>{
+                this.navCtrl.pop();
+              })
+              // this.loadMap();
             }
 
           })

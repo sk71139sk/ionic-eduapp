@@ -4,6 +4,8 @@ import { TargetProvider } from '../../providers/target/target';
 import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 
+import { MenuPage } from '../menu/menu';
+
 
 @Component({
   selector: 'places-map',
@@ -39,23 +41,24 @@ export class PlacesPage {
     this.loading = this.loadingCtrl.create();
   }
 
-  changeValue(value1:any,value2:any,value3:any,value4:any){
-    // this.api.getTwoRandomCoords().subscribe(
-    //   res=>{
-    //     console.log("api response here: lat1:", res[0].lat,' lng1:',res[0].lng,"lat2:", res[1].lat,' lng2:',res[1].lng);
-    //   }
-    // );
-    this.target.safeArea = value1;
-    this.target.testLat = value2;
-    this.target.testLng = value3;
-    this.api.baseUrl = value4;
-    this.target.alertGiven = false;
-    let alert = this.alertCtrl.create({
-      title: 'Done',
-      subTitle: 'Changes applied, navigate back to the map to view changes!',
-      buttons: ['Close']
-    });
-    alert.present();
+  Submit(username:any,password:any){
+      this.api.checkUSPApi(username,password).subscribe(data=>{
+        if (data.auth== 1){
+          // return false;
+          alert("Invalid Credentials")
+        }
+        else if (data.auth == 0){
+          // return true;
+          this.navCtrl.push(MenuPage);
+        }
+      },error=>{
+        alert("Error Received "+error);
+      }
+    );
+    
+  }
+  skip(){
+    this.navCtrl.push(MenuPage);
   }
 
   updateSearchResults(){
