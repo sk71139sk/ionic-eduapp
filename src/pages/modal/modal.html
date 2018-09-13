@@ -17,9 +17,9 @@
     <ion-card-header  text-wrap> <p> Question {{i+1}}   </p> </ion-card-header>
       <ion-card-content > 
               <ion-list radio-group  >
-                <ion-list-header text-wrap>
-                    {{data.Content}}
-                </ion-list-header>
+                <ion-item text-wrap>
+                   <span> <div [innerHTML]="data.Content" > <!-- {{data.Content}} --> </div> </span> 
+                </ion-item>
                 <ion-item class="item" *ngFor="let ans of data.answers" text-wrap>
                     <ion-label  ><P>{{ans.ans_content}}</P> </ion-label>
                     <ion-radio  value={{ans.ans_id}} (ionSelect)="pushAns(i,ans.ans_id)"></ion-radio>

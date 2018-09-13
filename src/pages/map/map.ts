@@ -255,7 +255,7 @@ export class MapPage {
   }
 
   checkScore(){
-          this.api.loadScore(this.target.answers.toLocaleString()).subscribe(
+          this.api.loadScore(this.target.cat_id,this.target.lev_id,this.target.answers.toLocaleString()).subscribe(
         res => {            
           console.log("this is score response: " , res.score);      
           // this.target.setScore(res.score); 
@@ -307,6 +307,7 @@ export class MapPage {
 
         }
       );
+      this.target.answers.length = 0;
   }
 
 

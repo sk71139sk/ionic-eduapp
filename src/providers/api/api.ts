@@ -137,8 +137,8 @@ public baseUrl : string = "http://127.0.0.1/";
     })
   }
 
-  loadScore(answerString: any){
-    return  this.http.get(this.baseUrl + 'checkAns/'+ answerString )
+  loadScore(catId:any,lnum:any,answerString: any){
+    return  this.http.get(this.baseUrl + 'checkAns/'+ catId + '&' + (lnum -1) + '&' + answerString )
     .map((res:Response)=> { 
       if(res.status = 200){
           //  console.log(res);
