@@ -145,6 +145,8 @@ export class MapPage {
         this.circle2.setCenter(this.target.coord_Default);
         modalQs.onDidDismiss( ()=>{
           this.checkScore();
+          this.map.setZoom(16);
+          this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
         })
         
         this.levFinished = true;
