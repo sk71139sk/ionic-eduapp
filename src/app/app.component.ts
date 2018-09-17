@@ -6,7 +6,7 @@ import { StatusBar} from "@ionic-native/status-bar";
 
 
 // import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
-import { PlacesPage } from '../pages/places/places';
+import { LoginPage } from '../pages/login/login';
 import { google } from "google-maps";
 
 @Component({
@@ -15,6 +15,7 @@ import { google } from "google-maps";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any;
+  alert:any;
   google: google;
   constructor(
     public  app: App,
@@ -23,7 +24,7 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      this.nav.push(PlacesPage);
+      this.nav.push(LoginPage);
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.backgroundColorByHexString("#008080");
@@ -37,12 +38,12 @@ export class MyApp {
       let nav = app.getActiveNav()[0];
       let activeView = nav.getActive();                
    
-      if(activeView.name === "MenuPage") {
+      if(activeView.name === "LoginPage") {
    
           if (nav.canGoBack()){ //Can we go back?
               nav.pop();
           } else {
-              const alert = this.alertCtrl.create({
+              this.alert = this.alertCtrl.create({
                   title: 'App termination',
                   message: 'Do you want to close the app?',
                   buttons: [{
@@ -58,7 +59,7 @@ export class MyApp {
                       }
                   }]
               });
-              alert.present();
+              this.alert.present();
           }
       }
   });

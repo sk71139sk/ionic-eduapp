@@ -16,13 +16,13 @@ export class TargetProvider {
   safeArea: any = 8;
   testLat: any = -18.147871;
   testLng: any = 178.443096;
-  alertGiven: boolean = false;
-  dummy1given : boolean = false;
-  dummy2given : boolean = false;
-  quesFound : boolean = false;
+  alertGiven: boolean ;
+  dummy1given : boolean ;
+  dummy2given : boolean ;
+  quesFound : boolean ;
   cat_id :any;
   cat_name : any;
-  lev_id :any = 1;
+  lev_id :any;
   numLev: any ;
   public answers : Array<any> = [];
   public score : number =0;

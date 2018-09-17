@@ -17,7 +17,7 @@ import {MapPage} from '../map/map';
 @Component({
   selector: 'page-menu',
   templateUrl: 'menu.html',
-})
+}) 
 
 export class MenuPage {
 
@@ -54,6 +54,7 @@ categories : any[];
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
+        this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev); 
     })
     // this.navCtrl.setRoot(TabsNavigationPage); 

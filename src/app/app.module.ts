@@ -12,7 +12,7 @@ import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { ModalPage } from '../pages/modal/modal';
 
 import { MenuPage } from '../pages/menu/menu';
-import { PlacesPage } from '../pages/places/places';
+import {LoginPage} from '../pages/login/login';
 import { LocationTracker } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController } from 'ionic-angular';
@@ -25,9 +25,9 @@ import { ApiProvider } from '../providers/api/api';
     MyApp,
     MapPage,
     ModalPage,
+    LoginPage,
     TabsNavigationPage,
-    MenuPage,
-    PlacesPage
+    MenuPage 
   ],
   imports: [
     BrowserModule,
@@ -39,9 +39,9 @@ import { ApiProvider } from '../providers/api/api';
     MyApp,
     ModalPage,
     MapPage,
+    LoginPage,
     MenuPage,
-    TabsNavigationPage,
-    PlacesPage
+    TabsNavigationPage
   ],
   providers: [
     SplashScreen,

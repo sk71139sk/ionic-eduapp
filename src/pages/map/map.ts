@@ -76,6 +76,10 @@ export class MapPage {
       content: "Loading Game",
       duration: 2000
     });  
+    this.target.alertGiven = false;
+    this.target.dummy1given  = false;
+    this.target.dummy2given  = false;
+    this.target.quesFound  = false;
     loader.present();
     this.loadFirstLevel(this.target.cat_id);
  
@@ -180,6 +184,7 @@ export class MapPage {
               endAlert.present();
               endAlert.onDidDismiss(()=>{
                 this.navCtrl.pop();
+                this.target.alertGiven = false;
               })
               // this.loadMap();
             }

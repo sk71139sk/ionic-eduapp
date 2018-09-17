@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { MapPage } from '../map/map';
-import { PlacesPage } from '../places/places';
+
 
 @Component({
   selector: 'tabs-navigation',
@@ -13,6 +13,6 @@ export class TabsNavigationPage {
 
   constructor() {
     this.tab1Root = MapPage;
-    this.tab2Root = PlacesPage;
+    // this.tab2Root = PlacesPage;
   }
 }
