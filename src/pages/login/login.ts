@@ -38,13 +38,19 @@ export class LoginPage {
         this.showError("Your password or username do not match our records. Please enter correct login details.")
       }
       else if (res == 0) {
-        this.presentToast();
+        this.presentToast('Login successful');
         this.navCtrl.push(MenuPage);
       }
     }, error => {
       this.showError("Error Received " + error);
     }
   );
+}
+
+skip(){
+  this.showLoading();
+  this.presentToast('Login Skipped');  
+  this.navCtrl.push(MenuPage);
 }
 
 // showPassword() {
@@ -73,10 +79,10 @@ showLoading() {
     this.loading.present();
   }
 
-  presentToast() {
+  presentToast(text:any) {
     this.loading.dismiss();
     let toast = this.toastCtrl.create({
-      message: 'Login successful',
+      message: text,
       duration: 3000,
       position: 'bottom'
     });

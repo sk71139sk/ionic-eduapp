@@ -1,16 +1,15 @@
-import { Component, NgZone,Injectable } from '@angular/core';
+import { Component, NgZone} from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { LoadingController, Nav, Tab, Tabs, NavController } from 'ionic-angular';
+import { LoadingController, NavController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController, Events } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
-import { NgIf } from '../../../node_modules/@angular/common';
 import {ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
-import { Title } from '../../../node_modules/@angular/platform-browser';
+
 
 
 
@@ -39,6 +38,8 @@ export class MapPage {
   levFinished : boolean = false;
   // public score : any = 0;
   public alertScore : any;
+  public modalQs :any;
+  public endAlert : any;
   public numcircles : number = null ;
   public circle1 : any;
   public circle2 : any;
@@ -61,7 +62,7 @@ export class MapPage {
     private alertCtrl: AlertController,
     public modalCtrl :ModalController,
     public backgroundGeolocation: BackgroundGeolocation
-  ) {
+  ) { 
     this.geocoder = new google.maps.Geocoder;
     let elem = document.createElement("div")
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
@@ -72,23 +73,33 @@ export class MapPage {
     this.autocompleteItems = [];
     this.markers = [];
 
-    let loader = this.loadingController.create({
-      content: "Loading Game",
-      duration: 2000
-    });  
+
+
     this.target.alertGiven = false;
     this.target.dummy1given  = false;
     this.target.dummy2given  = false;
     this.target.quesFound  = false;
-    loader.present();
     this.loadFirstLevel(this.target.cat_id);
+    let initial:number = 0;
+    let data:any = false;
+
+    
+    this.event.publish('GameOver',data);
+    this.target.score = 0
+    //localStorage.setItem('userScore', initial.toString() );
+    if(localStorage.getItem('userScore'))
+    {
+      localStorage.setItem('userScore','0' );
+      console.log("works");
+    }
  
   }
 
   ionViewDidEnter(){
-    let initial:number = 0;
-    localStorage.setItem('userScore', initial.toString() );
+
     this.loadMap();
+    this.createEndAlert();
+    this.createModalQs();
     // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
     this.createCircle(this.target.testLat,this.target.testLng);
     this.create1stDummyCircle();
@@ -96,6 +107,8 @@ export class MapPage {
     this.createAndListen();
  
   }
+
+
 
   createAndListen(){
 
@@ -137,13 +150,13 @@ export class MapPage {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter() ,
       this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/* && (this.checking) */){
         // this.stopGeo();
-        let modalQs = this.modalCtrl.create(ModalPage);
-        modalQs.present();
+
+        this.modalQs.present();
         this.target.alertGiven = true;
         this.target.quesFound = true;
         this.circle1.setCenter(this.target.coord_Default);
         this.circle2.setCenter(this.target.coord_Default);
-        modalQs.onDidDismiss( ()=>{
+        this.modalQs.onDidDismiss( ()=>{
           this.checkScore();
           this.map.setZoom(16);
           this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
@@ -173,20 +186,16 @@ export class MapPage {
         console.log("loadNextLevel happens");
       }
       else{
-        
-        let endAlert = this.alertCtrl.create({
-          title: 'Congratulations',
-          subTitle: 'You have finished the game',
-          buttons: ['Dismiss']
-        });
-          this.circle.setMap(null);
-          
+          this.circle.setMap(null);          
           this.event.subscribe('GameOver',(data)=>{
             if(data == true){
-              endAlert.present();
-              endAlert.onDidDismiss(()=>{
-                this.navCtrl.pop();
-                this.target.alertGiven = false;
+              console.log("Received Game Over")
+              this.endAlert.present();
+              this.endAlert.onDidDismiss(()=>{
+	
+                document.location.href = 'index.html';
+                // this.navCtrl.popToRoot();
+                // this.target.alertGiven = false;
               })
               // this.loadMap();
             }
@@ -281,6 +290,7 @@ export class MapPage {
             console.log("Levels Remaining after showing score: ", this.target.numLev );
             if (this.target.numLev < 0){
               let data = true;
+              console.log("published game over");
               this.event.publish('GameOver',data);
             }
             
@@ -567,5 +577,17 @@ export class MapPage {
         );
         }
 
-  
+  createEndAlert(){
+    this.endAlert = this.alertCtrl.create({
+      title: 'Congratulations',
+      subTitle: 'You have finished the game',
+      buttons: ['Dismiss']
+    });
+    console.log("endalert created");
+  }
+
+  createModalQs(){
+    this.modalQs = this.modalCtrl.create(ModalPage);
+  }
+
 }

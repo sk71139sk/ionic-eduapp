@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, Loading } from 'ionic-angular';
 
 // import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import {MapPage} from '../map/map';
@@ -21,11 +21,12 @@ import {MapPage} from '../map/map';
 
 export class MenuPage {
 
+public loading: Loading;
 categories : any[];
 
 
 // data: any;
-  constructor(public navCtrl: NavController, public target: TargetProvider, public api : ApiProvider, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public loadingCtrl: LoadingController, public target: TargetProvider, public api : ApiProvider, public navParams: NavParams) {
     this.loadCat();
 
    
@@ -38,9 +39,11 @@ categories : any[];
   }
 
   loadCat(){
+    this.showLoadingCat();
     this.api.getCategories().subscribe(
       res => {
         this.categories =  res;
+        this.dismissLoading();
       })
 
 
@@ -51,16 +54,35 @@ categories : any[];
     this.target.cat_id = value;
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
+    this.showLoadingGame();
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
         this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev); 
+        this.navCtrl.push(MapPage);
     })
     // this.navCtrl.setRoot(TabsNavigationPage); 
-    this.navCtrl.push(MapPage);
+
 
     
+  }
+
+  showLoadingGame() {
+    this.loading = this.loadingCtrl.create({
+      content: "Loading Game...",
+      dismissOnPageChange : true
+      });
+      this.loading.present();
+    }
+  showLoadingCat() {
+      this.loading = this.loadingCtrl.create({
+        content: "Loading..."
+        });
+        this.loading.present();
+      }
+  dismissLoading(){
+    this.loading.dismiss();
   }
 
 

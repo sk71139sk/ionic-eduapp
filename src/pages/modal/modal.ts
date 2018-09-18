@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController , } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController ,Loading,LoadingController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { ApiProvider } from '../../providers/api/api';
 import { AlertController } from 'ionic-angular';
@@ -18,12 +18,12 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'modal.html',
 })
 export class ModalPage {
-
+loading: Loading;
 public questions : Array<any>;
 // public answers : Array<any> = [];
 // public alertScore : any;
 
-  constructor(private view: ViewController , private navParams: NavParams, private alertCtrl: AlertController,public api:ApiProvider,public target:TargetProvider) {
+  constructor(public loadingCtrl:LoadingController,private view: ViewController , private navParams: NavParams, private alertCtrl: AlertController,public api:ApiProvider,public target:TargetProvider) {
   }
 
   ionViewDidLoad() {
@@ -40,12 +40,14 @@ public questions : Array<any>;
   }
 
   loadCards(){
+    this.showLoading();
     this.api.loadQuestions(this.target.lev_id,this.target.cat_id).subscribe(
       res => {
         console.log("this is res: ", res);
         this.questions = (res);
         for (let data of res){
           console.log("This is data: ", data);
+          this.dismissLoading();
           // this.questions.push(data);
           
           // console.log("Question ",data.Number , ": " , data.Content);
@@ -61,6 +63,17 @@ public questions : Array<any>;
     );
 
     //console.log("this is questions: ",this.questions);
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: "Loading..."
+      });
+      this.loading.present();
+    }
+
+  dismissLoading(){
+    this.loading.dismiss();
   }
 
   pushAns(valueq:any,valuea:any){

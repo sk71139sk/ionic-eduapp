@@ -40,7 +40,9 @@
 
     <ion-row>
       <button ion-button block class="submit-btn" color="dark" block type="submit" [disabled]="!registerForm.form.valid">LOGIN</button>
+
     </ion-row>
 
   </form>
+  <button ion-button block class="submit-btn" color="dark" (click)="skip()" > SKIP </button>
 </ion-content>

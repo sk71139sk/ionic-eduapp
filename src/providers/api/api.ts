@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
@@ -59,23 +59,45 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     })
   }
 
-  checkUSPApi(username:any,password:any) {
-    // return this.http.get("http://mlearn.usp.ac.fj/uspmobile/IEP_authenticate/?username="+username+"&password="+password )
-    // .map((res:Response)=>{
+  // checkUSPApi(username:any,password:any) {
+  //   // return this.http.get("http://mlearn.usp.ac.fj/uspmobile/IEP_authenticate/?username="+username+"&password="+password )
+  //   // .map((res:Response)=>{
 
-    //   return res.json();
-    // });
-    return  this.http.get(this.baseUrl + 'login/'+ username + '&' + password )
+  //   //   return res.json();
+  //   // });
+  //   return  this.http.get(this.baseUrl + 'login/'+ username + '&' + password )
+  //   .map((res:Response)=> { 
+  //     if(res.status = 200){
+  //        return res.json();
+  //     }
+  //     else{
+  //       console.log('server timeout');
+  //     }
+
+  //   })
+
+
+  // }
+
+  checkUSPApi(username:any,password:any){
+    let postData = new FormData();
+    postData.append('sid' , username);
+    postData.append('pass' , password);
+
+
+    // let postData = {
+    //         'sid' : username,
+    //         'password': password
+    // }
+    return this.http.post(this.baseUrl +'loginUser', postData)
     .map((res:Response)=> { 
       if(res.status = 200){
          return res.json();
       }
       else{
         console.log('server timeout');
-      }
-
+      } 
     })
-
 
   }
 
