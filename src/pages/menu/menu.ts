@@ -43,9 +43,8 @@ categories : any[];
     this.api.getCategories().subscribe(
       res => {
         this.categories =  res;
-        this.dismissLoading();
       })
-
+      this.dismissLoading();
 
   }
 
