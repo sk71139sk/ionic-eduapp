@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
 
 import {MenuPage} from '../menu/menu';
+import { TargetProvider } from '../../providers/target/target';
 import {ApiProvider} from '../../providers/api/api';
 
 /**
@@ -25,6 +26,7 @@ export class LoginPage {
 
   constructor(
     public toastCtrl: ToastController, private api: ApiProvider,
+    public target : TargetProvider,
     private navCtrl: NavController, private alertCtrl: AlertController,
     private loadingCtrl: LoadingController
   ) {}
@@ -39,6 +41,8 @@ export class LoginPage {
       }
       else if (res == 0) {
         this.presentToast('Login successful');
+        console.log(username);
+        this.target.username = username;
         this.navCtrl.push(MenuPage);
       }
     }, error => {

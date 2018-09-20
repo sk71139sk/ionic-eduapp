@@ -235,7 +235,8 @@ export class MapPage {
 
   loadNextLevel(){
     
-    this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
+    // this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
+    this.api.loadLevel(this.target.cat_id,this.target.lev_id,this.target.username,this.target.score).subscribe(
       res => 
       {
       this.levFinished = false;

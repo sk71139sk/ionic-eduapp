@@ -32,6 +32,18 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     })
   }
 
+  createSession(userId:any,catId:any){
+    return this.http.get(this.baseUrl + '/createGame/'+ userId + '&'+ catId )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
   getLevelCoords(cat_id:any){
     // console.log('running function');
 
@@ -108,6 +120,15 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
       return res.json();
     })
   }
+
+  loadLevel(cat_id:any,levNum:any,userId:any,score:any){
+    levNum = levNum + 1;
+    return this.http.get(this.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score)
+    .map((res:Response)=> { 
+      return res.json();
+    })
+  }
+  
 
   loadQuestions(lev_id:any,cat_id:any){
     return  this.http.get(this.baseUrl + 'loadQuestions/'+ lev_id + '&' + cat_id )

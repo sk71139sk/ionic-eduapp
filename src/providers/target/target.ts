@@ -21,6 +21,7 @@ export class TargetProvider {
   dummy2given : boolean ;
   quesFound : boolean ;
   cat_id :any;
+  username : any;
   cat_name : any;
   lev_id :any;
   numLev: any ;

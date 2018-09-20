@@ -54,6 +54,7 @@ categories : any[];
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
     this.showLoadingGame();
+    this.api.createSession(this.target.username,this.target.cat_id).subscribe();
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
