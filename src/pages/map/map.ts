@@ -1,17 +1,14 @@
-import { Component, NgZone} from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { LoadingController, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TargetProvider } from '../../providers/target/target';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController, Events } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
-import {ModalController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
-
-
-
 
 @Component({
   selector: 'page-map',
@@ -25,7 +22,7 @@ export class MapPage {
   // testLng: any = 178.443096;
   markers: any;
   autocomplete: any;
-  google:any;
+  google: any;
   GoogleAutocomplete: any;
   GooglePlaces: any;
   geocoder: any
@@ -33,16 +30,16 @@ export class MapPage {
   public watch: any;
   public lat: any;
   public lng: any;
-  public circle: any ;
+  public circle: any;
   checking: boolean;
-  levFinished : boolean = false;
+  levFinished: boolean = false;
   // public score : any = 0;
-  public alertScore : any;
-  public modalQs :any;
-  public endAlert : any;
-  public numcircles : number = null ;
-  public circle1 : any;
-  public circle2 : any;
+  public alertScore: any;
+  public modalQs: any;
+  public endAlert: any;
+  public numcircles: number = null;
+  public circle1: any;
+  public circle2: any;
 
   //alertGiven: boolean = false;
   // loading: any;
@@ -51,18 +48,16 @@ export class MapPage {
   constructor(
     public zone: NgZone,
     public event: Events,
-    public loadingController:LoadingController,
-    private toastCtrl : ToastController,
+    private toastCtrl: ToastController,
     public geolocation: Geolocation,
-    public api : ApiProvider,
-    public target : TargetProvider,
-    public navCtrl : NavController,
-    public loadingCtrl: LoadingController,
-
+    public api: ApiProvider,
+    public target: TargetProvider,
+    public navCtrl: NavController,
     private alertCtrl: AlertController,
-    public modalCtrl :ModalController,
+    public modalCtrl: ModalController,
     public backgroundGeolocation: BackgroundGeolocation
-  ) { 
+  ) {
+
     this.geocoder = new google.maps.Geocoder;
     let elem = document.createElement("div")
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
@@ -72,53 +67,45 @@ export class MapPage {
     };
     this.autocompleteItems = [];
     this.markers = [];
-
-
-
     this.target.alertGiven = false;
-    this.target.dummy1given  = false;
-    this.target.dummy2given  = false;
-    this.target.quesFound  = false;
+    this.target.dummy1given = false;
+    this.target.dummy2given = false;
+    this.target.quesFound = false;
     this.loadFirstLevel(this.target.cat_id);
-    let initial:number = 0;
-    let data:any = false;
+    let data: any = false;
 
-    
-    this.event.publish('GameOver',data);
+    // this.event.publish('GameOver', data);
     this.target.score = 0
     //localStorage.setItem('userScore', initial.toString() );
-    if(localStorage.getItem('userScore'))
-    {
-      localStorage.setItem('userScore','0' );
+    if (localStorage.getItem('userScore')) {
+      localStorage.setItem('userScore', '0');
       console.log("works");
     }
- 
+
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
 
     this.loadMap();
-    this.createEndAlert();
+    // this.createEndAlert();
     this.createModalQs();
     // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
-    this.createCircle(this.target.testLat,this.target.testLng);
+    this.createCircle(this.target.testLat, this.target.testLng);
     this.create1stDummyCircle();
     this.create2ndDummyCircle();
     this.createAndListen();
- 
+
   }
 
+  createAndListen() {
 
-
-  createAndListen(){
-
-    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
+    google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
-      , this.circle1.getCenter()) <= this.target.safeArea )&& (!this.target.dummy1given) &&(!this.target.quesFound)/* && (this.checking) */){
+        , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)/* && (this.checking) */) {
         // this.stopGeo();
         let dummyAlert = this.alertCtrl.create(
           {
-            title : 'Oooops',
+            title: 'Oooops',
             message: 'Sorry Try Another Location!'
           }
         )
@@ -126,15 +113,15 @@ export class MapPage {
         this.target.dummy1given = true;
         this.circle1.setCenter(this.target.coord_Default);
       }
-    }); 
+    });
 
-    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
+    google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
-      this.circle2.getCenter()) <= this.target.safeArea )&& (!this.target.dummy2given)&&(!this.target.quesFound)/* && (this.checking) */){
+        this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)/* && (this.checking) */) {
         // this.stopGeo();
         let dummyAlert2 = this.alertCtrl.create(
           {
-            title : 'Oooops',
+            title: 'Oooops',
             message: 'Sorry Try Another Location!'
           }
         )
@@ -142,13 +129,12 @@ export class MapPage {
         this.target.dummy2given = true;
         this.circle2.setCenter(this.target.coord_Default);
       }
-    });  
+    });
 
-
-// main listener
-    google.maps.event.addListener(this.map, 'center_changed' , ()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter() ,
-      this.circle.getCenter()) <= this.target.safeArea )&& (!this.target.alertGiven)/* && (this.checking) */){
+    // main listener
+    google.maps.event.addListener(this.map, 'center_changed', () => {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
+        this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)/* && (this.checking) */) {
         // this.stopGeo();
 
         this.modalQs.present();
@@ -156,14 +142,14 @@ export class MapPage {
         this.target.quesFound = true;
         this.circle1.setCenter(this.target.coord_Default);
         this.circle2.setCenter(this.target.coord_Default);
-        this.modalQs.onDidDismiss( ()=>{
+        this.modalQs.onDidDismiss(() => {
           this.checkScore();
-          this.map.setZoom(16);
-          this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
+          this.map.setZoom(15);
+          this.map.setCenter(new google.maps.LatLng(-18.1499567, 178.4440244));// Reset Center of Map to USP Main Campus
         })
-        
+
         this.levFinished = true;
-       if (this.target.numLev  > 0 && this.levFinished){
+        if (this.target.numLev > 0 && this.levFinished) {
           // if(this.numcircles == 2){
           //     console.log("numcircle = ",this.numcircles);
           //       this.api.getOneRandomCoords().subscribe(
@@ -182,23 +168,30 @@ export class MapPage {
           //   );
           // }
 
-        this.loadNextLevel();
-        console.log("loadNextLevel happens");
-      }
-      else{
-          this.circle.setMap(null);          
-          this.event.subscribe('GameOver',(data)=>{
-            if(data == true){
-              console.log("Received Game Over")
-              this.endAlert.present();
-              this.endAlert.onDidDismiss(()=>{
-	
-                document.location.href = 'index.html';
-                // this.navCtrl.popToRoot();
-                // this.target.alertGiven = false;
-              })
-              // this.loadMap();
-            }
+          this.loadNextLevel();
+          console.log("loadNextLevel happens");
+        }
+        else {
+          this.circle.setMap(null);
+          this.event.subscribe('GameOver', () => {
+            console.log("Received Game Over")
+
+            // this.endAlert = this.alertCtrl.create({
+            //   title: 'Congratulations',
+            //   subTitle: 'You have finished the game',
+            //   buttons: ['Dismiss']
+            // });
+            // console.log("endalert created");
+            // this.endAlert.present();
+            this.createEndAlert();
+            // this.endAlert.onDidDismiss(() => {
+
+            // document.location.href = 'index.html';
+            // this.navCtrl.popToRoot();
+            // this.target.alertGiven = false;
+            // })
+            // this.loadMap();
+
 
           })
         }
@@ -206,130 +199,124 @@ export class MapPage {
     });
   }
 
-  loadMap(){
+  loadMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      center: new google.maps.LatLng(-18.148540, 178.445526),
-      zoom: 18,
-      disableDefaultUI : true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      tilt: 45
+      center: new google.maps.LatLng(-18.1499567, 178.4440244), // USP Main Campus
+      zoom: 15,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      // tilt: 45
     });
   }
 
-  loadFirstLevel(value:any){
-    
+  loadFirstLevel(value: any) {
+
     this.api.getLevelCoords(value).subscribe(
-      res => 
-      {
-        console.log('response received: ', res.lat,res.lng);
+      res => {
+        console.log('response received: ', res.lat, res.lng);
         console.log('{map} value passed: ', value);
         this.target.testLat = res.lat;
         this.target.testLng = res.lng;
-        console.log('values assigned: ',this.target.testLat,this.target.testLng );
+        console.log('values assigned: ', this.target.testLat, this.target.testLng);
         this.target.numLev = this.target.numLev - 1;
-        console.log('{map} levels remaining: ',this.target.numLev);
-        this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
+        console.log('{map} levels remaining: ', this.target.numLev);
+        this.circle.setCenter(new google.maps.LatLng(-18.1490656531979, 178.44466008353652)); // USP Library Main Entrance
         this.target.quesFound = false;
-    })
+      })
   }
 
-  loadNextLevel(){
-    
-    this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
-      res => 
-      {
-      this.levFinished = false;
+  loadNextLevel() {
 
-      console.log("Levels Remaining: ", this.target.numLev );
-      console.log("Current Level: ", this.target.lev_id);
-      this.target.testLat = res.lat;
-      this.target.testLng = res.lng;
+    this.api.loadNextLevel(this.target.lev_id, this.target.cat_id).subscribe(
+      res => {
+        this.levFinished = false;
 
-      this.target.alertGiven = false;
-      this.target.quesFound = false;
-      this.circle.setCenter(new google.maps.LatLng(this.target.testLat,this.target.testLng));
-    })
+        console.log("Levels Remaining: ", this.target.numLev);
+        console.log("Current Level: ", this.target.lev_id);
+        this.target.testLat = res.lat;
+        this.target.testLng = res.lng;
+
+        this.target.alertGiven = false;
+        this.target.quesFound = false;
+        this.circle.setCenter(new google.maps.LatLng(this.target.testLat, this.target.testLng));
+      })
 
     this.createAndListen();
   }
 
-  createDummyCircle(lat:any,lng:any){
- 
-    this.circle1.setCenter(new google.maps.LatLng(lat,lng));
-    console.log("set a new dummy at: "+ lat,lng);
+  createDummyCircle(lat: any, lng: any) {
+
+    this.circle1.setCenter(new google.maps.LatLng(lat, lng));
+    console.log("set a new dummy at: " + lat, lng);
     this.target.dummy1given = false;
 
- 
+
   }
 
-  createAnotherDummyCircles(lat:any,lng:any){
+  createAnotherDummyCircles(lat: any, lng: any) {
 
-    this.circle2.setCenter(new google.maps.LatLng(lat,lng));
-    console.log("set a new dummy at: "+ lat,lng);
+    this.circle2.setCenter(new google.maps.LatLng(lat, lng));
+    console.log("set a new dummy at: " + lat, lng);
     this.target.dummy2given = false;
 
   }
 
-  checkScore(){
-          this.api.loadScore(this.target.cat_id,this.target.lev_id,this.target.answers.toLocaleString()).subscribe(
-        res => {            
-          console.log("this is score response: " , res.score);      
-          // this.target.setScore(res.score); 
+  checkScore() {
+    this.api.loadScore(this.target.cat_id, this.target.lev_id, this.target.answers.toLocaleString()).subscribe(
+      res => {
+        console.log("this is score response: ", res.score);
+        // this.target.setScore(res.score);
 
-          localStorage.setItem('score',res.score );
-          this.target.setScore(parseInt(res.score));  //assign score to a variable
-          console.log("this is score stored:", localStorage.getItem ('score'));
-          this.alertScore = this.alertCtrl.create({
-            title: 'Score',
-            subTitle: 'Score: '+ res.score + '%'
-          })
+        localStorage.setItem('score', res.score);
+        this.target.setScore(parseInt(res.score));  //assign score to a variable
+        console.log("this is score stored:", localStorage.getItem('score'));
+        this.alertScore = this.alertCtrl.create({
+          title: 'Score',
+          subTitle: 'Score: ' + res.score + '%'
+        })
 
-          this.alertScore.present();
-          this.alertScore.onDidDismiss( ()=>{
-            console.log("Current Level for this score: ", this.target.lev_id);
-            console.log("Levels Remaining after showing score: ", this.target.numLev );
-            if (this.target.numLev < 0){
-              let data = true;
-              console.log("published game over");
-              this.event.publish('GameOver',data);
-            }
-            
-          });
-          if (res.score == 100){
-            this.numcircles = 1;
+        this.alertScore.present();
+        this.alertScore.onDidDismiss(() => {
+          console.log("Current Level for this score: ", this.target.lev_id);
+          console.log("Levels Remaining after showing score: ", this.target.numLev);
+          if (this.target.numLev < 0) {
+            // let data = true;
+            console.log("published game over");
+            this.event.publish('GameOver');
           }
-          else if(res.score > 50){
-            this.numcircles = 2;
-            console.log("numcircle = ",this.numcircles);
-            this.api.getOneRandomCoords().subscribe(
-              res=>{
-                this.createDummyCircle(res.lat,res.lng);
-              }
-            );
-          }
-          else{
-            this.numcircles = 3;
-            console.log("numcircle = ",this.numcircles);
-            this.api.getTwoRandomCoords().subscribe(
-              res=>{
-                this.createDummyCircle(res[0].lat,res[0].lng);
-                this.createAnotherDummyCircles(res[1].lat,res[1].lng);
-              }
-            );
-          }
-          let temp:any = parseInt(localStorage.getItem('userScore')) +  parseInt(res.score)
-          localStorage.setItem('userScore',temp ); 
 
-
-
+        });
+        if (res.score == 100) {
+          this.numcircles = 1;
         }
-      );
-      this.target.answers.length = 0;
+        else if (res.score >= 50 && res.score == 100) {
+          this.numcircles = 2;
+          console.log("numcircle = ", this.numcircles);
+          this.api.getOneRandomCoords().subscribe(
+            res => {
+              this.createDummyCircle(res.lat, res.lng);
+            }
+          );
+        }
+        else {
+          this.numcircles = 3;
+          console.log("numcircle = ", this.numcircles);
+          this.api.getTwoRandomCoords().subscribe(
+            res => {
+              this.createDummyCircle(res[0].lat, res[0].lng);
+              this.createAnotherDummyCircles(res[1].lat, res[1].lng);
+            }
+          );
+        }
+        let temp: any = parseInt(localStorage.getItem('userScore')) + parseInt(res.score)
+        localStorage.setItem('userScore', temp);
+      }
+    );
+    this.target.answers.length = 0;
+
   }
 
-
-
-  tryGeolocation(){
+  tryGeolocation() {
     // this.loading.present();
     this.checking = true;
     this.startTracking();
@@ -341,42 +328,42 @@ export class MapPage {
 
   }
 
-  stopGeo(){
+  stopGeo() {
     this.checking = false;
     this.stopTracking();
   }
 
-  updateSearchResults(){
-    if (this.autocomplete.input == '') {
-      this.autocompleteItems = [];
-      return;
-    }
-    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
-        this.autocompleteItems = [];
-        if(predictions){
-          this.zone.run(() => {
-            predictions.forEach((prediction) => {
-              this.autocompleteItems.push(prediction);
-            });
-          });
-        }
-    });
-  }
+  // updateSearchResults(){
+  //   if (this.autocomplete.input == '') {
+  //     this.autocompleteItems = [];
+  //     return;
+  //   }
+  //   this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+  //     (predictions, status) => {
+  //       this.autocompleteItems = [];
+  //       if(predictions){
+  //         this.zone.run(() => {
+  //           predictions.forEach((prediction) => {
+  //             this.autocompleteItems.push(prediction);
+  //           });
+  //         });
+  //       }
+  //   });
+  // }
 
-  selectSearchResult(item){
+  selectSearchResult(item) {
     this.clearMarkers();
     this.autocompleteItems = [];
 
-    this.geocoder.geocode({'placeId': item.place_id}, (results, status) => {
-      if(status === 'OK' && results[0]){
+    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+      if (status === 'OK' && results[0]) {
         // let position = {
         //     lat: results[0].geometry.location.lat,
         //     lng: results[0].geometry.location.lng
         // };
         let marker = new google.maps.Marker({
           position: results[0].geometry.location,
-          animation: google.maps.Animation.DROP, 
+          animation: google.maps.Animation.DROP,
           map: this.map
         });
         this.markers.push(marker);
@@ -385,7 +372,7 @@ export class MapPage {
     })
   }
 
-  clearMarkers(){
+  clearMarkers() {
     for (var i = 0; i < this.markers.length; i++) {
       console.log(this.markers[i])
       this.markers[i].setMap(null);
@@ -422,11 +409,11 @@ export class MapPage {
     // Turn ON the background-geolocation system.
     this.backgroundGeolocation.start();
 
- 
+
     // Foreground Tracking
 
     let options = {
-      frequency: 500, 
+      frequency: 500,
       enableHighAccuracy: true
     };
 
@@ -434,8 +421,8 @@ export class MapPage {
 
       this.clearMarkers();
       // console.log("this map",this.map.getCenter().coords.latitude,this.map.getCenter().coords.longitude)
-      console.log(position.coords.latitude,position.coords.longitude);
-      this.map.setCenter(new google.maps.LatLng(this.lat,this.lng));
+      console.log(position.coords.latitude, position.coords.longitude);
+      this.map.setCenter(new google.maps.LatLng(this.lat, this.lng));
 
       let marker = new google.maps.Marker({
         position: this.map.center,
@@ -463,9 +450,7 @@ export class MapPage {
       console.log(err);
 
     });
-   
 
-    
   }
 
   stopTracking() {
@@ -476,117 +461,114 @@ export class MapPage {
   }
   //-18.148929, 178.444548
 
-  createCircle(lat:any,lng:any){
+  createCircle(lat: any, lng: any) {
 
-    var pos = new google.maps.LatLng(lat,lng)
+    var pos = new google.maps.LatLng(lat, lng)
 
-
-  // Add circle overlay and bind to marker
+    // Add circle overlay and bind to marker
     this.circle = new google.maps.Circle({
-    map: this.map,
-    radius: this.target.safeArea,    // in metres
-    fillColor: '#0085a9',
-    fillOpacity: 0,
-    strokeColor: '#0085a9',
-    strokeWeight:2,
-    strokeOpacity: 1,
-    center: pos
+      map: this.map,
+      radius: this.target.safeArea,    // in metres
+      fillColor: '#0085a9',
+      fillOpacity: 1,
+      strokeColor: '#0085a9',
+      strokeWeight: 2,
+      strokeOpacity: 0,
+      center: pos
     });
     this.animateCircle(this.circle);
     // this.circle.bindTo('center', marker, 'position');
-    }
+  }
 
-    create1stDummyCircle(){
+  create1stDummyCircle() {
 
-      var pos = this.target.coord_Default;
-  
-  
+    var pos = this.target.coord_Default;
     // Add circle overlay and bind to marker
-      this.circle1 = new google.maps.Circle({
+    this.circle1 = new google.maps.Circle({
       map: this.map,
       radius: this.target.safeArea,    // in metres
       fillColor: '#0085a9',
       fillOpacity: 0,
       strokeColor: '#0085a9',
-      strokeWeight:2,
+      strokeWeight: 2,
       strokeOpacity: 1,
       center: pos
-      });
-      this.animateCircle(this.circle1);
-      // this.circle.bindTo('center', marker, 'position');
-      }
-
-      create2ndDummyCircle(){
-
-        var pos = this.target.coord_Default;
-    
-    
-      // Add circle overlay and bind to marker
-        this.circle2 = new google.maps.Circle({
-        map: this.map,
-        radius: this.target.safeArea,    // in metres
-        fillColor: '#0085a9',
-        fillOpacity: 0,
-        strokeColor: '#0085a9',
-        strokeWeight:2,
-        strokeOpacity: 1,
-        center: pos
-        });
-        this.animateCircle(this.circle2);
-        
-        // this.circle.bindTo('center', marker, 'position');
-        }
-
-        //animate the circle
-        animateCircle(circleP:any){
-          var num = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
-          var num2 = Math.floor(Math.random() * (3000 - 1000 + 1000)) + 1000;
-          var timer = 50;
-          var seen = true;
-          
-          var direction = 0.25;
-          var rMin = 0, rMax = this.target.safeArea;
-                  setInterval( ()=>
-        {
-          var radius = circleP.getRadius();
-
-            if(!seen)
-            {
-
-            setTimeout(()=>{
-              if(radius == rMin){
-                seen = true;
-                circleP.setVisible(true);
-              }
-
- 
-            },num2 );
-            }
-
-
-          if ((radius > rMax) || (radius < rMin)) {
-              direction *= -1;
-          }
-          if ((radius == rMin)){
-            circleP.setVisible(false);
-            seen = false;
-          }
-            circleP.setRadius(radius + direction * num/2);
-        },
-          timer
-        );
-        }
-
-  createEndAlert(){
-    this.endAlert = this.alertCtrl.create({
-      title: 'Congratulations',
-      subTitle: 'You have finished the game',
-      buttons: ['Dismiss']
     });
-    console.log("endalert created");
+    this.animateCircle(this.circle1);
+    // this.circle.bindTo('center', marker, 'position');
   }
 
-  createModalQs(){
+  create2ndDummyCircle() {
+
+    var pos = this.target.coord_Default;
+    // Add circle overlay and bind to marker
+    this.circle2 = new google.maps.Circle({
+      map: this.map,
+      radius: this.target.safeArea,    // in metres
+      fillColor: '#0085a9',
+      fillOpacity: 0,
+      strokeColor: '#0085a9',
+      strokeWeight: 2,
+      strokeOpacity: 1,
+      center: pos
+    });
+    this.animateCircle(this.circle2);
+
+    // this.circle.bindTo('center', marker, 'position');
+  }
+
+  //animate the circle
+  animateCircle(circleP: any) {
+    var num = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+    var num2 = Math.floor(Math.random() * (3000 - 1000 + 1000)) + 1000;
+    var timer = 50;
+    var seen = true;
+
+    var direction = 0.25;
+    var rMin = 0, rMax = this.target.safeArea;
+    setInterval(() => {
+      var radius = circleP.getRadius();
+
+      if (!seen) {
+
+        setTimeout(() => {
+          if (radius == rMin) {
+            seen = true;
+            circleP.setVisible(true);
+          }
+
+
+        }, num2);
+      }
+
+      if ((radius > rMax) || (radius < rMin)) {
+        direction *= -1;
+      }
+      if ((radius == rMin)) {
+        circleP.setVisible(false);
+        seen = false;
+      }
+      circleP.setRadius(radius + direction * num / 2);
+    },
+      timer
+    );
+  }
+
+  createEndAlert() {
+    if (!this.endAlert) {
+      this.endAlert = this.alertCtrl.create({
+        title: 'Congratulations',
+        subTitle: 'You have finished the game',
+        buttons: ['Dismiss']
+      });
+      console.log("endalert created");
+      this.endAlert.present();
+      if (this.endAlert.onDidDismiss) {
+        this.navCtrl.pop();
+      }
+    }
+  }
+  createModalQs() {
     this.modalQs = this.modalCtrl.create(ModalPage);
   }
 
