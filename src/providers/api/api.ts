@@ -36,7 +36,7 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     return this.http.get(this.baseUrl + '/createGame/'+ userId + '&'+ catId )
     .map((res:Response)=> { 
       if(res.status = 200){
-        return (res.json());
+        return ;
      }
      else{
        console.log('server timeout');
@@ -122,7 +122,6 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
   }
 
   loadLevel(cat_id:any,levNum:any,userId:any,score:any){
-    levNum = levNum + 1;
     return this.http.get(this.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score)
     .map((res:Response)=> { 
       return res.json();
@@ -144,7 +143,7 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
   }
 
   loadScore(catId:any,lnum:any,answerString: any){
-    return  this.http.get(this.baseUrl + 'checkAns/'+ catId + '&' + (lnum -1) + '&' + answerString )
+    return  this.http.get(this.baseUrl + 'checkAns/'+ catId + '&' + lnum  + '&' + answerString )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -181,6 +180,19 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
         console.log('server timeout');
       }
 
+    })
+  }
+
+  endGame(userId:any,catId:any,levNum:any,score:any){
+    return this.http.get(this.baseUrl + '/endGame/'+ userId + '&'+ catId+ '&'+ levNum + '&'+ score )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        console.log('game end session updated');
+        return ;
+     }
+     else{
+       console.log('server timeout');
+     }
     })
   }
 

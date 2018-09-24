@@ -58,7 +58,7 @@ categories : any[];
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
-        this.target.lev_id = 1;
+        // this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev); 
         this.navCtrl.push(MapPage);
     })
@@ -69,20 +69,29 @@ categories : any[];
   }
 
   showLoadingGame() {
-    this.loading = this.loadingCtrl.create({
+    if(!this.loading){
+      this.loading = this.loadingCtrl.create({
       content: "Loading Game...",
       dismissOnPageChange : true
       });
       this.loading.present();
     }
+
+    }
   showLoadingCat() {
-      this.loading = this.loadingCtrl.create({
+    if (!this.loading){
+            this.loading = this.loadingCtrl.create({
         content: "Loading..."
         });
         this.loading.present();
+    }
+
       }
   dismissLoading(){
-    this.loading.dismiss();
+    if (this.loading){
+          this.loading.dismiss();
+    }
+
   }
 
 

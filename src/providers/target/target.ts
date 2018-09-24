@@ -23,7 +23,7 @@ export class TargetProvider {
   cat_id :any;
   username : any;
   cat_name : any;
-  lev_id :any;
+  lev_id :any = 0;
   numLev: any ;
   public answers : Array<any> = [];
   public score : number =0;

@@ -27,20 +27,25 @@ public questions : Array<any>;
   }
 
   ionViewDidLoad() {
+    this.target.numLev = this.target.numLev - 1;
+    this.target.lev_id = this.target.lev_id + 1;
+    console.log("Loaded Level: ", this.target.lev_id);
+    console.log("Levels Remaining: ", this.target.numLev);
     this.loadCards();
   }
 
   closeModal(){
-    this.view.dismiss();
-    this.target.numLev = this.target.numLev - 1;
-    this.target.lev_id = this.target.lev_id + 1;
-    if (this.target.numLev  == 0 ){
-      this.target.gameOver = true;
+    if (this.view){
+      this.view.dismiss();
     }
+
+
+
   }
 
   loadCards(){
     this.showLoading();
+    console.log("modal sees level ", this.target.lev_id);
     this.api.loadQuestions(this.target.lev_id,this.target.cat_id).subscribe(
       res => {
         console.log("this is res: ", res);
@@ -66,20 +71,25 @@ public questions : Array<any>;
   }
 
   showLoading() {
-    this.loading = this.loadingCtrl.create({
-      content: "Loading..."
-      });
-      this.loading.present();
+    if (!this.loading){
+      this.loading = this.loadingCtrl.create({
+        content: "Loading..."
+        });
+        this.loading.present();
+    }
+
     }
 
   dismissLoading(){
-    this.loading.dismiss();
+    if(this.loading){
+      this.loading.dismiss();
+      this.loading = null;
+    }
+
   }
 
   pushAns(valueq:any,valuea:any){
     this.target.answers.splice(valueq,this.target.answers.length ,valuea);   
-    // console.log("this is pressed: ",valueq,valuea);
-    // console.log("this is stored",this.answers)
   }
 
 }
