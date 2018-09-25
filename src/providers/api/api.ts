@@ -32,6 +32,35 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     })
   }
 
+  getSavedCategories(username:any){
+    // console.log('running function');
+
+    return this.http.get(this.baseUrl + 'SavedCat/' + username )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+    }
+    else{
+      console.log('server timeout');
+    }
+    })
+  }
+
+  getCompCategories(username:any){
+    // console.log('running function');
+
+    return this.http.get(this.baseUrl + 'CompCat/' + username )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+    }
+    else{
+      console.log('server timeout');
+    }
+    })
+  }
+
+
   createSession(userId:any,catId:any){
     return this.http.get(this.baseUrl + '/createGame/'+ userId + '&'+ catId )
     .map((res:Response)=> { 
@@ -71,36 +100,11 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     })
   }
 
-  // checkUSPApi(username:any,password:any) {
-  //   // return this.http.get("http://mlearn.usp.ac.fj/uspmobile/IEP_authenticate/?username="+username+"&password="+password )
-  //   // .map((res:Response)=>{
-
-  //   //   return res.json();
-  //   // });
-  //   return  this.http.get(this.baseUrl + 'login/'+ username + '&' + password )
-  //   .map((res:Response)=> { 
-  //     if(res.status = 200){
-  //        return res.json();
-  //     }
-  //     else{
-  //       console.log('server timeout');
-  //     }
-
-  //   })
-
-
-  // }
-
   checkUSPApi(username:any,password:any){
     let postData = new FormData();
     postData.append('sid' , username);
     postData.append('pass' , password);
 
-
-    // let postData = {
-    //         'sid' : username,
-    //         'password': password
-    // }
     return this.http.post(this.baseUrl +'loginUser', postData)
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -189,6 +193,30 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
       if(res.status = 200){
         console.log('game end session updated');
         return ;
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  loadGame(userId:any,catId:any){
+    return this.http.get(this.baseUrl + '/loadGame/'+ userId + '&'+ catId )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return res.json();
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  saveGame(username:any,catId:any,lNum:any,score:any){
+    return this.http.get(this.baseUrl + '/saveGame/'+ username + '&'+ catId+ '&'+ lNum + '&'+ score )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return res;
      }
      else{
        console.log('server timeout');

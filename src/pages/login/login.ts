@@ -53,7 +53,8 @@ export class LoginPage {
 
 skip(){
   this.showLoading();
-  this.presentToast('Login Skipped');  
+  this.presentToast('Login Skipped, logged in as Vineet');  
+  this.target.username = 'Vineet';
   this.navCtrl.push(MenuPage);
 }
 

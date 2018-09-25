@@ -81,8 +81,7 @@ export class MapPage {
 
 
     // this.event.publish('GameOver', data);
-    this.target.score = 0
-    this.target.lev_id = 0;
+
     //localStorage.setItem('userScore', initial.toString() );
     if (localStorage.getItem('userScore')) {
       localStorage.setItem('userScore', '0');
