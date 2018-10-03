@@ -9,6 +9,7 @@ import { ApiProvider } from '../../providers/api/api';
 import 'rxjs/add/operator/filter';
 import { ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'page-map',
@@ -35,6 +36,7 @@ export class MapPage {
   levFinished: boolean = false;
   // public score : any = 0;
   public alertScore: any;
+  public loading :any;
   public modalQs: any;
   public endAlert: any;
   public numcircles: number = null;
@@ -226,6 +228,7 @@ export class MapPage {
     // this.api.loadNextLevel(this.target.lev_id,this.target.cat_id).subscribe(
     console.log("the current level is ", this.target.lev_id);
     console.log("the current score is: ",this.target.score);
+    this.showLoading();
     this.api.loadLevel(this.target.cat_id, (this.target.lev_id + 1) , this.target.username, this.target.score).subscribe(
       res => {
         this.target.testLat = res.lat;
@@ -236,6 +239,7 @@ export class MapPage {
         console.log('response received for Level ', (this.target.lev_id + 1), ': ', res.lat, res.lng);
         this.target.alertGiven = false;
         this.target.quesFound = false;
+        this.dismissLoading();
         this.circle.setCenter(new google.maps.LatLng(this.target.testLat, this.target.testLng));        
       })
 
@@ -283,7 +287,8 @@ export class MapPage {
             this.event.publish('GameOver');
             this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
             this.circle.setMap(null);
-            this.createEndAlert();
+            this.end();
+            // this.createEndAlert();
           }
           else{
               let data = true;
@@ -425,7 +430,6 @@ export class MapPage {
 
       this.clearMarkers();
       // console.log("this map",this.map.getCenter().coords.latitude,this.map.getCenter().coords.longitude)
-      console.log(position.coords.latitude, position.coords.longitude);
       this.map.setCenter(new google.maps.LatLng(this.lat, this.lng));
 
       let marker = new google.maps.Marker({
@@ -574,8 +578,36 @@ export class MapPage {
     })
   }
 
+  end(){
+    swal({ 
+      title: "Congratulations",
+       text: "You Win",   
+       html: ' <img src="assets/img/game_over.png" height="100px"> </img>'
+      }).then(()=>
+    {
+      this.navCtrl.pop();
+    })
+  }
+
   createModalQs() {
     this.modalQs = this.modalCtrl.create(ModalPage);
+  }
+
+  showLoading() {
+    if (!this.loading){
+            this.loading = this.loadingCtrl.create({
+        content: "Loading..."
+        });
+        this.loading.present();
+    }
+
+      }
+  dismissLoading(){
+    if (this.loading){
+          this.loading.dismiss();
+          this.loading = null;
+    }
+
   }
 
 }

@@ -4,6 +4,10 @@ import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
 import { LoadingController, Loading, AlertController } from 'ionic-angular';
 
+
+
+
+
 // import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import {MapPage} from '../map/map';
 
@@ -45,6 +49,7 @@ cats : any ={
     }
 
   ionViewDidLoad() {
+   
     //console.log('ionViewDidLoad MenuPage');
 
 
@@ -73,7 +78,6 @@ cats : any ={
   }
 
   startGame(value:any,name:any){
-
     this.target.cat_id = value;
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
@@ -127,14 +131,14 @@ cats : any ={
   }
 
   showLoadingGame() {
-    if(!this.loading){
+    if (!this.loading){
       this.loading = this.loadingCtrl.create({
       content: "Loading Game...",
       dismissOnPageChange : true
       });
       this.loading.present();
-    }
-
+    
+      } 
     }
   showLoadingCat() {
     if (!this.loading){
@@ -148,6 +152,7 @@ cats : any ={
   dismissLoading(){
     if (this.loading){
           this.loading.dismiss();
+          this.loading = null;
     }
 
   }
