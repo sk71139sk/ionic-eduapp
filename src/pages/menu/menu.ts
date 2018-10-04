@@ -62,17 +62,17 @@ cats : any ={
     //     this.categories = res;
     //   })
 
-    this.api.getCategories().subscribe(
+    this.api.getCategories2(this.target.username).subscribe(
       res => {
         this.cats.All = res;
       })
     this.api.getSavedCategories(this.target.username).subscribe(
       res => {
-        this.cats.Saved = res;
+          this.cats.Saved = res;
       })
     this.api.getCompCategories(this.target.username).subscribe(
       res => {
-        this.cats.Completed = res;
+          this.cats.Completed = res;
       })
       this.dismissLoading();
   }

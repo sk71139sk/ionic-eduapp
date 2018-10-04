@@ -9,8 +9,8 @@ import 'rxjs/add/operator/toPromise';
 export class ApiProvider {
 
 // public baseUrl : string = "http://27.123.150.94/" ;
-// public baseUrl : string = "http://127.0.0.1/";
-public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
+public baseUrl : string = "http://127.0.0.1/";
+// public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
 // public baseUrl : string = "http://192.168.8.180/";
 
   constructor(public http: Http) {
@@ -22,6 +22,20 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     // console.log('running function');
 
     return this.http.get(this.baseUrl + 'cat' )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  getCategories2(username:any){
+    // console.log('running function');
+
+    return this.http.get(this.baseUrl + 'catGet/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -100,10 +114,26 @@ public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
     })
   }
 
+  checkToken(username:any){
+    let postData = new FormData();
+    postData.append('student_id' , username);
+
+    return this.http.post(this.baseUrl +'loginUser', postData)
+    .map((res:Response)=> { 
+      if(res.status = 200){
+         return res.json();
+      }
+      else{
+        console.log('server timeout');
+      } 
+    })
+
+  }
+
   checkUSPApi(username:any,password:any){
     let postData = new FormData();
-    postData.append('sid' , username);
-    postData.append('pass' , password);
+    postData.append('student_id' , username);
+    postData.append('password' , password);
 
     return this.http.post(this.baseUrl +'loginUser', postData)
     .map((res:Response)=> { 

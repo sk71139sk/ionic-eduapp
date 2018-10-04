@@ -39,10 +39,11 @@ export class LoginPage {
         // return false;
         this.showError("Your password or username do not match our records. Please enter correct login details.")
       }
-      else if (res == 0) {
+      else if (res.status == '200') {
         this.presentToast('Login successful');
         console.log(username);
         this.target.username = username;
+        localStorage.setItem('student_id',username);
         this.navCtrl.push(MenuPage);
       }
     }, error => {

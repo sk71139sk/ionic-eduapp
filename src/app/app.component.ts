@@ -2,11 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, App, AlertController } from 'ionic-angular';
 import { SplashScreen} from "@ionic-native/splash-screen";
 import { StatusBar} from "@ionic-native/status-bar";
+import {ApiProvider} from '../providers/api/api';
+import {TargetProvider} from '../providers/target/target';
 
 
 
 // import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { LoginPage } from '../pages/login/login';
+import { MenuPage } from '../pages/menu/menu';
 import { google } from "google-maps";
 
 @Component({
@@ -19,12 +22,26 @@ export class MyApp {
   google: google;
   constructor(
     public  app: App,
+    public target:TargetProvider,
     public platform: Platform,
+    private api: ApiProvider,
     public alertCtrl : AlertController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      this.nav.push(LoginPage);
+      //check local storage for a stored student id
+      if((localStorage.getItem('student_id'))){
+        //call api to check whether token is valid or student exists.
+        this.api.checkToken(localStorage.getItem('student_id')).subscribe((res)=>{
+            console.log("response HERE:" +res.status);
+            this.target.username = localStorage.getItem('student_id');
+            this.nav.push(MenuPage);
+        });
+      }
+      else{
+        this.nav.push(LoginPage);
+      }
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.backgroundColorByHexString("#008080");
