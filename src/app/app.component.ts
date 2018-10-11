@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, App, AlertController } from 'ionic-angular';
+import { Platform, Nav, App, AlertController, Events } from 'ionic-angular';
 import { SplashScreen} from "@ionic-native/splash-screen";
 import { StatusBar} from "@ionic-native/status-bar";
 import {ApiProvider} from '../providers/api/api';
 import {TargetProvider} from '../providers/target/target';
+import {Echo} from 'laravel-echo-ionic';
+
 
 
 
@@ -19,15 +21,18 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any;
   alert:any;
+  echo:any;
   google: google;
   constructor(
     public  app: App,
+    public event:Events,
     public target:TargetProvider,
     public platform: Platform,
     private api: ApiProvider,
     public alertCtrl : AlertController,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen) {
+    public splashScreen: SplashScreen)
+    {
     platform.ready().then(() => {
       //check local storage for a stored student id
       if((localStorage.getItem('student_id'))){
@@ -49,6 +54,25 @@ export class MyApp {
         this.statusBar.show();
       this.splashScreen.hide();
     });
+
+    this.echo = new Echo({
+        broadcaster: 'socket.io' ,
+        host: this.target.hostname
+    });
+
+    // this.echo.channel("event1")
+    // .listen("ExampleEvent", e=>{
+    //     console.log(e);
+    // })
+
+    this.echo.channel("game-over")
+    .listen("gameOver", e=>{
+        console.log(e.data);
+        // console.log(this.target.cat_id);
+        if (e.data == this.target.cat_id){
+            this.target.event.publish('GameOver');
+        }
+    })
 
     platform.registerBackButtonAction(() => {
  

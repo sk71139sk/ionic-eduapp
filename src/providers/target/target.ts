@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Events} from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 /*
@@ -10,9 +11,16 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TargetProvider {
 
-  constructor() {
+  constructor(public event:Events) {
     
   }
+
+  //api address
+  // public baseUrl : string = "http://27.123.150.94/ 
+  public baseUrl : string = "http://127.0.0.1/";
+  public hostname :string = "http://127.0.0.1:6001";
+
+
   safeArea: any = 8;
   testLat: any = -18.147871;
   testLng: any = 178.443096;

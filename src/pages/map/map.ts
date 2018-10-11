@@ -93,6 +93,9 @@ export class MapPage {
   }
 
   ionViewDidEnter() {
+    this.target.event.subscribe('GameOver',()=>{      
+        this.end();     
+    }) 
 
     this.loadMap();
     // this.loadFirstLevel(this.target.cat_id);
@@ -262,6 +265,8 @@ export class MapPage {
 
   }
 
+
+
   checkScore() {
     this.api.loadScore(this.target.cat_id, this.target.lev_id, this.target.answers.toLocaleString()).subscribe(
       res => {
@@ -284,10 +289,11 @@ export class MapPage {
 
           if (this.target.numLev == 0) {
             console.log("published game over");
-            this.event.publish('GameOver');
-            this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
             this.circle.setMap(null);
-            this.end();
+            this.target.event.publish('GameOver');
+
+
+            // this.end();
             // this.createEndAlert();
           }
           else{
@@ -579,6 +585,7 @@ export class MapPage {
   }
 
   end(){
+    this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
     swal({ 
       title: "Congratulations",
        text: "You Win",   

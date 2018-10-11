@@ -3,17 +3,15 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
+import {TargetProvider} from '../target/target';
 
 
 @Injectable()
 export class ApiProvider {
 
-// public baseUrl : string = "http://27.123.150.94/" ;
-public baseUrl : string = "http://127.0.0.1/";
-// public baseUrl : string = "https://fsteeduapp.000webhostapp.com/";
-// public baseUrl : string = "http://192.168.8.180/";
 
-  constructor(public http: Http) {
+
+  constructor(public http: Http, public target:TargetProvider) {
 
   }
 
@@ -21,7 +19,7 @@ public baseUrl : string = "http://127.0.0.1/";
   getCategories(){
     // console.log('running function');
 
-    return this.http.get(this.baseUrl + 'cat' )
+    return this.http.get(this.target.baseUrl + 'cat' )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -35,7 +33,7 @@ public baseUrl : string = "http://127.0.0.1/";
   getCategories2(username:any){
     // console.log('running function');
 
-    return this.http.get(this.baseUrl + 'catGet/' + username )
+    return this.http.get(this.target.baseUrl + 'catGet/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -49,7 +47,7 @@ public baseUrl : string = "http://127.0.0.1/";
   getSavedCategories(username:any){
     // console.log('running function');
 
-    return this.http.get(this.baseUrl + 'SavedCat/' + username )
+    return this.http.get(this.target.baseUrl + 'SavedCat/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -63,7 +61,7 @@ public baseUrl : string = "http://127.0.0.1/";
   getCompCategories(username:any){
     // console.log('running function');
 
-    return this.http.get(this.baseUrl + 'CompCat/' + username )
+    return this.http.get(this.target.baseUrl + 'CompCat/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -76,7 +74,7 @@ public baseUrl : string = "http://127.0.0.1/";
 
 
   createSession(userId:any,catId:any){
-    return this.http.get(this.baseUrl + '/createGame/'+ userId + '&'+ catId )
+    return this.http.get(this.target.baseUrl + '/createGame/'+ userId + '&'+ catId )
     .map((res:Response)=> { 
       if(res.status = 200){
         return ;
@@ -90,7 +88,7 @@ public baseUrl : string = "http://127.0.0.1/";
   getLevelCoords(cat_id:any){
     // console.log('running function');
 
-    return this.http.get(this.baseUrl + 'cat=' + cat_id )
+    return this.http.get(this.target.baseUrl + 'cat=' + cat_id )
     .map((res:Response)=> { 
       if(res.status = 200){
         return (res.json());
@@ -102,7 +100,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
   
   checkNumLevel(cat_id:any){
-      return  this.http.get(this.baseUrl + 'numLev/'  + cat_id )
+      return  this.http.get(this.target.baseUrl + 'numLev/'  + cat_id )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -118,7 +116,7 @@ public baseUrl : string = "http://127.0.0.1/";
     let postData = new FormData();
     postData.append('student_id' , username);
 
-    return this.http.post(this.baseUrl +'loginUser', postData)
+    return this.http.post(this.target.baseUrl +'loginUser', postData)
     .map((res:Response)=> { 
       if(res.status = 200){
          return res.json();
@@ -135,7 +133,7 @@ public baseUrl : string = "http://127.0.0.1/";
     postData.append('student_id' , username);
     postData.append('password' , password);
 
-    return this.http.post(this.baseUrl +'loginUser', postData)
+    return this.http.post(this.target.baseUrl +'loginUser', postData)
     .map((res:Response)=> { 
       if(res.status = 200){
          return res.json();
@@ -149,14 +147,14 @@ public baseUrl : string = "http://127.0.0.1/";
 
 
   loadNextLevel(lev_id:any,cat_id:any){
-    return this.http.get(this.baseUrl + '/nextLevel/current='+ lev_id +'&cat=' + cat_id )
+    return this.http.get(this.target.baseUrl + '/nextLevel/current='+ lev_id +'&cat=' + cat_id )
     .map((res:Response)=> { 
       return res.json();
     })
   }
 
   loadLevel(cat_id:any,levNum:any,userId:any,score:any){
-    return this.http.get(this.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score)
+    return this.http.get(this.target.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score)
     .map((res:Response)=> { 
       return res.json();
     })
@@ -164,7 +162,7 @@ public baseUrl : string = "http://127.0.0.1/";
   
 
   loadQuestions(lev_id:any,cat_id:any){
-    return  this.http.get(this.baseUrl + 'loadQuestions/'+ lev_id + '&' + cat_id )
+    return  this.http.get(this.target.baseUrl + 'loadQuestions/'+ lev_id + '&' + cat_id )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -177,7 +175,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
 
   loadScore(catId:any,lnum:any,answerString: any){
-    return  this.http.get(this.baseUrl + 'checkAns/'+ catId + '&' + lnum  + '&' + answerString )
+    return  this.http.get(this.target.baseUrl + 'checkAns/'+ catId + '&' + lnum  + '&' + answerString )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -191,7 +189,7 @@ public baseUrl : string = "http://127.0.0.1/";
 
   getOneRandomCoords(){
     console.log("inside function");
-    return  this.http.get(this.baseUrl + 'getRan/1' )
+    return  this.http.get(this.target.baseUrl + 'getRan/1' )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -204,7 +202,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
   
   getTwoRandomCoords(){
-    return  this.http.get(this.baseUrl + 'getRan/2' )
+    return  this.http.get(this.target.baseUrl + 'getRan/2' )
     .map((res:Response)=> { 
       if(res.status = 200){
            console.log(res);
@@ -218,7 +216,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
 
   endGame(userId:any,catId:any,levNum:any,score:any){
-    return this.http.get(this.baseUrl + '/endGame/'+ userId + '&'+ catId+ '&'+ levNum + '&'+ score )
+    return this.http.get(this.target.baseUrl + '/endGame/'+ userId + '&'+ catId+ '&'+ levNum + '&'+ score )
     .map((res:Response)=> { 
       if(res.status = 200){
         console.log('game end session updated');
@@ -231,7 +229,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
 
   loadGame(userId:any,catId:any){
-    return this.http.get(this.baseUrl + '/loadGame/'+ userId + '&'+ catId )
+    return this.http.get(this.target.baseUrl + '/loadGame/'+ userId + '&'+ catId )
     .map((res:Response)=> { 
       if(res.status = 200){
         return res.json();
@@ -243,7 +241,7 @@ public baseUrl : string = "http://127.0.0.1/";
   }
 
   saveGame(username:any,catId:any,lNum:any,score:any){
-    return this.http.get(this.baseUrl + '/saveGame/'+ username + '&'+ catId+ '&'+ lNum + '&'+ score )
+    return this.http.get(this.target.baseUrl + '/saveGame/'+ username + '&'+ catId+ '&'+ lNum + '&'+ score )
     .map((res:Response)=> { 
       if(res.status = 200){
         return res;

@@ -46,8 +46,7 @@ export class LoginPage {
         localStorage.setItem('student_id',username);
         this.navCtrl.push(MenuPage);
       }
-    }, error => {
-      this.showError("Error Received " + error);
+    
     }
   );
 }
