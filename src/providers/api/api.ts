@@ -175,7 +175,7 @@ export class ApiProvider {
   }
 
   loadScore(catId:any,lnum:any,answerString: any){
-    return  this.http.get(this.target.baseUrl + 'checkAns/'+ catId + '&' + lnum  + '&' + answerString )
+    return  this.http.get(this.target.baseUrl + 'checkAns/'+ this.target.username+'&'+ catId + '&' + lnum  + '&' + answerString )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -184,6 +184,18 @@ export class ApiProvider {
         console.log('server timeout');
       }
 
+    })
+  }
+
+  loadresults(catId:any){
+    return this.http.get(this.target.baseUrl + 'results/' + this.target.username+ '&' +catId)
+    .map((res:Response)=>{
+      if (res.status = 200){
+        return res.json();
+      }
+      else{
+        console.log('server timeout');
+      }
     })
   }
 

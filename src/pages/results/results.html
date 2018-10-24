@@ -1,0 +1,36 @@
+<!--
+  Generated template for the ResultsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar  color="teal">
+    <ion-title>Results</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h1> {{results.Category}} : Results</h1>
+  <p> <strong> Overall Score: </strong> {{results.score}} / {{results.TotalPossibleScore}}</p>
+  <p> <strong>Time Taken: </strong> {{results.time}}</p>
+  <p> <em> {{results.Comment}} </em></p>
+  <!-- <p *ngFor="let data of results.results" > {{data.results}} </p> -->
+  <ion-card class="cards" *ngFor="let data of results.results; let i = index">
+      <ion-card-header  text-wrap> <strong> Level {{i+1}} </strong>  <div >  {{data.ScoreEarned}}/{{data.MaxScore}}  </div></ion-card-header>
+        <ion-card-content > 
+                <ion-list>
+                  <ion-item *ngFor="let question of data.Questions">
+                   <span><strong> Question {{question.number}}  </strong><div [innerHTML]="question.content"> </div> </span> 
+                   <div *ngIf="question.correct == true" class="correct"> Your Answer: {{question.ansGiven}}</div>
+                   <div *ngIf="question.correct == false" class="inCorrect"> Your Answer: {{question.ansGiven}}</div>
+                   <div> Correct Answer: {{question.correctAns}}</div>
+                  </ion-item>
+                </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+</ion-content>

@@ -593,6 +593,7 @@ export class MapPage {
       }).then(()=>
     {
       this.navCtrl.pop();
+      this.target.cat_id = 0;
     })
   }
 

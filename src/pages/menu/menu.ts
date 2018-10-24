@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
 import { LoadingController, Loading, AlertController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
+import { ResultsPage } from '../results/results';
 
 
 
@@ -27,7 +29,9 @@ export class MenuPage {
 
 public loading: Loading;
 public resAlert :any;
+
 categories : any[];
+modalRs: any;
 catType : any = 'All';
 cats : any ={
   All : [],
@@ -39,13 +43,15 @@ cats : any ={
 // data: any;
   constructor(
     private alertCtrl: AlertController,
+    public modalCtrl : ModalController,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController, 
     public target: TargetProvider, 
     public api : ApiProvider, 
     public navParams: NavParams) 
     {
-      this.loadCat();   
+      this.loadCat();
+ 
     }
 
   ionViewDidLoad() {
@@ -126,8 +132,10 @@ cats : any ={
 
 
 
-  resultPage(){
-    this.showAlert();
+  resultPage(catId:any){
+    this.createModal(catId);
+    this.modalRs.present();
+    // this.showAlert();
   }
 
   showLoadingGame() {
@@ -173,6 +181,10 @@ cats : any ={
     this.resAlert.onDidDismiss(()=>{
       this.resAlert = null;
     })
+  }
+
+  createModal(catId:any){
+    this.modalRs = this.modalCtrl.create(ResultsPage,{data: catId});  
   }
 
 

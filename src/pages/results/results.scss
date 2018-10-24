@@ -1,0 +1,20 @@
+page-results {
+    // .radio-gray .radio-icon  {
+    //     background-color: aquamarine !important;
+    //   }
+      .cards {
+          background-color : rgba($color:teal,$alpha: 0.3)
+      }
+
+      .item  :focus {
+        background-color:rgba($color: lightgreen, $alpha: 0.1)
+      }
+      .correct{
+        background-color:rgba($color: darkgreen, $alpha: 0.1)
+      }
+      .inCorrect{
+        background-color:rgba($color: red, $alpha: 0.1)
+      }
+
+      
+}

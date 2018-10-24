@@ -38,7 +38,7 @@
       <ion-item *ngFor="let cat of getData('Saved')" (click)="loadGame(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item>
     </ion-list>
     <ion-list *ngIf= "catType == 'Completed'"> 
-      <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage()"><p>{{cat.cat_name}} </p> </ion-item>
+      <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item>
     </ion-list>
   </div>
 

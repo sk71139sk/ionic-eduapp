@@ -21,7 +21,7 @@
                    <span> <div [innerHTML]="data.Content" > <!-- {{data.Content}} --> </div> </span> 
                 </ion-item>
                 <ion-item class="item" *ngFor="let ans of data.answers" text-wrap>
-                    <ion-label  ><P [innerHTML]="ans.ans_content"><!-- {{ans.ans_content}} --></P> </ion-label>
+                    <ion-label  ><p [innerHTML]="ans.ans_content"><!-- {{ans.ans_content}} --></p> </ion-label>
                     <ion-radio  value={{ans.ans_id}} (ionSelect)="pushAns(i,ans.ans_id)"></ion-radio>
                 </ion-item>
               </ion-list>

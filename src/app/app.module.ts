@@ -11,6 +11,7 @@ import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import { MapPage } from '../pages/map/map';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { ModalPage } from '../pages/modal/modal';
+import {ResultsPage} from '../pages/results/results';
 
 import { MenuPage } from '../pages/menu/menu';
 import {LoginPage} from '../pages/login/login';
@@ -20,7 +21,7 @@ import { ToastController } from 'ionic-angular';
 import { TargetProvider } from '../providers/target/target';
 import { ApiProvider } from '../providers/api/api';
 
-const config:SocketIoConfig = {url: 'http://localhost:6001', options: {}};
+const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
 
 
 @NgModule({
@@ -29,6 +30,7 @@ const config:SocketIoConfig = {url: 'http://localhost:6001', options: {}};
     MapPage,
     ModalPage,
     LoginPage,
+    ResultsPage,
     TabsNavigationPage,
     MenuPage 
   ],
@@ -44,6 +46,7 @@ const config:SocketIoConfig = {url: 'http://localhost:6001', options: {}};
     ModalPage,
     MapPage,
     LoginPage,
+    ResultsPage,
     MenuPage,
     TabsNavigationPage
   ],
