@@ -220,7 +220,8 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed',()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
-        this.target.setScore(this.target.cocoPoints);
+        // this.target.setScore(this.target.cocoPoints);
+        swal("Nice!","You earned 10 coconuts!",'success');
 
         setTimeout(()=>{
           this.target.event.publish('coco1False');
@@ -233,7 +234,8 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed',()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
-        this.target.setScore(this.target.cocoPoints);
+        // this.target.setScore(this.target.cocoPoints);
+        swal("Nice!","You earned 10 coconuts!",'success');
 
         setTimeout(()=>{
           this.target.event.publish('coco2False');
@@ -246,7 +248,8 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed',()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
-        this.target.setScore(this.target.cocoPoints);
+        // this.target.setScore(this.target.cocoPoints);
+        swal("Nice!","You earned 10 coconuts!",'success');
 
         setTimeout(()=>{
           this.target.event.publish('coco3False');
