@@ -277,6 +277,18 @@ export class ApiProvider {
     })
   }
 
+  visit(cocos:any){
+    return this.http.get(this.target.baseUrl + '/visit/' + this.target.username+'&' + cocos)
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return res.json();
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
   //sets the visited tree to false
   updateCoco(coco:any){
 

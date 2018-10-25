@@ -108,6 +108,7 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
+      this.api.visit('coco1').subscribe();
     })
 
     this.target.event.subscribe('coco2False',()=>{
@@ -115,6 +116,7 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
+      this.api.visit('coco2').subscribe();
     })
 
     this.target.event.subscribe('coco3False',()=>{
@@ -122,6 +124,7 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
+      this.api.visit('coco3').subscribe();
     })
 
     this.target.event.subscribe('coco1True',()=>{
@@ -321,11 +324,11 @@ export class MapPage {
         setTimeout(()=>{
           this.marker.setIcon({
             url: 'assets/img/bure.png',
-            scaledSize: new google.maps.Size(10, 10,'vh','vh')
+            scaledSize: new google.maps.Size(15, 15,'vh','vh')
           });
           setTimeout(()=>{
             this.modalQs.present();
-          },500)
+          },1500)
         },1000)
 
         this.target.alertGiven = true;
