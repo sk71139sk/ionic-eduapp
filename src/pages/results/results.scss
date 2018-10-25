@@ -6,14 +6,14 @@ page-results {
           background-color : rgba($color:teal,$alpha: 0.3)
       }
 
-      .item  :focus {
-        background-color:rgba($color: lightgreen, $alpha: 0.1)
-      }
       .correct{
-        background-color:rgba($color: darkgreen, $alpha: 0.1)
+        background-color:rgba($color: green, $alpha: 0.1)
       }
       .inCorrect{
         background-color:rgba($color: red, $alpha: 0.1)
+      }
+      .yellow{
+        background-color:rgba($color: yellow, $alpha: 0.2)
       }
 
       

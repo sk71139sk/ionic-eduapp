@@ -42,6 +42,12 @@ export class MapPage {
   public numcircles: number = null;
   public circle1: any;
   public circle2: any;
+  public marker:any;
+  public marker1:any;
+  public marker2:any;
+  public coco1 : any;
+  public coco2 : any;
+  public coco3 : any;
 
   //alertGiven: boolean = false;
   // loading: any;
@@ -97,6 +103,72 @@ export class MapPage {
         this.end();     
     }) 
 
+    this.target.event.subscribe('coco1False',()=>{
+      this.coco1.setIcon({
+        url: 'assets/img/rock.png',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coco2False',()=>{
+      this.coco2.setIcon({
+        url: 'assets/img/rock.png',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coco3False',()=>{
+      this.coco3.setIcon({
+        url: 'assets/img/rock.png',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coco1True',()=>{
+      this.coco1.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coco2True',()=>{
+      this.coco2.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coco3True',()=>{
+      this.coco3.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('coconuts',()=>{
+      this.coco1.setPosition(this.target.coco1_coord);
+      this.coco1.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+      this.coco2.setPosition(this.target.coco2_coord);
+      this.coco2.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+      this.coco3.setPosition(this.target.coco3_coord);
+      this.coco3.setIcon({
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+      })
+    })
+
+    this.target.event.subscribe('cocoRefresh',()=>{
+      this.coco1.setPosition(this.target.coco1_coord);
+      this.coco2.setPosition(this.target.coco2_coord);
+      this.coco3.setPosition(this.target.coco3_coord);
+    })
+
     this.loadMap();
     // this.loadFirstLevel(this.target.cat_id);
     this.loadNextLevel();
@@ -106,11 +178,80 @@ export class MapPage {
     this.createCircle(this.target.testLat, this.target.testLng);
     this.create1stDummyCircle();
     this.create2ndDummyCircle();
+    this.createCoco1();
+    this.createCoco2();
+    this.createCoco3();
+    this.api.refresh().subscribe(
+      e=>{
+          this.target.coco1 = e.coco1;
+          if (this.target.coco1 == true){
+            this.target.event.publish('coco1True');
+          }
+          else{
+            this.target.event.publish('coco1False');
+          }
+          this.target.coco2 = e.coco2;
+          if (this.target.coco2 == true){
+            this.target.event.publish('coco2True');
+          }
+          else{
+            this.target.event.publish('coco2False');            
+          }
+          this.target.coco3 = e.coco3;
+          if (this.target.coco3 == true){
+            this.target.event.publish('coco3True');
+          }
+          else{
+            this.target.event.publish('coco3False');            
+          }
+
+          this.target.setCoords(e.lat1,e.lng1,e.lat2,e.lng2,e.lat3,e.lng3);
+      }
+  );
     this.createAndListen();
 
   }
 
   createAndListen() {
+
+    google.maps.event.addListener(this.map, 'center_changed',()=>{
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
+        this.target.setScore(this.target.cocoPoints);
+
+        setTimeout(()=>{
+          this.target.event.publish('coco1False');
+        },1000)
+        this.target.coco1 = false;
+
+      }
+    })
+
+    google.maps.event.addListener(this.map, 'center_changed',()=>{
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
+        this.target.setScore(this.target.cocoPoints);
+
+        setTimeout(()=>{
+          this.target.event.publish('coco2False');
+        },1000)
+        this.target.coco2 = false;
+
+      }
+    })
+
+    google.maps.event.addListener(this.map, 'center_changed',()=>{
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
+        this.target.setScore(this.target.cocoPoints);
+
+        setTimeout(()=>{
+          this.target.event.publish('coco3False');
+        },1000)
+        this.target.coco3 = false;
+
+      }
+    })
 
     google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
@@ -122,9 +263,21 @@ export class MapPage {
             message: 'Sorry Try Another Location!'
           }
         )
-        dummyAlert.present();
+        this.marker1.setIcon({
+          url: 'assets/img/oops.gif',
+          scaledSize: new google.maps.Size(10, 10,'vh','vh')
+        });
+        setTimeout(()=>{
+          dummyAlert.present();
+
+          this.circle1.setCenter(this.target.coord_Default);
+          this.marker1.setIcon({
+            url: 'assets/img/leaves.gif',
+            scaledSize: new google.maps.Size(5, 5,'vh','vh')
+          })
+        },1000)
         this.target.dummy1given = true;
-        this.circle1.setCenter(this.target.coord_Default);
+
       }
     });
 
@@ -138,9 +291,21 @@ export class MapPage {
             message: 'Sorry Try Another Location!'
           }
         )
-        dummyAlert2.present();
-        this.target.dummy2given = true;
+        this.marker2.setIcon({
+          url: 'assets/img/oops.gif',
+          scaledSize: new google.maps.Size(10, 10,'vh','vh')
+        });
+        setTimeout(()=>{
+          dummyAlert2.present();
+          
+
         this.circle2.setCenter(this.target.coord_Default);
+        this.marker2.setIcon({
+          url: 'assets/img/leaves.gif',
+          scaledSize: new google.maps.Size(5, 5,'vh','vh')
+        })
+        },1000)
+        this.target.dummy2given = true;
       }
     });
 
@@ -149,14 +314,29 @@ export class MapPage {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
         this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)/* && (this.checking) */) {
         // this.stopGeo();
+        this.marker.setIcon({
+          url: 'assets/img/sparks.gif',
+          scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        });
+        setTimeout(()=>{
+          this.marker.setIcon({
+            url: 'assets/img/bure.png',
+            scaledSize: new google.maps.Size(10, 10,'vh','vh')
+          });
+          setTimeout(()=>{
+            this.modalQs.present();
+          },500)
+        },1000)
 
-        this.modalQs.present();
         this.target.alertGiven = true;
         this.target.quesFound = true;
         this.circle1.setCenter(this.target.coord_Default);
         this.circle2.setCenter(this.target.coord_Default);
         this.modalQs.onDidDismiss(() => {
-
+          this.marker.setIcon({
+            url: 'assets/img/leaves.gif',
+            scaledSize: new google.maps.Size(5, 5,'vh','vh')
+          })
           this.map.setZoom(16);
           this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
           this.checkScore();
@@ -279,7 +459,7 @@ export class MapPage {
         console.log("this is score stored:", localStorage.getItem('score'));
         this.alertScore = this.alertCtrl.create({
           title: 'Score',
-          subTitle: 'Score: ' + res.score + '%'
+          subTitle: 'Score: ' + res.score 
         })
 
         this.alertScore.present();
@@ -302,10 +482,10 @@ export class MapPage {
           }
 
         });
-        if (res.score == 100) {
+        if (res.percentage == 100) {
           this.numcircles = 1;
         }
-        else if (res.score > 50) {
+        else if (res.percentage > 50) {
           this.numcircles = 2;
           console.log("numcircle = ", this.numcircles);
           this.api.getOneRandomCoords().subscribe(
@@ -457,6 +637,9 @@ export class MapPage {
       this.zone.run(() => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+        this.coco1 = this.target.coco1_coord;
+        this.coco2 = this.target.coco2_coord;
+        this.coco3 = this.target.coco3_coord;
       });
 
     }, (err) => {
@@ -476,7 +659,7 @@ export class MapPage {
 
   createCircle(lat: any, lng: any) {
 
-    var pos = new google.maps.LatLng(lat, lng)
+    var pos = new google.maps.LatLng(lat, lng);
 
     // Add circle overlay and bind to marker
     this.circle = new google.maps.Circle({
@@ -486,11 +669,21 @@ export class MapPage {
       fillOpacity: 0,
       strokeColor: '#0085a9',
       strokeWeight: 2,
-      strokeOpacity: 1,
+      strokeOpacity: 0,
       center: pos
     });
-    this.animateCircle(this.circle);
-    // this.circle.bindTo('center', marker, 'position');
+
+    this. marker = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      icon: {
+        url: 'assets/img/leaves.gif',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      }
+    });
+
+    // this.animateCircle(this.circle);
+    this.circle.bindTo('center', this.marker, 'position');
   }
 
   create1stDummyCircle() {
@@ -505,11 +698,21 @@ export class MapPage {
       fillOpacity: 0,
       strokeColor: '#0085a9',
       strokeWeight: 2,
-      strokeOpacity: 1,
+      strokeOpacity: 0,
       center: pos
     });
-    this.animateCircle(this.circle1);
-    // this.circle.bindTo('center', marker, 'position');
+
+    this. marker1 = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      optimized: false,
+      icon: {
+        url: 'assets/img/leaves.gif',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      }
+    });
+    // this.animateCircle(this.circle1);
+    this.circle1.bindTo('center', this.marker1, 'position');
   }
 
   create2ndDummyCircle() {
@@ -524,12 +727,70 @@ export class MapPage {
       fillOpacity: 0,
       strokeColor: '#0085a9',
       strokeWeight: 2,
-      strokeOpacity: 1,
+      strokeOpacity: 0,
       center: pos
     });
-    this.animateCircle(this.circle2);
 
-    // this.circle.bindTo('center', marker, 'position');
+    this. marker2 = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      optimized: false,
+      icon: {
+        url: 'assets/img/leaves.gif',
+        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+      }
+    });
+
+    // this.animateCircle(this.circle2);
+
+    
+
+    this.circle2.bindTo('center', this.marker2, 'position');
+  }
+
+  createCoco1(){
+    var pos = this.target.coco1_coord; 
+
+    this.coco1 = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      optimized: false,
+      icon: {
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
+        anchor: new google.maps.Point(0,15)
+      }
+    });
+  }
+
+  createCoco2(){
+    var pos = this.target.coco2_coord; 
+
+    this.coco2 = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      optimized: false,
+      icon: {
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
+        anchor: new google.maps.Point(0,15)
+      }
+    });
+  }
+
+  createCoco3(){
+    var pos = this.target.coco3_coord; 
+
+    this.coco3 = new google.maps.Marker({
+      position : pos,
+      map: this.map,
+      optimized: false,
+      icon: {
+        url: 'assets/img/coco.gif',
+        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
+        anchor: new google.maps.Point(0,15)
+      }
+    });
   }
 
   //animate the circle

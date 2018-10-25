@@ -23,6 +23,7 @@ loading: Loading;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    private view: ViewController,
     public target:TargetProvider,
     public loadingCtrl:LoadingController,
     public api: ApiProvider
@@ -68,5 +69,11 @@ loading: Loading;
         this.dismissLoading();
     });
   }
+
+  closeModal(){
+    if (this.view){
+      this.view.dismiss();
+    }
+  } 
 
 }

@@ -12,6 +12,7 @@ import {Echo} from 'laravel-echo-ionic';
 // import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { LoginPage } from '../pages/login/login';
 import { MenuPage } from '../pages/menu/menu';
+import { MapPage } from '../pages/map/map';
 import { google } from "google-maps";
 
 @Component({
@@ -55,38 +56,41 @@ export class MyApp {
       this.splashScreen.hide();
     });
 
+
+
     this.echo = new Echo({
         broadcaster: 'socket.io' ,
         host: this.target.hostname
     });
 
-    // this.echo.channel("event1")
-    // .listen("ExampleEvent", e=>{
-    //     console.log(e);
-    // })
-
     this.echo.channel("game-over")
     .listen("gameOver", e=>{
         console.log(e.data);
-        // console.log(this.target.cat_id);
         if (e.data == this.target.cat_id){
             this.target.event.publish('GameOver');
         }
-    })
+    });
 
-    platform.registerBackButtonAction(() => {
+    this.echo.channel("refresh-coconuts")
+    .listen("refreshCoconuts", e=>{
+        console.log("before: " + this.target.coco1_coord);
+        this.target.setCoordsCoco(e.data[0].lat,e.data[0].lng,e.data[1].lat,e.data[1].lng,e.data[2].lat,e.data[2].lng);
+        console.log("after: " + this.target.coco1_coord);
+    });
+
+    this.platform.registerBackButtonAction(() => {
  
       let nav = app.getActiveNav()[0];
       let activeView = nav.getActive();                
    
-      if(activeView.name === "LoginPage") {
+      if(activeView.name === "MapPage") {
    
-          if (nav.canGoBack()){ //Can we go back?
-              nav.pop();
-          } else {
+        //   if (nav.canGoBack()){ //Can we go back?
+        //       nav.pop();
+        //   } else {
               this.alert = this.alertCtrl.create({
-                  title: 'App termination',
-                  message: 'Do you want to close the app?',
+                  title: 'Quit Game?',
+                  message: 'Do you want to close this game?',
                   buttons: [{
                       text: 'Cancel',
                       role: 'cancel',
@@ -96,13 +100,14 @@ export class MyApp {
                   },{
                       text: 'Close App',
                       handler: () => {
-                          this.platform.exitApp(); // Close this application
+                          this.nav.pop(); // Close this application
                       }
                   }]
               });
               this.alert.present();
           }
-      }
-  });
-  }
+        });
+    }
+  
+
 }

@@ -37,12 +37,6 @@ public questions : Array<any>;
   closeModal(){
     if (this.view){
       this.view.dismiss();
-      // console.log("saving level, level number is "+ this.target.lev_id);
-      // this.api.saveGame(this.target.username,this.target.cat_id,this.target.lev_id,this.target.score).subscribe(
-      //   res => {
-      //     console.log(res);
-      //   }
-      // )
     }
 
 

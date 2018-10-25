@@ -264,4 +264,22 @@ export class ApiProvider {
     })
   }
 
+  //checks for visited trees from database
+  refresh(){
+    return this.http.get(this.target.baseUrl + '/update/' + this.target.username)
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return res.json();
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  //sets the visited tree to false
+  updateCoco(coco:any){
+
+  }
+
 }
