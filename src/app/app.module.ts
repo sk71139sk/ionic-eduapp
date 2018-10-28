@@ -12,6 +12,7 @@ import { MapPage } from '../pages/map/map';
 import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { ModalPage } from '../pages/modal/modal';
 import {ResultsPage} from '../pages/results/results';
+import {ProfilePage} from '../pages/profile/profile';
 
 import { MenuPage } from '../pages/menu/menu';
 import {LoginPage} from '../pages/login/login';
@@ -31,6 +32,7 @@ const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
     ModalPage,
     LoginPage,
     ResultsPage,
+    ProfilePage,
     TabsNavigationPage,
     MenuPage 
   ],
@@ -47,6 +49,7 @@ const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
     MapPage,
     LoginPage,
     ResultsPage,
+    ProfilePage,
     MenuPage,
     TabsNavigationPage
   ],

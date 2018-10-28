@@ -44,9 +44,9 @@ export class TargetProvider {
   public coord_Default = new google.maps.LatLng(-89.345309, 115.326015);
 
   // coconut trees
-  public coco1 : boolean = false;
-  public coco2 : boolean = false;
-  public coco3 : boolean = false;
+  public coco1 : boolean ;
+  public coco2 : boolean ;
+  public coco3 : boolean;
   public coco1_coord = this.coord_Default ;
   public coco2_coord =this.coord_Default ;
   public coco3_coord = this.coord_Default ;

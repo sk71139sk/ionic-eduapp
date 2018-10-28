@@ -2,16 +2,42 @@ ion-app._gmaps_cdv_ .nav-decor{
   background-color: transparent !important;
 }
 
-page-map {
+.ios{
+  page-map{
+    .score{
+      z-index: 3 !important;
+      display: grid !important ;
+      text-align: center;
+      // border-style: solid;
+      font-family: "Lucida Console";
+      position: absolute  !important;
+      height: 13% !important;
+      right: 12% !important;
+      top: 3% !important;
+    }
+  }
+}
 
-    // #map {
-    //   height: 80%;
-    //   width: 80%;
-    //   border-style: solid;
-    //   border-width: 2px;
-    //   border-radius: 10px;
-    //   border-color: teal;
-    // }
+.md{
+  page-map{
+    .score{
+      z-index: 3 !important;
+      display: grid !important ;
+      text-align: center;
+      // border-style: solid;
+      font-family: "Lucida Console";
+      position: absolute  !important;
+      height: 13% !important;
+      right: 12% !important;
+      top: 0% !important;
+    }
+  }
+}
+
+
+//default styles for all platforms
+
+page-map {
     .viewArea{
       display: grid !important;
       // justify-content: center !important;
@@ -19,7 +45,7 @@ page-map {
       // align-content: center !important;
       height: 100%;
       width: 100%;
-      border-radius: 5%;
+      overflow: hidden !important;
       position: relative !important;
       z-index: 0;
 
@@ -37,6 +63,7 @@ page-map {
       width: 200%;
       left: -50%;
       top: -50%;
+      overflow: hidden !important;
       background: transparent !important;
       z-index: 1;
       position: absolute !important;
@@ -49,16 +76,126 @@ page-map {
     .center_button{
       display: grid !important ;
       align-self: center !important;
-      margin-left: 45% !important;
-      margin-right: 55% !important;
+      border-radius: 40%;
+      background-color: gold;
+      left: 33%!important;
+      width: 32%!important;
+      height: 8%;
       justify-content: center!important;
       align-items:center!important;
       z-index: 2;
       position: absolute  !important;
+
       // right: 45% !important;
       // left: 45% !important;
-      bottom: 5%;
+      bottom: -0.18% !important;
     }
+
+    #coco-animated{
+      display: grid !important ;
+      background-image: url("/assets/img/coco.png");
+      height: 15%;
+      background-size: contain;
+      width: 8%;
+      background-repeat: no-repeat;
+      position:relative  !important;
+      z-index: 4 !important;
+      animation: cocoMove 0.25s infinite;
+      visibility: hidden;
+    }
+
+    #coin-animated{
+      display: grid !important ;
+      background-image: url("/assets/img/coin.gif");
+      height: 15%;
+      background-size: contain;
+      width: 8%;
+      background-repeat: no-repeat;
+      position:relative  !important;
+      z-index: 4 !important;
+      animation: coinMove 0.25s infinite;
+      visibility: hidden;
+    }
+
+    @keyframes coinMove {
+      0%{
+        visibility: visible;
+        top: 0%;
+        left: 50%;
+      }
+      100%{
+        top: -41%;
+        left: 72%;
+        visibility: hidden;
+      }
+    }
+
+    @keyframes cocoMove {
+      0%{
+        visibility: visible;
+        top: -20%;
+        left: 50%;
+      }
+      100%{
+        top: -70%;
+        left: 72%;
+        visibility: hidden;
+      }
+    }
+
+    #ui_top{
+      display: grid !important ;
+      background-image: url("/assets/img/UI_top.png");
+      background-size: contain;
+      // height: 29%;
+      // width: 100%;
+      background-repeat: no-repeat;
+      position:relative  !important;
+      z-index: 2 !important;
+    }
+
+    .head{
+      z-index: 3 !important;
+      display: grid !important ;
+      text-align: center;
+      font-family: "Lucida Console";
+      margin-bottom:5%;
+      width: 64%;
+      height: 8%;
+      margin-top: 5%;
+      margin-left: 6%;
+      position: absolute  !important;
+    }
+    #ui_bottom{
+      // height: 29%;
+      // width:100%;
+      display: grid !important ;
+      background-image: url("/assets/img/UI_bottom.png");
+      background-size: contain;
+      // height: 29%;
+      background-repeat: no-repeat;
+      position:relative  !important;
+      z-index: 2 !important;
+      bottom: 1%;
+      top: 260%;
+    }
+
+
+    // #ui_left{
+    //   border-width: 2px;
+    //   border-color: black;
+    //   border-style: solid;
+    //   height: 29%;
+    //   // display: grid !important ;
+    //   background-image: url("/assets/img/UI_left.png");
+    //   background-size: contain;
+    //   // height: 29%;
+    //   background-repeat: no-repeat;
+    //   position:relative  !important;
+    //   z-index: 3 !important;
+    //   // bottom: 1%;
+    //   top: 78%;
+    // }
 }
 // .geolocation-btn{
 //   margin: 0px;

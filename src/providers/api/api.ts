@@ -281,7 +281,7 @@ export class ApiProvider {
     return this.http.get(this.target.baseUrl + '/visit/' + this.target.username+'&' + cocos)
     .map((res:Response)=> { 
       if(res.status = 200){
-        return res.json();
+        return;
      }
      else{
        console.log('server timeout');

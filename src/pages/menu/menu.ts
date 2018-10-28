@@ -5,6 +5,7 @@ import { TargetProvider } from '../../providers/target/target';
 import { LoadingController, Loading, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { ResultsPage } from '../results/results';
+import {ProfilePage} from '../profile/profile';
 
 
 
@@ -187,8 +188,7 @@ cats : any ={
     this.modalRs = this.modalCtrl.create(ResultsPage,{data: catId});  
   }
 
-
-
-
-
+  openProfile(){
+    this.navCtrl.push(ProfilePage);
+  }
 }

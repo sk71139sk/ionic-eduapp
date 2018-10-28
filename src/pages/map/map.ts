@@ -24,8 +24,6 @@ export class MapPage {
   markers: any;
   autocomplete: any;
   google: any;
-  GoogleAutocomplete: any;
-  GooglePlaces: any;
   geocoder: any
   autocompleteItems: any;
   public watch: any;
@@ -70,8 +68,6 @@ export class MapPage {
   ) {
     this.geocoder = new google.maps.Geocoder;
     let elem = document.createElement("div")
-    this.GooglePlaces = new google.maps.places.PlacesService(elem);
-    this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = {
       input: ''
     };
@@ -108,7 +104,6 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
-      this.api.visit('coco1').subscribe();
     })
 
     this.target.event.subscribe('coco2False',()=>{
@@ -116,7 +111,6 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
-      this.api.visit('coco2').subscribe();
     })
 
     this.target.event.subscribe('coco3False',()=>{
@@ -124,7 +118,6 @@ export class MapPage {
         url: 'assets/img/rock.png',
         scaledSize: new google.maps.Size(5, 5,'vh','vh')
       })
-      this.api.visit('coco3').subscribe();
     })
 
     this.target.event.subscribe('coco1True',()=>{
@@ -221,11 +214,12 @@ export class MapPage {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
-        swal("Nice!","You earned 10 coconuts!",'success');
-
+        // swal("Nice!","You earned 10 coconuts!",'success');
+        this.animateCoco(10);
         setTimeout(()=>{
           this.target.event.publish('coco1False');
-        },1000)
+        },2500)
+        this.api.visit('coco1').subscribe();
         this.target.coco1 = false;
 
       }
@@ -235,11 +229,12 @@ export class MapPage {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
-        swal("Nice!","You earned 10 coconuts!",'success');
-
+        // swal("Nice!","You earned 10 coconuts!",'success');
+        this.animateCoco(10);
         setTimeout(()=>{
           this.target.event.publish('coco2False');
-        },1000)
+        },2500)
+        this.api.visit('coco2').subscribe();
         this.target.coco2 = false;
 
       }
@@ -249,11 +244,12 @@ export class MapPage {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
-        swal("Nice!","You earned 10 coconuts!",'success');
-
+        // swal("Nice!","You earned 10 coconuts!",'success');
+        this.animateCoco(10);
         setTimeout(()=>{
           this.target.event.publish('coco3False');
-        },1000)
+        },2500)
+        this.api.visit('coco3').subscribe();
         this.target.coco3 = false;
 
       }
@@ -391,7 +387,8 @@ export class MapPage {
       zoom: 18,
       disableDefaultUI: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      tilt: 45
+      clickableIcons: false,
+      styles : [ { "elementType": "geometry", "stylers": [ { "color": "#f5f5f5" } ] }, { "elementType": "labels", "stylers": [ { "visibility": "off" } ] }, { "elementType": "labels.icon", "stylers": [ { "visibility": "off" } ] }, { "elementType": "labels.text.fill", "stylers": [ { "color": "#616161" } ] }, { "elementType": "labels.text.stroke", "stylers": [ { "color": "#f5f5f5" } ] }, { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] }, { "featureType": "administrative.land_parcel", "stylers": [ { "visibility": "off" } ] }, { "featureType": "administrative.land_parcel", "elementType": "labels.text.fill", "stylers": [ { "color": "#bdbdbd" } ] }, { "featureType": "administrative.neighborhood", "stylers": [ { "visibility": "off" } ] }, { "featureType": "landscape", "stylers": [ { "visibility": "off" } ] }, { "featureType": "landscape", "elementType": "geometry.fill", "stylers": [ { "color": "#004040" }, { "visibility": "on" }, { "weight": 1 } ] }, { "featureType": "landscape.natural", "stylers": [ { "color": "#008040" } ] }, { "featureType": "landscape.natural.landcover", "elementType": "geometry.fill", "stylers": [ { "color": "#004000" }, { "visibility": "simplified" } ] }, { "featureType": "poi", "stylers": [ { "visibility": "off" } ] }, { "featureType": "poi", "elementType": "geometry", "stylers": [ { "color": "#eeeeee" } ] }, { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [ { "color": "#757575" } ] }, { "featureType": "poi.park", "elementType": "geometry", "stylers": [ { "color": "#e5e5e5" } ] }, { "featureType": "poi.park", "elementType": "labels.text.fill", "stylers": [ { "color": "#9e9e9e" } ] }, { "featureType": "road", "stylers": [ { "color": "#004040" } ] }, { "featureType": "road", "elementType": "geometry", "stylers": [ { "color": "#ffffff" } ] }, { "featureType": "road", "elementType": "geometry.fill", "stylers": [ { "color": "#444444" } ] }, { "featureType": "road", "elementType": "geometry.stroke", "stylers": [ { "color": "#626262" }, { "visibility": "on" } ] }, { "featureType": "road", "elementType": "labels.icon", "stylers": [ { "visibility": "off" } ] }, { "featureType": "road.arterial", "elementType": "labels.text.fill", "stylers": [ { "color": "#757575" } ] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [ { "color": "#dadada" } ] }, { "featureType": "road.highway", "elementType": "labels.text.fill", "stylers": [ { "color": "#616161" } ] }, { "featureType": "road.local", "elementType": "labels.text.fill", "stylers": [ { "color": "#9e9e9e" } ] }, { "featureType": "transit", "stylers": [ { "visibility": "off" } ] }, { "featureType": "transit.line", "elementType": "geometry", "stylers": [ { "color": "#e5e5e5" } ] }, { "featureType": "transit.station", "elementType": "geometry", "stylers": [ { "color": "#eeeeee" } ] }, { "featureType": "water", "elementType": "geometry", "stylers": [ { "color": "#0000ff" }, { "lightness": 30 } ] }, { "featureType": "water", "elementType": "labels.text.fill", "stylers": [ { "color": "#9e9e9e" } ] } ]
     });
   }
 
@@ -460,8 +457,8 @@ export class MapPage {
         console.log("this is score response: ", res.score);
         // this.target.setScore(res.score); 
 
-        localStorage.setItem('score', res.score);
-        this.target.setScore(parseInt(res.score));  //assign score to a variable
+        // localStorage.setItem('score', res.score);
+          //assign score to a variable
         console.log("this is score stored:", localStorage.getItem('score'));
         this.alertScore = this.alertCtrl.create({
           title: 'Score',
@@ -469,7 +466,13 @@ export class MapPage {
         })
 
         this.alertScore.present();
+
+
+
         this.alertScore.onDidDismiss(() => {
+          this.animateCoin(parseInt(res.score));
+            this.target.setScore(parseInt(res.score));
+            console.log("score: "+ this.target.score);           
           console.log("Current Level for this score: ", this.target.lev_id);
           console.log("Levels Remaining after showing score: ", this.target.numLev);
 
@@ -534,23 +537,23 @@ export class MapPage {
     this.stopTracking();
   }
 
-  updateSearchResults() {
-    if (this.autocomplete.input == '') {
-      this.autocompleteItems = [];
-      return;
-    }
-    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
-        this.autocompleteItems = [];
-        if (predictions) {
-          this.zone.run(() => {
-            predictions.forEach((prediction) => {
-              this.autocompleteItems.push(prediction);
-            });
-          });
-        }
-      });
-  }
+  // updateSearchResults() {
+  //   if (this.autocomplete.input == '') {
+  //     this.autocompleteItems = [];
+  //     return;
+  //   }
+  //   this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+  //     (predictions, status) => {
+  //       this.autocompleteItems = [];
+  //       if (predictions) {
+  //         this.zone.run(() => {
+  //           predictions.forEach((prediction) => {
+  //             this.autocompleteItems.push(prediction);
+  //           });
+  //         });
+  //       }
+  //     });
+  // }
 
   selectSearchResult(item) {
     this.clearMarkers();
@@ -883,6 +886,26 @@ export class MapPage {
           this.loading = null;
     }
 
+  }
+
+  animateCoin(score:number){
+    let obj = document.getElementById('coin');
+    obj.id = 'coin-animated';
+    score = score/4;
+    setTimeout(()=>{
+      obj.id = 'coin';
+    },(score*1000)
+    )
+  }
+
+  animateCoco(score:number){
+    let obj = document.getElementById('coco');
+    obj.id = 'coco-animated';
+    score = score/4;
+    setTimeout(()=>{
+      obj.id = 'coco';
+    },(score*1000)
+    )
   }
 
 }
