@@ -215,9 +215,10 @@ export class MapPage {
       , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
         // swal("Nice!","You earned 10 coconuts!",'success');
-        this.animateCoco(10);
+        this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco1False');
+          this.target.setCoconuts(this.target.cocoPoints);
         },2500)
         this.api.visit('coco1').subscribe();
         this.target.coco1 = false;
@@ -230,9 +231,10 @@ export class MapPage {
       , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
         // swal("Nice!","You earned 10 coconuts!",'success');
-        this.animateCoco(10);
+        this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco2False');
+          this.target.setCoconuts(this.target.cocoPoints);
         },2500)
         this.api.visit('coco2').subscribe();
         this.target.coco2 = false;
@@ -245,9 +247,10 @@ export class MapPage {
       , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
         // swal("Nice!","You earned 10 coconuts!",'success');
-        this.animateCoco(10);
+        this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco3False');
+          this.target.setCoconuts(this.target.cocoPoints);
         },2500)
         this.api.visit('coco3').subscribe();
         this.target.coco3 = false;
@@ -889,6 +892,9 @@ export class MapPage {
   }
 
   animateCoin(score:number){
+    if (score > 10){
+      score = 10;
+    }
     let obj = document.getElementById('coin');
     obj.id = 'coin-animated';
     score = score/4;
@@ -899,6 +905,9 @@ export class MapPage {
   }
 
   animateCoco(score:number){
+    if (score > 10){
+      score = 10;
+    }
     let obj = document.getElementById('coco');
     obj.id = 'coco-animated';
     score = score/4;

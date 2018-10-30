@@ -7,10 +7,10 @@
 <ion-header>
 
   <ion-navbar hideBackButton color="teal">
-    <ion-title>Categories </ion-title>
+    <ion-title>Games </ion-title>
     <ion-fab top right>
-      <button ion-button icon-only  (click)="openProfile()">
-          <ion-icon name="person"></ion-icon>
+      <button ion-button clear icon-only  (click)="openProfile()">
+          <ion-icon color="white" name="contact"></ion-icon>
       </button>
   </ion-fab>
   </ion-navbar>
@@ -25,13 +25,13 @@
 
   <ion-segment [(ngModel)]="catType">
     <ion-segment-button value="All">
-      All
+      New
     </ion-segment-button>
     <ion-segment-button value="Saved">
-      Saved
+      Load
     </ion-segment-button>
     <ion-segment-button value="Completed">
-      Completed
+      Results
     </ion-segment-button>
   </ion-segment>
   <div>
@@ -39,7 +39,13 @@
         <ion-item *ngFor="let cat of getData('All')" (click)="startGame(cat.cat_id,cat.cat_name)"><p>{{cat.cat_name}} </p> </ion-item>
     </ion-list>
     <ion-list *ngIf= "catType == 'Saved'"> 
-      <ion-item *ngFor="let cat of getData('Saved')" (click)="loadGame(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item>
+      <!-- <ion-item *ngFor="let cat of getData('Saved')" (click)="loadGame(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item> -->
+      <ion-item-sliding *ngFor="let cat of getData('Saved')" >
+          <ion-item  (click)="loadGame(cat.cat_id,cat.cat_name)" ><p>{{cat.cat_name}} </p> </ion-item>
+          <ion-item-options>
+            <button ion-button color="danger" (click)="removeSavedGame(cat.cat_id)">Delete</button>
+          </ion-item-options>
+      </ion-item-sliding>
     </ion-list>
     <ion-list *ngIf= "catType == 'Completed'"> 
       <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item>

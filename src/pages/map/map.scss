@@ -106,7 +106,7 @@ page-map {
 
     #coin-animated{
       display: grid !important ;
-      background-image: url("/assets/img/coin.gif");
+      background-image: url("../assets/img/coin.gif");
       height: 15%;
       background-size: contain;
       width: 8%;
@@ -145,7 +145,7 @@ page-map {
 
     #ui_top{
       display: grid !important ;
-      background-image: url("/assets/img/UI_top.png");
+      background-image: url("../assets/img/UI_top.png");
       background-size: contain;
       // height: 29%;
       // width: 100%;
@@ -170,7 +170,7 @@ page-map {
       // height: 29%;
       // width:100%;
       display: grid !important ;
-      background-image: url("/assets/img/UI_bottom.png");
+      background-image: url("../assets/img/UI_bottom.png");
       background-size: contain;
       // height: 29%;
       background-repeat: no-repeat;

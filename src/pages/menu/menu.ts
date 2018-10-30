@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
 import{ ApiProvider } from '../../providers/api/api'
 import { TargetProvider } from '../../providers/target/target';
 import { LoadingController, Loading, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { ResultsPage } from '../results/results';
 import {ProfilePage} from '../profile/profile';
+
 
 
 
@@ -44,6 +45,7 @@ cats : any ={
 // data: any;
   constructor(
     private alertCtrl: AlertController,
+    private viewCtrl: ViewController,
     public modalCtrl : ModalController,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController, 
@@ -52,6 +54,19 @@ cats : any ={
     public navParams: NavParams) 
     {
       this.loadCat();
+      this.api.getUserData().subscribe(
+        (res)=>{
+          this.target.points = res.points;
+          this.target.coconuts = res.coconuts;
+          this.target.firstName = res.fName;
+          this.target.lastName = res.lName;
+          // this.target.photo =  res.photo;
+          if(res.photo != null){
+            this.target.setPhoto(res.photo);
+          }
+
+        }
+      );
  
     }
 
@@ -103,7 +118,7 @@ cats : any ={
     
   }
 
-  loadGame(value:any){
+  loadGame(value:any,name:any){
     this.target.cat_id = value;
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
@@ -168,6 +183,16 @@ cats : any ={
 
   getData(type: any) {
     return this.cats[type];
+  }
+
+  removeSavedGame(catId: any){
+    this.api.removeSaved(catId).subscribe(
+      (res)=>{
+        this.loadCat();
+        location.reload();
+      }
+    );
+
   }
 
   showAlert() {

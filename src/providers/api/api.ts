@@ -15,6 +15,35 @@ export class ApiProvider {
 
   }
 
+  getUserData(){
+    return this.http.get(this.target.baseUrl + '/init/' + this.target.username)
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  updateDetails(){
+    let postData = new FormData();
+    postData.append('student_id' , this.target.username);
+    postData.append('fName' , this.target.firstName);
+    postData.append('lName' , this.target.lastName);
+    postData.append('photo' , this.target.pBase64);
+
+    return this.http.post(this.target.baseUrl +'updateDetails', postData)
+    .map((res:Response)=> { 
+      if(res.status = 200){
+         return res.json();
+      }
+      else{
+       return res.json();
+      } 
+    })
+  }
 
   getCategories(){
     // console.log('running function');
@@ -72,6 +101,29 @@ export class ApiProvider {
     })
   }
 
+  removeSaved(catId:any){
+    return this.http.get(this.target.baseUrl + 'removeSavedGame/'+ this.target.username +'&' + catId )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return ;
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
+  }
+
+  getLineChartData(){
+    return this.http.get(this.target.baseUrl + 'getLineChart/' + this.target.username )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return (res.json());
+    }
+    else{
+      console.log('server timeout');
+    }
+    })
+  }
 
   createSession(userId:any,catId:any){
     return this.http.get(this.target.baseUrl + '/createGame/'+ userId + '&'+ catId )

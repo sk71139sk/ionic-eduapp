@@ -16,18 +16,12 @@
 
 
 <ion-content >
-
-  <!-- <ion-list [hidden]="autocompleteItems.length == 0">
-    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-      {{ item.description }}
-    </ion-item>
-  </ion-list> -->
   <div class="head"><h3> {{this.target.cat_name}} </h3>  </div>
 
   <div class="score"> 
     <table>
-      <tr> <td> 120 </td></tr>
-      <tr> <td> 30 </td> </tr>
+      <tr> <td> {{this.target.points}} </td></tr>
+      <tr> <td> {{this.target.coconuts}} </td> </tr>
       <tr> <td> {{this.target.score}} </td></tr>
     </table>
   </div>
@@ -44,4 +38,30 @@
 
 </ion-content>
 
+<!-- <ion-content>
+<ion-grid no-padding  >
+  <ion-row id= "ui_top">  
+        <ion-col col-2> </ion-col>
+        <ion-col col-8 class="head"> {{this.target.cat_name}}</ion-col>
+        <ion-col col-2>
+          <ion-row> <ion-col> {{this.target.points}} </ion-col> </ion-row>
+          <ion-row> <ion-col> {{this.target.coconuts}}</ion-col> </ion-row>
+          <ion-row> <ion-col> {{this.target.score}}</ion-col> </ion-row>
+        </ion-col>
+  </ion-row>
+  <ion-row class="viewArea">
+    <ion-col>
+      <div id='map' > </div>
+    </ion-col>
+  </ion-row>
+  <ion-row id="ui_bottom">
+    <ion-col col-4> </ion-col>
+    <ion-col col-4 >
+        <button *ngIf= "!checking" class="center_button" ion-button clear  (click)="tryGeolocation()"> Check </button>
+        <button *ngIf= "checking" class="center_button" ion-button clear  (click)="stopGeo()"> Stop </button>
+    </ion-col>
+    <ion-col col-4> </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content> -->
 

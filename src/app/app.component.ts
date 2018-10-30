@@ -35,11 +35,12 @@ export class MyApp {
     public splashScreen: SplashScreen)
     {
     platform.ready().then(() => {
+
       //check local storage for a stored student id
       if((localStorage.getItem('student_id'))){
+
         //call api to check whether token is valid or student exists.
         this.api.checkToken(localStorage.getItem('student_id')).subscribe((res)=>{
-            console.log("response HERE:" +res.status);
             this.target.username = localStorage.getItem('student_id');
             this.nav.push(MenuPage);
         });
@@ -48,16 +49,13 @@ export class MyApp {
         this.nav.push(LoginPage);
       }
 
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.backgroundColorByHexString("#008080");
-        // this.statusBar.styleDefault();
-        this.statusBar.show();
+      this.statusBar.show();
       this.splashScreen.hide();
     });
 
 
-
+    //connect and listen to the server
     this.echo = new Echo({
         broadcaster: 'socket.io' ,
         host: this.target.hostname
@@ -78,16 +76,13 @@ export class MyApp {
         console.log("after: " + this.target.coco1_coord);
     });
 
+    //listen to back button events
     this.platform.registerBackButtonAction(() => {
  
       let nav = app.getActiveNav()[0];
       let activeView = nav.getActive();                
    
       if(activeView.name === "MapPage") {
-   
-        //   if (nav.canGoBack()){ //Can we go back?
-        //       nav.pop();
-        //   } else {
               this.alert = this.alertCtrl.create({
                   title: 'Quit Game?',
                   message: 'Do you want to close this game?',
@@ -100,7 +95,7 @@ export class MyApp {
                   },{
                       text: 'Close App',
                       handler: () => {
-                          this.nav.pop(); // Close this application
+                          this.nav.pop(); 
                       }
                   }]
               });

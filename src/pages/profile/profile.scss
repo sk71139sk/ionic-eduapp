@@ -1,3 +1,103 @@
 page-profile {
 
+    ion-icon{
+        color: white;
+    }
+
+    .profile-view{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        background-color:rgba(15, 54, 50, 0.1);
+    }
+
+    .profile-details-editor{
+        border-radius: 10%;
+        margin: 0;
+        position: relative;
+        border-color: rgba(77, 126, 190, 0.8);
+        background-color:rgba(77, 126, 190, 0.411);
+        border-style: solid;
+    }
+
+    .profile-details-container{
+        border-radius: 10%;
+        margin: 0;
+        position: relative;
+        border-color: rgba(77, 126, 190, 0.8);
+        background-color:rgba(77, 126, 190, 0.411);
+        border-style: solid;
+    }
+
+    .profile-picture {
+        border-radius: 100%;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        margin: auto;
+        width: 128px;
+        height: 128px;
+        overflow: hidden;
+    }
+        
+    .profile-picture img {
+        width: 128px;
+        border-radius: 100%;
+    }
+
+
+    .profile-points-container{
+        border-radius: 10%;
+        margin-top: 2%;
+        // padding: 2%;
+        width: 100%;
+        height: 15%;
+        border-color: rgba(77, 126, 190, 0.8);
+        background-color:rgba(77, 126, 190, 0.411);
+        border-style: solid;
+    }
+
+    .profile-points{
+        border-radius: 10%;
+        margin: 2%;
+        width: 10% !important;
+        border-color: rgba(76, 57, 94, 0.8);
+        // border-style: solid;
+        background-image: url('../assets/img/points.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .profile-coconuts{
+        border-radius: 10%;
+        margin: 2%;
+        width: 10%!important;
+        border-color: rgba(168, 137, 78, 0.8);
+        // border-style: solid;
+        background-image: url('../assets/img/coco.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .scoreboard-container{
+        border-radius: 10%;
+        margin-top: 2%;
+        // height: 50%;
+        position: relative;
+        border-color: rgba(77, 126, 190, 0.8);
+        background-color:rgba(77, 126, 190, 0.411);
+        border-style: solid;
+        overflow-y: scroll;
+    }
+    .text-points {
+        font-size: 25px;
+        margin-left: 2%;
+    }
+
+    .text-coconuts {
+        font-size: 25px;
+        margin-left: 2%;
+    }
+
+      
 }

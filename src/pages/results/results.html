@@ -2,7 +2,7 @@
   <ion-navbar  color="teal">
     <ion-title>Results</ion-title>
     <ion-fab top right>
-        <button ion-button icon-only  (click)="closeModal()">
+        <button ion-button icon-only clear (click)="closeModal()">
             <ion-icon name="close"></ion-icon>
         </button>
     </ion-fab>
@@ -14,7 +14,6 @@
 
 <ion-content padding>
   <h1> {{results.Category}} : Overview</h1>
-  <!-- <p> <strong> Overall Score: </strong> {{results.score}} / {{results.TotalPossibleScore}}</p> -->
   <ion-item>
     <ion-badge item-start> {{results.score}} / {{results.TotalPossibleScore}} </ion-badge>
     <ion-label > Overall Score</ion-label>
@@ -30,9 +29,7 @@
   </ion-item>
 
 
-  <!-- <p> <strong>Time Taken: </strong> {{results.time}}</p> -->
   <p> <em> {{results.Comment}} </em></p>
-  <!-- <p *ngFor="let data of results.results" > {{data.results}} </p> -->
   <ion-card class="cards" *ngFor="let data of results.results; let i = index">
       <ion-card-header  text-wrap> <strong> Level {{i+1}} </strong> 
         <ion-badge  style="margin-left:80%;"*ngIf="data.ScoreEarned != data.MaxScore"> {{data.ScoreEarned}}/{{data.MaxScore}} </ion-badge>

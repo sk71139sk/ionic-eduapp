@@ -1,6 +1,7 @@
 import { Injectable , NgZone} from '@angular/core';
 import {Events} from 'ionic-angular';
 import 'rxjs/add/operator/map';
+import { Img } from '../../../node_modules/ionic-angular/umd/components/img/img-interface';
 
 /*
   Generated class for the TargetProvider provider.
@@ -18,10 +19,25 @@ export class TargetProvider {
   //api address
   public baseUrl : string = "http://127.0.0.1/";
   public hostname :string = "http://127.0.0.1:6001";
-   // public baseUrl : string = "http://127.0.0.1/";
-  // public hostname :string = "http://127.0.0.1:6001";
+  // public baseUrl : string = "http://27.123.150.94/";
+  // public hostname :string = "http://27.123.150.94:6001";
+    // public baseUrl : string = "http://192.168.8.161/";
+    // public hostname :string = "http://192.168.8.161:6001";
 
 
+  //first run
+  firstRun : boolean = false;
+
+  //personal details
+  username : any;
+  firstName: any= 'Suhail';
+  lastName: any = 'Khan';
+  photo : any = '../../assets/img/default.png';
+  pBase64 : any ;
+
+
+
+  //general app config
   safeArea: any = 8;
   testLat: any = -18.147871;
   testLng: any = 178.443096;
@@ -30,12 +46,13 @@ export class TargetProvider {
   dummy2given : boolean ;
   quesFound : boolean ;
   cat_id :any;
-  username : any;
   cat_name : any;
   lev_id :any = 0;
   numLev: any ;
   public answers : Array<any> = [];
   public score : number =0;
+  public points: number = 0;
+  public coconuts:number = 0;
   public gameOver:boolean = false;
 
   //coords for dummy circles
@@ -43,7 +60,7 @@ export class TargetProvider {
   public coord_ausAid = new google.maps.LatLng(-18.147747, 178.446832);
   public coord_Default = new google.maps.LatLng(-89.345309, 115.326015);
 
-  // coconut trees
+  // coconut trees config
   public coco1 : boolean ;
   public coco2 : boolean ;
   public coco3 : boolean;
@@ -55,6 +72,11 @@ export class TargetProvider {
 
   public setScore(value:number){
     this.score = this.score + value;
+    this.points = this.points+ value;
+  }
+
+  public setCoconuts(value:number){
+    this.coconuts = this.coconuts + value;
   }
 
   public setCoordsCoco(lat1:any,lng1:any,lat2:any,lng2:any,lat3:any,lng3:any){
@@ -79,5 +101,8 @@ export class TargetProvider {
     });
   }
 
-
+  //set Photo
+  setPhoto(image:ImageData){
+    this.photo= "data:image/jpeg;base64,"+image;
+  }
 }

@@ -6,13 +6,81 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>profile</ion-title>
+  <ion-navbar color="teal">
+    <ion-title>Your Profile</ion-title>
+    <ion-fab top right>
+        <button clear ion-button icon-only  (click)="editProfile()">
+            <ion-icon name="create"></ion-icon>
+        </button>
+    </ion-fab>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <h1>Niggers</h1>
+<ion-content  >
+  <ion-label *ngIf="target.firstName == null"> Please enter your details in the Edit Menu</ion-label>
+  <ion-grid class="profile-view">
+      <ion-row class="profile-details-editor" *ngIf="visibility1" >
+        <ion-row> 
+            <ion-col> 
+              <ion-row>
+                <ion-col>   
+                  <ion-item style="background-color: transparent;">
+                      <ion-label color="primary" stacked > First Name</ion-label>
+                      <ion-input type="text" [(ngModel)]="target.firstName"></ion-input>
+                  </ion-item>
+                  <ion-item style="background-color: transparent;">
+                      <ion-label color="primary" stacked > Last Name</ion-label>
+                      <ion-input type="text" [(ngModel)]="target.lastName"></ion-input>
+                  </ion-item>    
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col class="profile-picture">  <img class="profile-picture" [src]="target.photo" /></ion-col>
+        </ion-row>
+        <ion-row >
+          <ion-col col-3 >
+              <button ion-button outline (click)="update()"> Update </button>
+          </ion-col>
+          <ion-col col-5 >
+              <button ion-button outline  (click)="openGallery()"> Change Picture</button>
+          </ion-col>
+          <ion-col col-3>
+              <button ion-button outline color="danger"  (click)="closeUpdate()"> Cancel</button>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+    <ion-row class="profile-details-container" *ngIf="visibility2" >
+      <ion-col> 
+        <ion-row>
+          <ion-col> <h3> {{target.firstName}} {{target.lastName}} </h3> </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col> <h5> {{target.username}} </h5> </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col class="profile-picture">  <img class="profile-picture" [src]="target.photo" /> </ion-col>
+    </ion-row>
+    <ion-row class="profile-points-container">
+          <ion-col col-auto class="profile-points"> </ion-col> 
+          <ion-col class="text-points">{{target.points}} </ion-col>
+          <ion-col col-auto class="profile-coconuts"></ion-col> 
+          <ion-col class="text-coconuts">{{target.coconuts}} </ion-col>
+    </ion-row>
+    <ion-row class="scoreboard-container">
+      <ion-label style="text-align: center;"> <h4>Score per game</h4>   </ion-label>
+          <canvas #lineCanvas></canvas>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer  >
+  <ion-toolbar color="teal">
+    <button class="btnLogOut" clear ion-button icon-only  (click)="logOut()">
+      <ion-icon name="log-out"></ion-icon>
+    </button>    
+  </ion-toolbar>
+
+</ion-footer>
+<!-- background-image: url("../assets/img/coin.gif"); -->
