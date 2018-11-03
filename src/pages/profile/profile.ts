@@ -19,6 +19,7 @@ export class ProfilePage {
 
   visibility1: boolean = false;
   visibility2: boolean = true;
+  buttonDisabled: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public target: TargetProvider, public api: ApiProvider, public camera:Camera) {
   }
@@ -29,6 +30,7 @@ export class ProfilePage {
   }
 
   editProfile(){
+    this.buttonDisabled = true;
     this.visibility1 = true;
     this.visibility2 = false;
   }
@@ -76,15 +78,17 @@ openGallery(){
   update(){
     this.api.updateDetails().subscribe(
       (res)=>{
-        alert(res);
-        this.visibility2 = true;
-        this.visibility1 = false;
+
+
       }
   );
+  this.buttonDisabled = false;
+  this.visibility2 = true;
+  this.visibility1 = false;
 }
 
   closeUpdate(){
-
+    this.buttonDisabled = false;
     this.visibility2 = true;
     this.visibility1 = false;
   }

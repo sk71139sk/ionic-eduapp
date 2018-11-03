@@ -38,13 +38,13 @@
         <ion-card-content > 
                 <ion-list>
                   <ion-item *ngFor="let question of data.Questions">
-                    <ion-item>
-                        <span><strong> Question {{question.number}}  </strong><div [innerHTML]="question.content"> </div> </span> 
+                    <ion-item text-wrap>
+                        <span><strong> Question {{question.number}}  </strong><div [innerHTML]="question.content" > </div> </span> 
                     </ion-item>
                     <ion-item>
-                        <div *ngIf="question.correct == true" class="correct"> Your Answer: {{question.ansGiven}} <ion-icon  name="checkmark"></ion-icon> </div>
-                        <div *ngIf="question.correct == false" class="inCorrect"> Your Answer: {{question.ansGiven}} <ion-icon  name="close"></ion-icon> </div>
-                        <div *ngIf="question.correct == false" class="yellow"> Correct Answer: {{question.correctAns}}</div>
+                        <div *ngIf="question.correct == true" class="correct" text-wrap> Your Answer: {{question.ansGiven}} <ion-icon  name="checkmark"></ion-icon> </div>
+                        <div *ngIf="question.correct == false" class="inCorrect" text-wrap> Your Answer: {{question.ansGiven}} <ion-icon  name="close"></ion-icon> </div>
+                        <div *ngIf="question.correct == false" class="yellow" text-wrap> Correct Answer: {{question.correctAns}}</div>
                     </ion-item>           
                   </ion-item>
                 </ion-list>

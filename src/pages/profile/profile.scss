@@ -5,8 +5,8 @@ page-profile {
     }
 
     .profile-view{
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 98vw;
         display: flex;
         background-color:rgba(15, 54, 50, 0.1);
     }
@@ -16,16 +16,16 @@ page-profile {
         margin: 0;
         position: relative;
         border-color: rgba(77, 126, 190, 0.8);
-        background-color:rgba(77, 126, 190, 0.411);
         border-style: solid;
+        width: 98vw;
     }
 
     .profile-details-container{
         border-radius: 10%;
         margin: 0;
         position: relative;
+        width: 98vw;
         border-color: rgba(77, 126, 190, 0.8);
-        background-color:rgba(77, 126, 190, 0.411);
         border-style: solid;
     }
 
@@ -34,10 +34,11 @@ page-profile {
         -webkit-box-sizing: content-box;
         -moz-box-sizing: content-box;
         box-sizing: content-box;
-        margin: auto;
+        margin-right: 5vw;
         width: 128px;
         height: 128px;
-        overflow: hidden;
+        float: right;
+        // overflow: hidden;
     }
         
     .profile-picture img {
@@ -50,17 +51,16 @@ page-profile {
         border-radius: 10%;
         margin-top: 2%;
         // padding: 2%;
-        width: 100%;
-        height: 15%;
+        width: 98vw;
+        height: 15vh;
         border-color: rgba(77, 126, 190, 0.8);
-        background-color:rgba(77, 126, 190, 0.411);
         border-style: solid;
     }
 
     .profile-points{
         border-radius: 10%;
         margin: 2%;
-        width: 10% !important;
+        width: 10vw !important;
         border-color: rgba(76, 57, 94, 0.8);
         // border-style: solid;
         background-image: url('../assets/img/points.png');
@@ -71,7 +71,7 @@ page-profile {
     .profile-coconuts{
         border-radius: 10%;
         margin: 2%;
-        width: 10%!important;
+        width: 10vw!important;
         border-color: rgba(168, 137, 78, 0.8);
         // border-style: solid;
         background-image: url('../assets/img/coco.png');
@@ -84,18 +84,20 @@ page-profile {
         margin-top: 2%;
         // height: 50%;
         position: relative;
+        width: 98vw;
         border-color: rgba(77, 126, 190, 0.8);
-        background-color:rgba(77, 126, 190, 0.411);
         border-style: solid;
-        overflow-y: scroll;
+        overflow: scroll;
     }
     .text-points {
-        font-size: 25px;
+        // font-size: 16px;v 
+        font-size: 10vw;
         margin-left: 2%;
     }
 
     .text-coconuts {
-        font-size: 25px;
+        // font-size: 16px; 
+        font-size: 10vw;
         margin-left: 2%;
     }
 

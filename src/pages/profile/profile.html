@@ -9,7 +9,7 @@
   <ion-navbar color="teal">
     <ion-title>Your Profile</ion-title>
     <ion-fab top right>
-        <button clear ion-button icon-only  (click)="editProfile()">
+        <button  clear ion-button icon-only [disabled]='buttonDisabled' (click)="editProfile()">
             <ion-icon name="create"></ion-icon>
         </button>
     </ion-fab>
@@ -40,14 +40,14 @@
             <ion-col class="profile-picture">  <img class="profile-picture" [src]="target.photo" /></ion-col>
         </ion-row>
         <ion-row >
-          <ion-col col-3 >
-              <button ion-button outline (click)="update()"> Update </button>
+          <ion-col col-4 >
+              <button ion-button  (click)="update()"color="secondary"> Save</button>
           </ion-col>
-          <ion-col col-5 >
-              <button ion-button outline  (click)="openGallery()"> Change Picture</button>
+          <ion-col col-4 >
+              <button ion-button   (click)="openGallery()"> Change</button>
           </ion-col>
-          <ion-col col-3>
-              <button ion-button outline color="danger"  (click)="closeUpdate()"> Cancel</button>
+          <ion-col col-4>
+              <button ion-button  color="danger"  (click)="closeUpdate()"> Cancel</button>
           </ion-col>
         </ion-row>
       </ion-row>
