@@ -39,8 +39,6 @@
 </ion-content> -->
 
 <ion-content no-padding >
-
-
   <ion-grid class="game-view-container" no-padding>
 
     <ion-row class="top-view-pane"> 
@@ -58,48 +56,40 @@
             </ion-row>
       </ion-col>
     </ion-row>
-    <ion-row class="map-view-pane">
+    <ion-row class="map-view-pane"> 
+        <ion-fab  bottom left>
+            <button [style.visibility]="buttonShown" ion-button   (click)="removeDummies()">
+                <ion-icon item-start name="star-half"> Help me </ion-icon> 
+            </button>
+        </ion-fab>
       <div id="coin"></div>
       <div id="coco"></div>
       <div id="map"> </div>  
     </ion-row>
     <ion-row class="base-view-pane" justify-content-center> 
-      <ion-col col-3>
-        <button ion-button icon-only clear>
-          <ion-icon name="undo"> </ion-icon>
+      <ion-col col-2>
+        <button ion-button icon-only clear (click) = "backButton()">
+          <ion-icon name="undo" > </ion-icon>
         </button>  
       </ion-col>
-      <ion-col col-6 align-self-center>
-          <button *ngIf= "!checking" class="check_button" ion-button   (click)="tryGeolocation()" color="gold"> Check </button>
+      <!-- && target.coconuts >= target.cocoExpense -->
+      <!-- *ngIf="target.numCircles > 1" -->
+      <ion-col col-1> 
+
+      </ion-col>
+      <ion-col  col-auto >
+          <button *ngIf= "!checking" class="check_button" ion-button    (click)="tryGeolocation()" color="gold"> Check </button>
           <button *ngIf= "checking" class="stop_button" ion-button   (click)="stopGeo()" color="danger"> Stop </button>
       </ion-col>
-      <ion-col col-3> 
-          <button ion-button icon-only clear>
-              <ion-icon name="information-circle"> </ion-icon>
+      <ion-col col-1> </ion-col>
+      <ion-col col-2> 
+          <button ion-button icon-only clear (click) = "infoButton()">
+              <ion-icon name="information-circle" > </ion-icon>
             </button> 
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<!-- <ion-col col-6 class="game-name-block">{{this.target.cat_name}}</ion-col>
-<ion-col col-1> </ion-col>
-<ion-col col-1 class="game-elements-container"  text-wrap>
-  <ion-row> 
-    <ion-col>1 </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>2 </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>3 </ion-col>
-  </ion-row>
-</ion-col>
-<ion-col col-3 class="game-score-container"  text-wrap>
-  <ion-row class="points-value"> 100</ion-row>
-  <ion-row class="coco-value"> 200</ion-row>
-  <ion-row class="coins-value"> 300</ion-row>
-</ion-col> -->
 
 
 

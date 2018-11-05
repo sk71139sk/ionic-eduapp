@@ -10,6 +10,8 @@ import 'rxjs/add/operator/filter';
 import { ModalController } from 'ionic-angular';
 import { ModalPage } from '../modal/modal';
 import swal from 'sweetalert2';
+import { MenuPage } from '../menu/menu';
+import { ScoreboardPage } from '../scoreboard/scoreboard';
 
 @Component({
   selector: 'page-map',
@@ -22,6 +24,8 @@ export class MapPage {
   // testLat: any = -18.147871;
   // testLng: any = 178.443096;
   markers: any;
+  backAlert: any;
+  infoAlert: any;
   autocomplete: any;
   google: any;
   geocoder: any
@@ -36,8 +40,8 @@ export class MapPage {
   public alertScore: any;
   public loading :any;
   public modalQs: any;
+  public modalSc:any;
   public endAlert: any;
-  public numcircles: number = null;
   public circle1: any;
   public circle2: any;
   public marker:any;
@@ -46,6 +50,7 @@ export class MapPage {
   public coco1 : any;
   public coco2 : any;
   public coco3 : any;
+  public buttonShown: any = 'hidden';
 
   //alertGiven: boolean = false;
   // loading: any;
@@ -67,29 +72,22 @@ export class MapPage {
     public backgroundGeolocation: BackgroundGeolocation
   ) {
     this.geocoder = new google.maps.Geocoder;
-    let elem = document.createElement("div")
-    this.autocomplete = {
-      input: ''
-    };
-    this.autocompleteItems = [];
     this.markers = [];
 
     this.target.alertGiven = false;
     this.target.dummy1given = false;
     this.target.dummy2given = false;
     this.target.quesFound = false;
-    // this.loadFirstLevel(this.target.cat_id);
-    // this.loadNextLevel();
+
     let initial: number = 0;
-    // let data: any = false;
 
 
-    // this.event.publish('GameOver', data);
 
-    //localStorage.setItem('userScore', initial.toString() );
+
+
+
     if (localStorage.getItem('userScore')) {
       localStorage.setItem('userScore', '0');
-      // console.log("works");
     }
 
   }
@@ -167,13 +165,14 @@ export class MapPage {
 
     this.loadMap();
     // this.loadFirstLevel(this.target.cat_id);
+    this.create1stDummyCircle();
+    this.create2ndDummyCircle();
     this.loadNextLevel();
     // this.createEndAlert();
     this.createModalQs();
     // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
     this.createCircle(this.target.testLat, this.target.testLng);
-    this.create1stDummyCircle();
-    this.create2ndDummyCircle();
+
     this.createCoco1();
     this.createCoco2();
     this.createCoco3();
@@ -215,6 +214,7 @@ export class MapPage {
       , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
         // swal("Nice!","You earned 10 coconuts!",'success');
+        // this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco1False');
@@ -231,6 +231,7 @@ export class MapPage {
       , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
         // this.target.setScore(this.target.cocoPoints);
         // swal("Nice!","You earned 10 coconuts!",'success');
+        // this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco2False');
@@ -245,8 +246,8 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed',()=>{
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
       , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
-        // this.target.setScore(this.target.cocoPoints);
-        // swal("Nice!","You earned 10 coconuts!",'success');
+
+        // this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco3False');
@@ -261,7 +262,12 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
         , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)/* && (this.checking) */) {
+
         // this.stopGeo();
+        this.target.numcircles--;
+        if (this.target.numcircles == 1){
+          this.buttonShown = 'hidden';
+        }
         let dummyAlert = this.alertCtrl.create(
           {
             title: 'Oooops',
@@ -289,7 +295,12 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
         this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)/* && (this.checking) */) {
+
         // this.stopGeo();
+        this.target.numcircles--;
+        if (this.target.numcircles == 1){
+          this.buttonShown = 'hidden';
+        }
         let dummyAlert2 = this.alertCtrl.create(
           {
             title: 'Oooops',
@@ -318,6 +329,7 @@ export class MapPage {
     google.maps.event.addListener(this.map, 'center_changed', () => {
       if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
         this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)/* && (this.checking) */) {
+
         // this.stopGeo();
         this.marker.setIcon({
           url: 'assets/img/sparks.gif',
@@ -363,23 +375,6 @@ export class MapPage {
               }
             }) 
         }
-        // else {
-        //   this.circle.setMap(null);
-        //   this.event.subscribe('GameOver', () => {
-        //       console.log("Received Game Over")
-        //       this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
-        //       this.createEndAlert();
-        //       // this.endAlert.onDidDismiss(() => {
-
-        //       //   document.location.href = 'index.html';
-        //       //   // this.navCtrl.popToRoot();
-        //       //   // this.target.alertGiven = false;
-        //       // })
-        //       // this.loadMap();
-            
-
-        //   })
-        // }
       }
     });
   }
@@ -418,6 +413,25 @@ export class MapPage {
     console.log("the current level is ", this.target.lev_id);
     console.log("the current score is: ",this.target.score);
     this.showLoading();
+    if (this.target.numcircles == 2){
+      console.log("numcircle = ", this.target.numcircles);
+          this.api.getOneRandomCoords().subscribe(
+            res => {
+              this.createDummyCircle(res.lat, res.lng);
+              this.buttonShown = 'visible';
+            }
+          );
+    }
+    else if (this.target.numcircles == 3){
+      console.log("numcircle = ", this.target.numcircles);
+      this.api.getTwoRandomCoords().subscribe(
+        res => {
+          this.createDummyCircle(res[0].lat, res[0].lng);
+          this.createAnotherDummyCircles(res[1].lat, res[1].lng);
+          this.buttonShown = 'visible';
+        }
+      );
+    }
     this.api.loadLevel(this.target.cat_id, (this.target.lev_id + 1) , this.target.username, this.target.score).subscribe(
       res => {
         this.target.testLat = res.lat;
@@ -495,26 +509,26 @@ export class MapPage {
 
         });
         if (res.percentage == 100) {
-          this.numcircles = 1;
+          this.target.numcircles = 1;
         }
         else if (res.percentage > 50) {
-          this.numcircles = 2;
-          console.log("numcircle = ", this.numcircles);
-          this.api.getOneRandomCoords().subscribe(
-            res => {
-              this.createDummyCircle(res.lat, res.lng);
-            }
-          );
+          this.target.numcircles = 2;
+          // console.log("numcircle = ", this.target.numcircles);
+          // this.api.getOneRandomCoords().subscribe(
+          //   res => {
+          //     this.createDummyCircle(res.lat, res.lng);
+          //   }
+          // );
         }
         else {
-          this.numcircles = 3;
-          console.log("numcircle = ", this.numcircles);
-          this.api.getTwoRandomCoords().subscribe(
-            res => {
-              this.createDummyCircle(res[0].lat, res[0].lng);
-              this.createAnotherDummyCircles(res[1].lat, res[1].lng);
-            }
-          );
+          this.target.numcircles = 3;
+          // console.log("numcircle = ", this.target.numcircles);
+          // this.api.getTwoRandomCoords().subscribe(
+          //   res => {
+          //     this.createDummyCircle(res[0].lat, res[0].lng);
+          //     this.createAnotherDummyCircles(res[1].lat, res[1].lng);
+          //   }
+          // );
         }
         let temp: any = parseInt(localStorage.getItem('userScore')) + parseInt(res.score)
         localStorage.setItem('userScore', temp);
@@ -540,23 +554,6 @@ export class MapPage {
     this.stopTracking();
   }
 
-  // updateSearchResults() {
-  //   if (this.autocomplete.input == '') {
-  //     this.autocompleteItems = [];
-  //     return;
-  //   }
-  //   this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-  //     (predictions, status) => {
-  //       this.autocompleteItems = [];
-  //       if (predictions) {
-  //         this.zone.run(() => {
-  //           predictions.forEach((prediction) => {
-  //             this.autocompleteItems.push(prediction);
-  //           });
-  //         });
-  //       }
-  //     });
-  // }
 
   selectSearchResult(item) {
     this.clearMarkers();
@@ -564,10 +561,6 @@ export class MapPage {
 
     this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
       if (status === 'OK' && results[0]) {
-        // let position = {
-        //     lat: results[0].geometry.location.lat,
-        //     lng: results[0].geometry.location.lng
-        // };
         let marker = new google.maps.Marker({
           position: results[0].geometry.location,
           animation: google.maps.Animation.DROP,
@@ -635,23 +628,13 @@ export class MapPage {
         map: this.map
       });
       this.markers.push(marker);
-      // if(position.coords){
-      //   let toast = this.toastCtrl.create({
-      //     message: "Testing Location",
-      //     duration: 8000,
-      //     showCloseButton: true
-      //   })
-      //   toast.present();
-      // }
+
 
 
       // Run update inside of Angular's zone
       this.zone.run(() => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        this.coco1 = this.target.coco1_coord;
-        this.coco2 = this.target.coco2_coord;
-        this.coco3 = this.target.coco3_coord;
       });
 
     }, (err) => {
@@ -694,7 +677,6 @@ export class MapPage {
       }
     });
 
-    // this.animateCircle(this.circle);
     this.circle.bindTo('center', this.marker, 'position');
   }
 
@@ -769,8 +751,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
-        anchor: new google.maps.Point(0,15)
+        scaledSize: new google.maps.Size(15, 15,'px','px'),
+        origin: new google.maps.Point(0,0), 
+        anchor: new google.maps.Point(0, 0) 
       }
     });
   }
@@ -784,8 +767,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
-        anchor: new google.maps.Point(0,15)
+        scaledSize: new google.maps.Size(15, 15,'px','px'),
+        origin: new google.maps.Point(0,0), 
+        anchor: new google.maps.Point(0, 0) 
       }
     });
   }
@@ -799,8 +783,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh'),
-        anchor: new google.maps.Point(0,15)
+        scaledSize: new google.maps.Size(15, 15,'px','px'),
+        origin: new google.maps.Point(0,0), 
+        anchor: new google.maps.Point(0, 0) 
       }
     });
   }
@@ -860,12 +845,12 @@ export class MapPage {
   end(){
     this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
     swal({ 
-      title: "Congratulations",
-       text: "You Win",   
-       html: ' <img src="assets/img/game_over.png" height="100px"> </img>'
+      title: "Congratulations",  
+       html: '<h2> Game Complete, You earned '+ this.target.score + ' points</h2> <p> <img src="assets/img/game_over.png" height="100px"> </img> </p>'
       }).then(()=>
     {
-      this.navCtrl.pop();
+      this.target.setPoints(this.target.score);
+      this.navCtrl.setRoot(MenuPage);
       this.target.cat_id = 0;
     })
   }
@@ -916,5 +901,76 @@ export class MapPage {
     },(score*1000)
     )
   }
+
+  backButton(){
+    console.log("inside backbutton");
+    this.backAlert = this.alertCtrl.create({
+      title: 'Quit Game?',
+      message: 'Do you want to close this game?',
+      buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+              console.log('Application exit prevented!');
+          }
+      },{
+          text: 'Close Game',
+          handler: () => {
+              this.navCtrl.setRoot(MenuPage);
+          }
+      }]
+  });
+  this.backAlert.present();
+  }
+
+  infoButton(){
+
+    // this.infoAlert.present();
+    this.modalSc = this.modalCtrl.create(ScoreboardPage);
+    this.modalSc.present();
+  }
+
+  removeDummies(){
+
+    swal({
+      title: 'Are You Sure?',
+      html: '<h2> Removing dummy hints will use 200 coconuts! </h2>',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        if(this.target.coconuts >= 200){
+            this.buttonShown = 'hidden';
+            this.target.setCoconuts(-(this.target.cocoExpense));
+            if (this.target.numcircles == 2){
+              this.circle1.setCenter(this.target.coord_Default);
+              console.log("removed dummy");
+              this.api.updateCoco().subscribe();
+            }
+            else if(this.target.numcircles == 3)
+            this.circle1.setCenter(this.target.coord_Default);
+            this.circle2.setCenter(this.target.coord_Default);
+            console.log("removed dummies");
+            this.api.updateCoco().subscribe();
+        }
+        else{
+          swal({
+            title: 'Ooops',
+            html: '<h2> You Do Not Have enough Coconuts </h2>',
+            type: 'error'
+          })
+        }
+      }
+
+      })
+    }
+  
+
+
+// this.target.coconuts >= this.target.cocoExpense
+  
 
 }

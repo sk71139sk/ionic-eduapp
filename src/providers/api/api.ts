@@ -206,7 +206,7 @@ export class ApiProvider {
   }
 
   loadLevel(cat_id:any,levNum:any,userId:any,score:any){
-    return this.http.get(this.target.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score)
+    return this.http.get(this.target.baseUrl + '/loadLevel/' + cat_id +'&'+ levNum +'&'+ userId +'&'+ score +'&' + this.target.numcircles)
     .map((res:Response)=> { 
       return res.json();
     })
@@ -228,6 +228,19 @@ export class ApiProvider {
 
   loadScore(catId:any,lnum:any,answerString: any){
     return  this.http.get(this.target.baseUrl + 'checkAns/'+ this.target.username+'&'+ catId + '&' + lnum  + '&' + answerString )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+         return (res.json());
+      }
+      else{
+        console.log('server timeout');
+      }
+
+    })
+  }
+
+  loadScoreBoard(){
+    return  this.http.get(this.target.baseUrl + '/scoreBoard/' + this.target.cat_id )
     .map((res:Response)=> { 
       if(res.status = 200){
          return (res.json());
@@ -280,7 +293,7 @@ export class ApiProvider {
   }
 
   endGame(userId:any,catId:any,levNum:any,score:any){
-    return this.http.get(this.target.baseUrl + '/endGame/'+ userId + '&'+ catId+ '&'+ levNum + '&'+ score )
+    return this.http.get(this.target.baseUrl + '/endGame/'+ userId + '&'+ catId+ '&'+ levNum + '&'+ score+'&' + this.target.numcircles )
     .map((res:Response)=> { 
       if(res.status = 200){
         console.log('game end session updated');
@@ -305,7 +318,7 @@ export class ApiProvider {
   }
 
   saveGame(username:any,catId:any,lNum:any,score:any){
-    return this.http.get(this.target.baseUrl + '/saveGame/'+ username + '&'+ catId+ '&'+ lNum + '&'+ score )
+    return this.http.get(this.target.baseUrl + '/saveGame/'+ username + '&'+ catId+ '&'+ lNum + '&'+ score+'&' + this.target.numcircles )
     .map((res:Response)=> { 
       if(res.status = 200){
         return res;
@@ -342,8 +355,16 @@ export class ApiProvider {
   }
 
   //sets the visited tree to false
-  updateCoco(coco:any){
-
+  updateCoco(){
+    return this.http.get(this.target.baseUrl + '/updateCoconuts/' + this.target.username +'&'+ this.target.coconuts )
+    .map((res:Response)=> { 
+      if(res.status = 200){
+        return;
+     }
+     else{
+       console.log('server timeout');
+     }
+    })
   }
 
 }

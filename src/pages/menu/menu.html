@@ -41,7 +41,7 @@
     <ion-list *ngIf= "catType == 'Saved'"> 
       <!-- <ion-item *ngFor="let cat of getData('Saved')" (click)="loadGame(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item> -->
       <ion-item-sliding *ngFor="let cat of getData('Saved')" >
-          <ion-item  (click)="loadGame(cat.cat_id,cat.cat_name)" ><p>{{cat.cat_name}} </p> </ion-item>
+          <ion-item  (click)="loadGame(cat.cat_id,cat.cat_name,cat.numCircles)" ><p>{{cat.cat_name}} </p> </ion-item>
           <ion-item-options>
             <button ion-button color="danger" (click)="removeSavedGame(cat.cat_id)">Delete</button>
           </ion-item-options>

@@ -5,6 +5,12 @@ page-results {
     // .radio-gray .radio-icon  {
     //     background-color: aquamarine !important;
     //   }
+      .correct-tick{
+        color: green;
+      }
+      .incorrect-tick{
+        color: red;
+      }
       .cards {
           background-color : rgba($color:teal,$alpha: 0.3)
       }

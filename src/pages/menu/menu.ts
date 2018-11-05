@@ -103,6 +103,7 @@ cats : any ={
     this.target.cat_id = value;
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
+    console.log('{menu} NUM: ', this.target.numcircles);
     this.showLoadingGame();
     this.api.createSession(this.target.username,this.target.cat_id).subscribe();
     this.api.checkNumLevel(this.target.cat_id).subscribe(
@@ -118,10 +119,11 @@ cats : any ={
     
   }
 
-  loadGame(value:any,name:any){
+  loadGame(value:any,name:any,num:any){
     this.target.cat_id = value;
     this.target.cat_name = name;
     console.log('{menu} category id: ',this.target.cat_id);
+    console.log('{menu} NUM: ', this.target.numcircles);
     this.showLoadingGame();
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {

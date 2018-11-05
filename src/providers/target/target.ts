@@ -30,8 +30,8 @@ export class TargetProvider {
 
   //personal details
   username : any;
-  firstName: any= 'Suhail';
-  lastName: any = 'Khan';
+  firstName: any ;
+  lastName: any  ;
   photo : any = '../../assets/img/default.png';
   pBase64 : any ;
 
@@ -49,6 +49,7 @@ export class TargetProvider {
   cat_name : any;
   lev_id :any = 0;
   numLev: any ;
+  public numcircles: number = 1;
   public answers : Array<any> = [];
   public score : number =0;
   public points: number = 0;
@@ -69,9 +70,13 @@ export class TargetProvider {
   public coco3_coord = this.coord_Default ;
 
   public cocoPoints : number = 10;
+  public cocoExpense : number = 200;
 
   public setScore(value:number){
     this.score = this.score + value;
+  }
+
+  public setPoints(value:number){
     this.points = this.points+ value;
   }
 
@@ -80,7 +85,7 @@ export class TargetProvider {
   }
 
   public setCoordsCoco(lat1:any,lng1:any,lat2:any,lng2:any,lat3:any,lng3:any){
-    this.zone.run(() => {
+
       this.coco1_coord = new google.maps.LatLng(lat1, lng1);
       this.coco1 = true;
       this.coco2_coord = new google.maps.LatLng(lat2, lng2);
@@ -89,16 +94,14 @@ export class TargetProvider {
       this.coco3 = true;
       this.event.publish('coconuts');
 
-    });
+
   }
 
   public setCoords(lat1:any,lng1:any,lat2:any,lng2:any,lat3:any,lng3:any){
-    this.zone.run(() => {
       this.coco1_coord = new google.maps.LatLng(lat1, lng1);
       this.coco2_coord = new google.maps.LatLng(lat2, lng2);
       this.coco3_coord = new google.maps.LatLng(lat3, lng3);
       this.event.publish('cocoRefresh');
-    });
   }
 
   //set Photo

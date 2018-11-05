@@ -17,6 +17,7 @@ import {ProfilePage} from '../pages/profile/profile';
 
 import { MenuPage } from '../pages/menu/menu';
 import {LoginPage} from '../pages/login/login';
+import {ScoreboardPage} from '../pages/scoreboard/scoreboard';
 import { LocationTracker } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { ToastController } from 'ionic-angular';
@@ -34,6 +35,7 @@ const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
     MapPage,
     ModalPage,
     LoginPage,
+    ScoreboardPage,
     ResultsPage,
     ProfilePage,
     TabsNavigationPage,
@@ -52,6 +54,7 @@ const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
     MapPage,
     LoginPage,
     ResultsPage,
+    ScoreboardPage,
     ProfilePage,
     MenuPage,
     TabsNavigationPage

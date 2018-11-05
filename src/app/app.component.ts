@@ -69,11 +69,20 @@ export class MyApp {
         }
     });
 
+    this.echo.channel("score-changed")
+    .listen("gameOver", e=>{
+        console.log(e.data);
+        if (e.data == this.target.cat_id){
+            this.target.event.publish('score-changed');
+        }
+    });
+
+
     this.echo.channel("refresh-coconuts")
     .listen("refreshCoconuts", e=>{
-        console.log("before: " + this.target.coco1_coord);
+        console.log(e.data[0].lat,e.data[0].lng,e.data[1].lat,e.data[1].lng,e.data[2].lat,e.data[2].lng);
         this.target.setCoordsCoco(e.data[0].lat,e.data[0].lng,e.data[1].lat,e.data[1].lng,e.data[2].lat,e.data[2].lng);
-        console.log("after: " + this.target.coco1_coord);
+
     });
 
     //listen to back button events
