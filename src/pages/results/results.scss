@@ -2,25 +2,29 @@ page-results {
         ion-icon{
           color: white;
       }
-    // .radio-gray .radio-icon  {
-    //     background-color: aquamarine !important;
-    //   }
+
+      ion-card  {
+        // filter: blur(2px);
+          background-image: url('../assets/img/bkg_ion-card.jpg')!important;
+          background-size: 100% 100% !important;
+        }
+
       .correct-tick{
         color: green;
       }
+
       .incorrect-tick{
         color: red;
-      }
-      .cards {
-          background-color : rgba($color:teal,$alpha: 0.3)
       }
 
       .correct{
         background-color:rgba($color: green, $alpha: 0.1)
       }
+
       .inCorrect{
         background-color:rgba($color: red, $alpha: 0.1)
       }
+
       .yellow{
         background-color:rgba($color: yellow, $alpha: 0.2)
       }

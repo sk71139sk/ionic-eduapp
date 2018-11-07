@@ -19,10 +19,10 @@ export class TargetProvider {
   //api address
   // public baseUrl : string = "http://127.0.0.1/";
   // public hostname :string = "http://127.0.0.1:6001";
-  public baseUrl : string = "http://27.123.150.94/";
-  public hostname :string = "http://27.123.150.94:6001";
-    // public baseUrl : string = "http://192.168.8.161/";
-    // public hostname :string = "http://192.168.8.161:6001";
+  // public baseUrl : string = "http://27.123.150.94/";
+  // public hostname :string = "http://27.123.150.94:6001";
+    public baseUrl : string = "http://192.168.8.161/";
+    public hostname :string = "http://192.168.8.161:6001";
 
 
   //first run

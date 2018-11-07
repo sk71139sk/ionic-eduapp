@@ -225,9 +225,9 @@ export class MapPage {
   createAndListen() {
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
-      , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)&& (this.checking)) {
-        this.stopGeo();
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
+        /* this.stopGeo(); */
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco1False');
@@ -240,9 +240,9 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
-      , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)&& (this.checking)) {
-        this.stopGeo();
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
+        /* this.stopGeo(); */
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco2False');
@@ -255,10 +255,10 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
-      , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)&& (this.checking)) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+      , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
 
-        this.stopGeo();
+        /* this.stopGeo(); */
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco3False');
@@ -271,10 +271,10 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
-        , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)&& (this.checking)) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
+        , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)/* && (this.checking) */) {
 
-        this.stopGeo();
+        /* this.stopGeo(); */
         this.target.numcircles--;
         if (this.target.numcircles == 1){
           this.buttonShown = 'hidden';
@@ -304,10 +304,10 @@ export class MapPage {
     });
 
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */,
-        this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)&& (this.checking)) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
+        this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)/* && (this.checking) */) {
 
-        this.stopGeo();
+        /* this.stopGeo(); */
         this.target.numcircles--;
         if (this.target.numcircles == 1){
           this.buttonShown = 'hidden';
@@ -338,10 +338,10 @@ export class MapPage {
 
     // main listener
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */,
-        this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)&& (this.checking)) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
+        this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)/* && (this.checking) */) {
 
-        this.stopGeo();
+        /* this.stopGeo(); */
         this.marker.setIcon({
           url: 'assets/img/sparks.gif',
           scaledSize: new google.maps.Size(15, 15,'vh','vh')
@@ -365,8 +365,7 @@ export class MapPage {
             url: 'assets/img/leaves.gif',
             scaledSize: new google.maps.Size(5, 5,'vh','vh')
           })
-          this.map.setZoom(16);
-          this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
+
           this.checkScore();
 
         })
@@ -479,21 +478,15 @@ export class MapPage {
       res => {
         console.log("check Score is called in Level " + this.target.lev_id);
         console.log("this is score response: ", res.score);
-        // this.target.setScore(res.score); 
-
-        // localStorage.setItem('score', res.score);
-          //assign score to a variable
+        //assign score to a variable
         console.log("this is score stored:", localStorage.getItem('score'));
-        this.alertScore = this.alertCtrl.create({
+
+        swal({
           title: 'Score',
-          subTitle: 'Score: ' + res.score 
-        })
+          html: '<h2> Coins Earned: '+ res.score +' </h2> <p> <img height="100px" src="assets/img/coin.gif"> </img> </p>',
+          type: 'success'
 
-        this.alertScore.present();
-
-
-
-        this.alertScore.onDidDismiss(() => {
+        }).then(()=>{
           this.animateCoin(parseInt(res.score));
             this.target.setScore(parseInt(res.score));
             console.log("score: "+ this.target.score);         
@@ -504,10 +497,6 @@ export class MapPage {
             console.log("published game over");
             this.circle.setMap(null);
             this.target.event.publish('GameOver');
-
-
-            // this.end();
-            // this.createEndAlert();
           }
           else{
               let data = true;
@@ -517,25 +506,15 @@ export class MapPage {
         });
         if (res.percentage == 100) {
           this.target.numcircles = 1;
+
         }
         else if (res.percentage > 50) {
           this.target.numcircles = 2;
-          // console.log("numcircle = ", this.target.numcircles);
-          // this.api.getOneRandomCoords().subscribe(
-          //   res => {
-          //     this.createDummyCircle(res.lat, res.lng);
-          //   }
-          // );
-        }
+
+         }
         else {
           this.target.numcircles = 3;
-          // console.log("numcircle = ", this.target.numcircles);
-          // this.api.getTwoRandomCoords().subscribe(
-          //   res => {
-          //     this.createDummyCircle(res[0].lat, res[0].lng);
-          //     this.createAnotherDummyCircles(res[1].lat, res[1].lng);
-          //   }
-          // );
+
         }
 
         if (this.target.numcircles == 1){
@@ -563,24 +542,6 @@ export class MapPage {
   stopGeo() {
     this.checking = false;
     this.stopTracking();
-  }
-
-
-  selectSearchResult(item) {
-    this.clearMarkers();
-    this.autocompleteItems = [];
-
-    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        let marker = new google.maps.Marker({
-          position: results[0].geometry.location,
-          animation: google.maps.Animation.DROP,
-          map: this.map
-        });
-        this.markers.push(marker);
-        this.map.setCenter(results[0].geometry.location);
-      }
-    })
   }
 
   clearMarkers() {
@@ -857,7 +818,7 @@ export class MapPage {
     this.api.endGame(this.target.username, this.target.cat_id, this.target.lev_id, this.target.score).subscribe();
     swal({ 
       title: "Congratulations",  
-       html: '<h2> Game Complete, You earned '+ this.target.score + ' points</h2> <p> <img src="assets/img/game_over.png" height="100px"> </img> </p>'
+       html: '<h2> Game Complete, You earned '+ this.target.score + ' points</h2>  <p> <img height="100px" src="assets/img/points.gif"> </img> </p>'
       }).then(()=>
     {
       this.target.setPoints(this.target.score);
@@ -979,9 +940,4 @@ export class MapPage {
       })
     }
   
-
-
-// this.target.coconuts >= this.target.cocoExpense
-  
-
 }

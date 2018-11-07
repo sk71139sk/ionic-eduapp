@@ -25,30 +25,79 @@
 
   <ion-segment [(ngModel)]="catType">
     <ion-segment-button value="All">
-      New
+        <ion-icon class="icons" name="create" > New </ion-icon>
     </ion-segment-button>
     <ion-segment-button value="Saved">
-      Load
+      <ion-icon class="icons" name="bookmark" > Load </ion-icon>
     </ion-segment-button>
     <ion-segment-button value="Completed">
-      Results
+        <ion-icon class="icons" name="list-box" > Result </ion-icon>
     </ion-segment-button>
   </ion-segment>
   <div>
     <ion-list *ngIf= "catType == 'All'"> 
-        <ion-item *ngFor="let cat of getData('All')" (click)="startGame(cat.cat_id,cat.cat_name)"><p>{{cat.cat_name}} </p> </ion-item>
+        <!-- <ion-item *ngFor="let cat of getData('All')" (click)="startGame(cat.cat_id,cat.cat_name)"><p>{{cat.cat_name}} </p> </ion-item> -->
+        <ion-card *ngFor="let cat of getData('All')" > 
+          <ion-card-header> <strong>{{cat.cat_name}}  </strong> </ion-card-header>
+          <ion-row>
+              <ion-col>
+                  <ion-icon class="info" name="radio-button-on" > {{cat.points}} </ion-icon>
+              </ion-col>
+              <ion-col>
+                  <ion-icon class="info" name="people" > {{cat.students}} </ion-icon>
+              </ion-col>
+            <ion-col> 
+              <button ion-button icon-only class="btnPlay" color= "teal" (click)="startGame(cat.cat_id,cat.cat_name)"> Play
+                <ion-icon item-end name="play" > </ion-icon>
+              </button>              
+            </ion-col>
+          </ion-row>
+        </ion-card>
     </ion-list>
     <ion-list *ngIf= "catType == 'Saved'"> 
-      <!-- <ion-item *ngFor="let cat of getData('Saved')" (click)="loadGame(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item> -->
-      <ion-item-sliding *ngFor="let cat of getData('Saved')" >
-          <ion-item  (click)="loadGame(cat.cat_id,cat.cat_name,cat.numCircles)" ><p>{{cat.cat_name}} </p> </ion-item>
-          <ion-item-options>
-            <button ion-button color="danger" (click)="removeSavedGame(cat.cat_id)">Delete</button>
-          </ion-item-options>
-      </ion-item-sliding>
+      <ion-card *ngFor="let cat of getData('Saved')" >
+        <ion-card-header> <strong>{{cat.cat_name}}  </strong> </ion-card-header>
+        <ion-card-content> 
+          <ion-item style="background: transparent; height: fit-content;">
+            <label> Score: </label>
+            <ion-badge> {{cat.earned}}/{{cat.points}} </ion-badge>
+          </ion-item>
+          <ion-item style="background: transparent; height: fit-content;">
+            <label> Level: </label>
+            <ion-badge> {{cat.level}}/{{cat.levels}} </ion-badge>
+          </ion-item>
+
+
+        </ion-card-content>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-only class="btnLoad" color= "secondary" (click)="loadGame(cat.cat_id,cat.cat_name,cat.numCircles)"> Load
+                <ion-icon item-end name="play" > </ion-icon>
+            </button>            
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-only class="btnDelete" color= "danger" (click)="deleteSavedPrompt(cat.cat_id,cat.cat_name)"> Delete
+                <ion-icon item-end name="close" > </ion-icon>
+            </button>            
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ion-list>
     <ion-list *ngIf= "catType == 'Completed'"> 
-      <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item>
+      <!-- <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item> -->
+      <ion-card *ngFor="let cat of getData('Completed')" >
+        <ion-card-header><strong>{{cat.cat_name}}  </strong>  </ion-card-header>
+        <ion-row>
+          <ion-col>
+              <button [disabled] ="!cat.completed" ion-button icon-only class="btnPlay" color= "teal" (click)="resultPage(cat.cat_id)"> View
+                  <ion-icon item-end name="log-in" > </ion-icon>
+              </button>  
+              <!-- <button *ngIf="cat.completed== '0' " ion-button icon-only class="btnPlay" color= "teal" (click)="resultPage(cat.cat_id)"> View
+                  <ion-icon item-end name="log-in" > </ion-icon>
+              </button>  -->
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ion-list>
   </div>
 

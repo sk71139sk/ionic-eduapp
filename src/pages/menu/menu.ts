@@ -6,6 +6,7 @@ import { LoadingController, Loading, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { ResultsPage } from '../results/results';
 import {ProfilePage} from '../profile/profile';
+import swal from 'sweetalert2';
 
 
 
@@ -198,6 +199,23 @@ cats : any ={
 
   getData(type: any) {
     return this.cats[type];
+  }
+
+  deleteSavedPrompt(cat_id:any,cat_name:any){
+    swal({
+      title: 'Are You Sure?',
+      html: '<h2> You will lose all saved progress from '+ cat_name +'! </h2>',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        this.removeSavedGame(cat_id);
+      }
+
+      })
   }
 
   removeSavedGame(catId: any){

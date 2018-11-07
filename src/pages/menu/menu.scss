@@ -2,10 +2,42 @@ page-menu {
     ion-icon{
         color: white;
     }
+    button{
+        border-radius: 10% !important;
+    }
+    ion-card  {
+        // filter: blur(2px);
+        background-image: url('../assets/img/bkg_ion-card.jpg')!important;
+        background-size: cover !important;
+        border-radius: 8% !important;
+    }
+
+    .icons{
+        color: black;
+        font-size: 3vh !important;
+    }
+
+    .info{
+        color: black;
+        font-size: 4vh !important;
+    }
+
+    .btnPlay{
+        float: right;
+        padding: 1vh !important;
+    }
+
+    .btnLoad{
+        float: left;
+        padding: 1vh !important;
+    }
+
+    .btnDelete{
+        float: right;
+        padding: 1vh !important;
+    }
+
     .viewArea{
-        // justify-content: center !important;
-        // align-items: center !important;
-        // align-content: center !important;
         height: 100%;
         width: 100%;
         border-radius: 5%;

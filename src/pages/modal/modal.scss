@@ -1,13 +1,15 @@
 page-modal {
-    // .radio-gray .radio-icon  {
-    //     background-color: aquamarine !important;
-    //   }
-      .cards {
-          background-color : rgba($color:teal,$alpha: 0.3)
+      ion-card  {
+          background-image: url('../assets/img/bkg_ion-card.jpg')!important;
+          background-size: cover !important;
       }
 
       .item  :focus {
         background-color:rgba($color: lightgreen, $alpha: 0.1)
+      }
+
+      .questionDiv{
+        background-color: rgba(93, 131, 138, 0.11);
       }
 
       

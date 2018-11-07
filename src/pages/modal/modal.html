@@ -14,11 +14,11 @@
 
 <ion-content padding>
  <ion-card class="cards" *ngFor="let data of questions; let i = index">
-    <ion-card-header  text-wrap> <p> Question {{i+1}}   </p> </ion-card-header>
+    <ion-card-header  text-wrap> <strong>Question {{i+1}} </strong>    </ion-card-header>
       <ion-card-content > 
               <ion-list radio-group  >
-                <ion-item text-wrap>
-                   <span> <div [innerHTML]="data.Content" > <!-- {{data.Content}} --> </div> </span> 
+                <ion-item class="questionDiv" text-wrap>
+                   <span> <div  [innerHTML]="data.Content" > <!-- {{data.Content}} --> </div> </span> 
                 </ion-item>
                 <ion-item class="item" *ngFor="let ans of data.answers" text-wrap>
                     <ion-label  ><p [innerHTML]="ans.ans_content"><!-- {{ans.ans_content}} --></p> </ion-label>
