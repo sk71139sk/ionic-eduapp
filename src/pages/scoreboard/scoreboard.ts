@@ -1,3 +1,4 @@
+//imports
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewController ,Loading,LoadingController } from 'ionic-angular';
@@ -10,18 +11,25 @@ import { ApiProvider } from '../../providers/api/api';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+ //declarations
 @IonicPage()
 @Component({
   selector: 'page-scoreboard',
   templateUrl: 'scoreboard.html',
 })
 export class ScoreboardPage {
-
   dataArray:any;
+  //defintion of variables
+  constructor(
+    public navCtrl: NavController,
+    private view:ViewController,
+    public target:TargetProvider,
+    public api:ApiProvider,
+    public navParams: NavParams
+  ){}
 
-  constructor(public navCtrl: NavController,private view:ViewController,public target:TargetProvider,public api:ApiProvider, public navParams: NavParams) {
-  }
-
+  //intial component loading and operations
   ionViewDidLoad() {
     console.log('ionViewDidLoad ScoreboardPage');
     this.api.loadScoreBoard().subscribe(
@@ -31,6 +39,7 @@ export class ScoreboardPage {
       }
     );
 
+    //subscribe to score change event to listen for events
     this.target.event.subscribe('score-changed',
       ()=>{
         this.api.loadScoreBoard().subscribe(
@@ -38,11 +47,10 @@ export class ScoreboardPage {
             console.log(res);
             this.dataArray = res;
           })
-        })
-    
-    
+        })     
   }
 
+  //close the view
   closeModal(){
     if (this.view){
       this.view.dismiss();

@@ -9,12 +9,13 @@ import {TargetProvider} from '../target/target';
 @Injectable()
 export class ApiProvider {
 
-
+/*  These are API calls, for detailed explanations of these api calls, refer
+    to the Laravel side as this side only makes calls and retrieves data 
+*/
 
   constructor(public http: Http, public target:TargetProvider) {
 
   }
-
   getUserData(){
     return this.http.get(this.target.baseUrl + '/init/' + this.target.username)
     .map((res:Response)=> { 
@@ -46,8 +47,6 @@ export class ApiProvider {
   }
 
   getCategories(){
-    // console.log('running function');
-
     return this.http.get(this.target.baseUrl + 'cat' )
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -60,8 +59,6 @@ export class ApiProvider {
   }
 
   getCategories2(username:any){
-    // console.log('running function');
-
     return this.http.get(this.target.baseUrl + 'catGet/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -74,8 +71,6 @@ export class ApiProvider {
   }
 
   getSavedCategories(username:any){
-    // console.log('running function');
-
     return this.http.get(this.target.baseUrl + 'SavedCat/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -88,8 +83,6 @@ export class ApiProvider {
   }
 
   getCompCategories(username:any){
-    // console.log('running function');
-
     return this.http.get(this.target.baseUrl + 'CompCat/' + username )
     .map((res:Response)=> { 
       if(res.status = 200){
@@ -138,8 +131,6 @@ export class ApiProvider {
   }
 
   getLevelCoords(cat_id:any){
-    // console.log('running function');
-
     return this.http.get(this.target.baseUrl + 'cat=' + cat_id )
     .map((res:Response)=> { 
       if(res.status = 200){

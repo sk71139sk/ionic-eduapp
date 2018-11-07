@@ -1,10 +1,11 @@
+//styles for this page
 page-login {
-  ion-icon{
-    color: black;
-  }
-  .eyeBtn{
-    z-index : 100;
-  }
+        ion-icon{
+          color: black;
+        }
+        .eyeBtn{
+          z-index : 100;
+        }
         #login {
           background: color($colors, teal);
         }
@@ -25,4 +26,4 @@ page-login {
           margin: 10px 0 0 0;
         }
       
-      }
+  } 

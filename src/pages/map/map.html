@@ -1,46 +1,8 @@
-<!-- <ion-header color="teal">
- <h4>Home  </h4>
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar>
-  </ion-toolbar>
-</ion-header> -->
-<!-- <ion-header>
-  <ion-navbar hideBackButton color="teal"> -->
-    <!-- <ion-item color="teal"> -->
-      <!-- <ion-badge item-start > Category: {{this.target.cat_name}} </ion-badge>
-      <ion-badge item-end > Score: {{this.target.score}}</ion-badge> -->
-    <!-- </ion-item> -->
-  <!-- </ion-navbar>
-</ion-header> -->
-
-
-
-<!-- <ion-content >
-  <div class="head"><h3> {{this.target.cat_name}} </h3>  </div>
-
-  <div class="score"> 
-    <table>
-      <tr> <td> {{this.target.points}} </td></tr>
-      <tr> <td> {{this.target.coconuts}} </td> </tr>
-      <tr> <td> {{this.target.score}} </td></tr>
-    </table>
-  </div>
-    <div class ="viewArea">
-        <div id='map'></div>
-        <div id="ui_top" > </div>
-        <div id="ui_bottom" > </div>
-        <div id="coin"></div>
-        <div id="coco"></div>
-
-        <button *ngIf= "!checking" class="center_button" ion-button clear  (click)="tryGeolocation()"> Check </button>
-        <button *ngIf= "checking" class="center_button" ion-button clear  (click)="stopGeo()"> Stop </button>
-    </div>
-
-</ion-content> -->
-
+<!-- This is the main page and most of the time is spent here by the user -->
 <ion-content no-padding >
+  <!-- Ion-Grid is used to lay out elements -->
   <ion-grid class="game-view-container" no-padding>
-
+    <!-- Top view pane houses the details of the game -->
     <ion-row class="top-view-pane"> 
       <ion-col>
           <ion-row>
@@ -56,27 +18,25 @@
           </ion-row>
       </ion-col>
     </ion-row>
+    <!--  Map view pane shows the map and the game elements -->
     <ion-row class="map-view-pane"> 
         <ion-fab  bottom left>
             <button [style.visibility]="buttonShown" ion-button   (click)="removeDummies()">
                 <ion-icon item-start name="star-half"> Help me </ion-icon> 
             </button>
         </ion-fab>
-      <!-- <div id="levels"> </div> -->
       <div id="coin"></div>
       <div id="coco"></div>
       <div id="map"> </div>  
     </ion-row>
+    <!-- Base View pane shows the buttons and actions the user can take in addition to the game -->
     <ion-row class="base-view-pane" justify-content-center> 
       <ion-col col-2>
         <button ion-button icon-only clear (click) = "backButton()">
           <ion-icon name="undo" > </ion-icon>
         </button>  
       </ion-col>
-      <!-- && target.coconuts >= target.cocoExpense -->
-      <!-- *ngIf="target.numCircles > 1" -->
       <ion-col col-1> 
-
       </ion-col>
       <ion-col  col-auto >
           <button *ngIf= "!checking" class="check_button" ion-button    (click)="tryGeolocation()" color="gold"> Check </button>

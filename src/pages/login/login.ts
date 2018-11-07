@@ -1,6 +1,6 @@
+//imports
 import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
-
 import {MenuPage} from '../menu/menu';
 import { TargetProvider } from '../../providers/target/target';
 import {ApiProvider} from '../../providers/api/api';
@@ -11,18 +11,19 @@ import {ApiProvider} from '../../providers/api/api';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+ //declarations
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
   passwordType: string = "password";
   passwordShown: boolean = false;
-
   loading: Loading;
-  credentials = { username: '', password: '' };
+  credentials = { username: '', password: '' 
+  };
 
   constructor(
     public toastCtrl: ToastController, private api: ApiProvider,
@@ -30,8 +31,9 @@ export class LoginPage {
     private navCtrl: NavController, private alertCtrl: AlertController,
     private loadingCtrl: LoadingController
   ) {}
-  // constructor(private api: ApiProvider, private navCtrl: NavController, private auth: AuthServiceProvider, private alertCtrl: AlertController, private loadingCtrl: LoadingController) { }
 
+
+  /* Login function sending username and password to API provider */
   login(username: any, password: any) {
     this.showLoading();
     this.api.checkUSPApi(username, password).subscribe(res => {
@@ -44,39 +46,31 @@ export class LoginPage {
         this.target.username = username;
         localStorage.setItem('student_id',username);
         this.navCtrl.push(MenuPage);
-      }
-    
+          }
+        
+        });
     }
-  );
-}
 
-
-// showPassword() {
-//   this.passwordShown = !this.passwordShown;
-
-//   if (this.passwordShown) {
-//     this.passwordType = 'text';
-//   } else {
-//     this.passwordType = 'password';
-//   }
-
-// }
-
-showPassword() {
-    this.passwordType = 'text';
-}
-hidePassword(){
-  this.passwordType = 'password';
-}
-
-showLoading() {
-  this.loading = this.loadingCtrl.create({
-    content: "Please wait...",
-    dismissOnPageChange: true
-    });
-    this.loading.present();
+  //toggle password visible
+  showPassword() {
+      this.passwordType = 'text';
   }
 
+  //toggle password invisible
+  hidePassword(){
+    this.passwordType = 'password';
+  }
+
+  //loader start
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: "Please wait...",
+      dismissOnPageChange: true
+      });
+      this.loading.present();
+    }
+
+  //show the toast to user on successful login
   presentToast(text:any) {
     this.loading.dismiss();
     let toast = this.toastCtrl.create({
@@ -87,6 +81,7 @@ showLoading() {
     toast.present();
   }
 
+  //show error on wrong login credentials
   showError(text) {
     this.loading.dismiss();
 

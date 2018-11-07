@@ -1,7 +1,9 @@
+//imports
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ScoreboardPage } from './scoreboard';
 
+//declarations
 @NgModule({
   declarations: [
     ScoreboardPage,

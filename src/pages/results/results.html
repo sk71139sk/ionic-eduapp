@@ -1,3 +1,4 @@
+<!-- This page displays results of the game that is completed -->
 <ion-header>
   <ion-navbar  color="teal">
     <ion-title>Results</ion-title>
@@ -7,31 +8,30 @@
         </button>
     </ion-fab>
   </ion-navbar>
-
-
 </ion-header>
-
-
 <ion-content padding>
+  <!-- Title of the Game -->
   <h1> {{results.Category}} : Overview</h1>
   <ion-item>
+    <!--  Score expressed as a fraction -->
     <ion-badge item-start> {{results.score}} / {{results.TotalPossibleScore}} </ion-badge>
     <ion-label > Overall Score</ion-label>
   </ion-item>
   <ion-item>
     <ion-badge item-start> {{results.time}} </ion-badge>
+    <!-- Total Duration of the Game -->
     <ion-label > Total Duration </ion-label>
   </ion-item>
   <ion-item>
+    <!-- AngualrJs used to dynamically create and bind UI with data -->
     <ion-badge *ngIf="results.Percentage >= 50" color ="darkGreen"item-start> {{results.Percentage}} % </ion-badge>
     <ion-badge *ngIf="results.Percentage < 50" color="red" item-start> {{results.Percentage}} % </ion-badge>
     <ion-label > % Score </ion-label>
   </ion-item>
-
-
   <p> <em> {{results.Comment}} </em></p>
   <ion-card class="cards" *ngFor="let data of results.results; let i = index">
       <ion-card-header  text-wrap> <strong> Level {{i+1}} </strong> 
+        <!-- AngularJs used for showing different colors for scores earned -->
         <ion-badge  style="margin-left:80%;"*ngIf="data.ScoreEarned != data.MaxScore"> {{data.ScoreEarned}}/{{data.MaxScore}} </ion-badge>
         <ion-badge style="margin-left:80%;" *ngIf="data.ScoreEarned == data.MaxScore" color="darkGreen"> {{data.ScoreEarned}}/{{data.MaxScore}} </ion-badge>
       </ion-card-header>
@@ -42,6 +42,7 @@
                         <span><strong> Question {{question.number}}  </strong><div [innerHTML]="question.content" > </div> </span> 
                     </ion-item>
                     <ion-item>
+                      <!--  AngularJs used to show different colors for correct and incorrect answers -->
                         <div *ngIf="question.correct == true" class="correct" text-wrap> Your Answer: {{question.ansGiven}} <ion-icon class="correct-tick" name="checkmark"></ion-icon> </div>
                         <div *ngIf="question.correct == false" class="inCorrect" text-wrap> Your Answer: {{question.ansGiven}} <ion-icon class="incorrect-tick" name="close"></ion-icon> </div>
                         <div *ngIf="question.correct == false" class="yellow" text-wrap> Correct Answer: {{question.correctAns}}</div>

@@ -1,3 +1,4 @@
+// imports
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
 import{ ApiProvider } from '../../providers/api/api'
@@ -7,13 +8,6 @@ import { ModalController } from 'ionic-angular';
 import { ResultsPage } from '../results/results';
 import {ProfilePage} from '../profile/profile';
 import swal from 'sweetalert2';
-
-
-
-
-
-
-// import { TabsNavigationPage } from '../tabs-navigation/tabs-navigation';
 import {MapPage} from '../map/map';
 
 /**
@@ -22,6 +16,8 @@ import {MapPage} from '../map/map';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+ //declarations
 @IonicPage()
 @Component({
   selector: 'page-menu',
@@ -29,21 +25,23 @@ import {MapPage} from '../map/map';
 }) 
 
 export class MenuPage {
+  public loading: Loading;
+  public resAlert :any;
 
-public loading: Loading;
-public resAlert :any;
+  //array containers of data 
+  categories : any[];
+  modalRs: any;
 
-categories : any[];
-modalRs: any;
-catType : any = 'All';
-cats : any ={
-  All : [],
-  Saved: [],
-  Completed : []
-}
+  //container for selector value of segments
+  catType : any = 'All';
 
+  //an object contains the values as form of arrays (array inside object)
+  cats : any ={
+    All : [],
+    Saved: [],
+    Completed : []
+  }
 
-// data: any;
   constructor(
     private alertCtrl: AlertController,
     private viewCtrl: ViewController,
@@ -54,18 +52,14 @@ cats : any ={
     public api : ApiProvider, 
     public navParams: NavParams) 
     {
-
+      // Load all data
       this.init();
  
     }
 
-  ionViewDidLoad() {
-   
-    //console.log('ionViewDidLoad MenuPage');
+  ionViewDidLoad() {}
 
-
-  }
-
+  /* This function loads all user data for the profile page, including the profile photo from the database */
   init(){
     this.loadCat();
     this.api.getUserData().subscribe(
@@ -74,15 +68,16 @@ cats : any ={
         this.target.coconuts = res.coconuts;
         this.target.firstName = res.fName;
         this.target.lastName = res.lName;
-        // this.target.photo =  res.photo;
         if(res.photo != null){
           this.target.setPhoto(res.photo);
+        }else{
+          this.target.setPhoto(this.target.defaultPhoto);
         }
-
       }
     );
   }
 
+  // This function refreshes the page and the data of teh user profile
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
     this.init();
@@ -91,28 +86,34 @@ cats : any ={
     }, 2000);
   }
 
+  //this function loads all categories through Api calls
   loadCat(){
+    //loader is shown
     this.showLoadingCat();
-    // this.api.getCategories().subscribe(
-    //   res => {
-    //     this.categories = res;
-    //   })
 
+    //get all new games
     this.api.getCategories2(this.target.username).subscribe(
       res => {
         this.cats.All = res;
       })
+
+      //get all saved games
     this.api.getSavedCategories(this.target.username).subscribe(
       res => {
           this.cats.Saved = res;
       })
+
+    // get all completed games
     this.api.getCompCategories(this.target.username).subscribe(
       res => {
           this.cats.Completed = res;
       })
+
+      //hide loading
       this.dismissLoading();
   }
 
+  //click event to handle starting of new Game
   startGame(value:any,name:any){
     this.target.cat_id = value;
     this.target.cat_name = name;
@@ -128,11 +129,10 @@ cats : any ={
         // this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev); 
         this.navCtrl.push(MapPage);
-    })
-    // this.navCtrl.setRoot(TabsNavigationPage); 
-    
+    })    
   }
 
+  //click event to handle loading a saved game
   loadGame(value:any,name:any,num:any){
     this.target.cat_id = value;
     this.target.cat_name = name;
@@ -142,14 +142,6 @@ cats : any ={
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
-
-
-        let i = 0;
-        while( i < (res[0].numLev + 1)){
-          console.log(i++);
-        }
-
-        // this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev);   
         this.api.loadGame(this.target.username,value).subscribe((res)=>{
           this.target.lev_id = res.lnum;
@@ -160,33 +152,28 @@ cats : any ={
           console.log("current score: ", this.target.score);
           this.navCtrl.push(MapPage); 
       });      
-    })
-
-
-
-
-    // this.navCtrl.setRoot(TabsNavigationPage); 
-    
+    })    
   }
 
 
-
+  //load the resuts page
   resultPage(catId:any){
     this.createModal(catId);
     this.modalRs.present();
-    // this.showAlert();
   }
 
+  //loader function declaration
   showLoadingGame() {
     if (!this.loading){
       this.loading = this.loadingCtrl.create({
       content: "Loading Game...",
       dismissOnPageChange : true
       });
-      this.loading.present();
-    
+      this.loading.present();    
       } 
     }
+
+  //loader call
   showLoadingCat() {
     if (!this.loading){
             this.loading = this.loadingCtrl.create({
@@ -194,20 +181,22 @@ cats : any ={
         });
         this.loading.present();
     }
+  }
 
-      }
+  //loader hide
   dismissLoading(){
     if (this.loading){
           this.loading.dismiss();
           this.loading = null;
     }
-
   }
 
+  // get data of all games 
   getData(type: any) {
     return this.cats[type];
   }
 
+  //delete confirmation of saved games
   deleteSavedPrompt(cat_id:any,cat_name:any){
     swal({
       title: 'Are You Sure?',
@@ -221,10 +210,10 @@ cats : any ={
       if (result.value) {
         this.removeSavedGame(cat_id);
       }
-
-      })
+    })
   }
 
+  //remove a saved game
   removeSavedGame(catId: any){
     this.api.removeSaved(catId).subscribe(
       (res)=>{
@@ -232,27 +221,14 @@ cats : any ={
         location.reload();
       }
     );
-
   }
 
-  showAlert() {
-    if(!this.resAlert){
-          this.resAlert = this.alertCtrl.create({
-      title: 'Results Page',
-      subTitle: 'Coming Soon',
-      buttons: ['Dismiss']
-    });
-    }
-    this.resAlert.present();
-    this.resAlert.onDidDismiss(()=>{
-      this.resAlert = null;
-    })
-  }
-
+  //create the results page and pass data
   createModal(catId:any){
     this.modalRs = this.modalCtrl.create(ResultsPage,{data: catId});  
   }
 
+  //open profile page
   openProfile(){
     this.navCtrl.push(ProfilePage);
   }

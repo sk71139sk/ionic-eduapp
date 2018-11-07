@@ -1,3 +1,4 @@
+// Style declarations and Assignment
 page-menu {
     ion-icon{
         color: white;
@@ -6,12 +7,10 @@ page-menu {
         border-radius: 10% !important;
     }
     ion-card  {
-        // filter: blur(2px);
         background-image: url('../assets/img/bkg_ion-card.jpg')!important;
         background-size: cover !important;
         border-radius: 8% !important;
     }
-
     .icons{
         color: black;
         font-size: 3vh !important;
@@ -21,35 +20,28 @@ page-menu {
         color: black;
         font-size: 4vh !important;
     }
-
     .btnPlay{
         float: right;
         padding: 1vh !important;
     }
-
     .btnLoad{
         float: left;
         padding: 1vh !important;
     }
-
     .btnDelete{
         float: right;
         padding: 1vh !important;
     }
-
     .viewArea{
         height: 100%;
         width: 100%;
         border-radius: 5%;
-        }
+    }
     .center_button{
         align-self: center !important;
         margin-left: auto !important;
         margin-right: auto !important;
         justify-content: center!important;
         align-items:center!important;
-        // right: 45% !important;
-        // left: 45% !important;
-
-      }
+    }
 }

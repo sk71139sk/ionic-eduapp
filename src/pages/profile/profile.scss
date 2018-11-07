@@ -1,41 +1,29 @@
 page-profile {
+    //styles used, elements here are self-explanatory
 
-ion-icon{
-    color: white;
-}
-
+    ion-icon{
+        color: white;
+    }
     .btnLogOut{
         color: white;
     }
-
     .profile-view{
         height: 30vh;
         width: 98vw;
-        // display: flex;
     }
-
     .profile-details-editor{
         margin: 0;
         position: relative;
         height: 30vh;
-        // border-color: rgba(77, 126, 190, 0.8);
-        // border-style: solid;
         width: 98vw;
         z-index: 100;
-        // background-color: white;
     }
-
     .profile-details-container{
         margin: 0;
         position: relative;
         width: 98vw;
         height: 30vh;
-
-
-        // border-color: rgba(77, 126, 190, 0.8);
-        // border-style: solid;
     }
-
     .profile-picture {
         border-radius: 100%;
         -webkit-box-sizing: content-box;
@@ -45,24 +33,16 @@ ion-icon{
         width: 128px;
         height: 128px;
         float: right;
-        // overflow: hidden;
-    }
-        
+    }        
     .profile-picture img {
         width: 128px;
         border-radius: 100%;
     }
-
-
     .profile-points-container{
-        margin-top: 2%;
-        // padding: 2%;
+        margin-top: 2%;   
         width: 98vw;
         height: 10vh;
-        // border-color: rgba(77, 126, 190, 0.8);
-        // border-style: solid;
     }
-
     .profile-points{
         margin: 2%;
         width: 10vw !important;
@@ -71,7 +51,6 @@ ion-icon{
         background-size: 100% 100%;
         background-repeat: no-repeat;
     }
-
     .profile-coconuts{
         margin: 2%;
         width: 10vw!important;
@@ -80,19 +59,15 @@ ion-icon{
         background-size:   100% 100%;
         background-repeat: no-repeat;
     }
-
     .linechart-container{
         margin-top: 2%;
         position: relative;
         height: 90vh;
         width: 98vw;
         box-shadow: 2px 2px rgba(8, 8, 8, 0.384);
-        // overflow-x: scroll;
-        // overflow-y: auto;
     }
     .scoreboard-container{
         margin-top: 2%;
-        // height: 50%;
         position: relative;
         width: 98vw;
         height: 90vh;
@@ -109,27 +84,18 @@ ion-icon{
         margin: 5px;
         color: white;
     }
-
     .points-me{
         border-radius: 5px;
         background-color: rgb(184, 53, 53);
         color: white;
         margin: 2px;
     }
-
     .text-points {
-        // font-size: 16px;v 
         font-size: 5vh;
         margin-left: 2%;
-
     }
-
     .text-coconuts {
-        // font-size: 16px; 
         font-size: 5vh;
         margin-left: 2%;
-
-    }
-
-      
+    }      
 }

@@ -1,7 +1,9 @@
+//imports
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { MenuPage } from './menu';
 
+//declarations
 @NgModule({
   declarations: [
     MenuPage,

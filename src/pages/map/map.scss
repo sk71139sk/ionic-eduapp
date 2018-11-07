@@ -1,14 +1,18 @@
+// This style sheet contains animations, gradients and many complex elements. 
+// It is arranged to aid readability
+
+//this part is important to ensure google map shows up
 ion-app._gmaps_cdv_ .nav-decor{
   background-color: transparent !important;
 }
 
+// platform specific styles
 .ios{
   page-map{
     .score{
       z-index: 3 !important;
       display: grid !important ;
       text-align: center;
-      // border-style: solid;
       font-family: "Lucida Console";
       position: absolute  !important;
       height: 13% !important;
@@ -17,14 +21,12 @@ ion-app._gmaps_cdv_ .nav-decor{
     }
   }
 }
-
 .md{
   page-map{
     .score{
       z-index: 3 !important;
       display: grid !important ;
       text-align: center;
-      // border-style: solid;
       font-family: "Lucida Console";
       position: absolute  !important;
       height: 13% !important;
@@ -34,15 +36,10 @@ ion-app._gmaps_cdv_ .nav-decor{
   }
 }
 
-
 //default styles for all platforms
-
 page-map {
     .viewArea{
       display: grid !important;
-      // justify-content: center !important;
-      // align-items: center !important;
-      // align-content: center !important;
       height: 100%;
       width: 100%;
       overflow: hidden !important;
@@ -63,25 +60,16 @@ page-map {
       align-items:center!important;
       z-index: 2;
       position: absolute  !important;
-
-      // right: 45% !important;
-      // left: 45% !important;
       bottom: -0.18% !important;
     }
-
-
-
     #ui_top{
       display: grid !important ;
       background-image: url("../assets/img/UI_top.png");
       background-size: contain;
-      // height: 29%;
-      // width: 100%;
       background-repeat: no-repeat;
       position:relative  !important;
       z-index: 2 !important;
     }
-
     .head{
       z-index: 3 !important;
       display: grid !important ;
@@ -95,53 +83,26 @@ page-map {
       position: absolute  !important;
     }
     #ui_bottom{
-      // height: 29%;
-      // width:100%;
       display: grid !important ;
       background-image: url("../assets/img/UI_bottom.png");
       background-size: contain;
-      // height: 29%;
       background-repeat: no-repeat;
       position:relative  !important;
       z-index: 2 !important;
       bottom: 1%;
       top: 260%;
     }
+  }
 
-
-    // #ui_left{
-    //   border-width: 2px;
-    //   border-color: black;
-    //   border-style: solid;
-    //   height: 29%;
-    //   // display: grid !important ;
-    //   background-image: url("/assets/img/UI_left.png");
-    //   background-size: contain;
-    //   // height: 29%;
-    //   background-repeat: no-repeat;
-    //   position:relative  !important;
-    //   z-index: 3 !important;
-    //   // bottom: 1%;
-    //   top: 78%;
-    // }
-}
-// .geolocation-btn{
-//   margin: 0px;
-//   padding: 0px;
-// }
-
-//new styles for testing only
 ion-grid{
   ion-col{
     align-content: center !important;
   }
 }
-
 .game-view-container{
   height: 100%;
   position: absolute;
 }
-
 .top-view-pane{
   background-color: teal;
   height: 9vh;
@@ -169,8 +130,6 @@ ion-grid{
     }
 
   }
-
-
 
   .points-img{
     background-image: url('../assets/img/points.png');
@@ -215,8 +174,7 @@ ion-grid{
     font-size: 100% !important;
     font-family: "Lucida Console";
     color: white;
-    margin-top: 1%;
-  
+    margin-top: 1%;  
   }
 
 }
@@ -243,17 +201,6 @@ ion-grid{
     -o-transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
     transform: perspective(800px) rotate3d(40, 1, 0, 40deg)!important;
   }
-
-  // #levels{
-  //   height: 5vh;
-  //   width: 90vw;
-  //   margin: 1vw 1vh !important;
-  //   display:grid !important;
-  //   position: absolute !important;
-  //   border-style: solid !important;
-  //   border-color: black !important;
-  //   z-index: 99 !important;
-  // }
 
   #coco-animated{
     display: grid;
@@ -313,8 +260,6 @@ ion-grid{
 
 }
 
-
-
 .base-view-pane{
   border-style: solid;
   border-color: teal;
@@ -326,9 +271,7 @@ ion-grid{
     position: relative;
     background-color: gold !important;
   }
-
 }
-
 
 ion-icon{
   color: white;

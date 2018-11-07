@@ -4,6 +4,8 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+
+<!-- This Page shows the scoreboard for the users during a Game, it is live refreshed by sockets when score-changed channel emits an event -->
 <ion-header>
 
   <ion-navbar color="teal">
@@ -16,28 +18,20 @@
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content padding>
-<ion-grid>
-  <ion-row class="score-header"> 
-    <ion-col col-1> </ion-col>
-    <ion-col col-5>  Student </ion-col>
-    <ion-col col-6>  Score</ion-col>
-  </ion-row>
-  <ion-row  class="score-row" *ngFor="let data of dataArray" > 
-    <ion-col col-1 > {{data[0]}} </ion-col>
-    <ion-col col-5 *ngIf="data[1] != target.username"> {{data[1]}}</ion-col>
-    <ion-col col-5 *ngIf="data[1] == target.username"> You </ion-col>
-    <ion-col col-3> {{data[2]}}</ion-col>
-    <ion-col col-1 *ngIf="data[1] == target.username" ><ion-icon name="star"> </ion-icon> </ion-col>
-  </ion-row>
-  
-</ion-grid>
-   
-
-
-
-
-
+  <ion-grid>
+    <ion-row class="score-header"> 
+      <ion-col col-1> </ion-col>
+      <ion-col col-5>  Student </ion-col>
+      <ion-col col-6>  Score</ion-col>
+    </ion-row>
+    <!-- Use of AngularJs to dynamically load UI elements -->
+    <ion-row  class="score-row" *ngFor="let data of dataArray" > 
+      <ion-col col-1 > {{data[0]}} </ion-col>
+      <ion-col col-5 *ngIf="data[1] != target.username"> {{data[1]}}</ion-col>
+      <ion-col col-5 *ngIf="data[1] == target.username"> You </ion-col>
+      <ion-col col-3> {{data[2]}}</ion-col>
+      <ion-col col-1 *ngIf="data[1] == target.username" ><ion-icon name="star"> </ion-icon> </ion-col>
+    </ion-row>  
+  </ion-grid>
 </ion-content>

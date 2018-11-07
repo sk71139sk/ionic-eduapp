@@ -1,3 +1,4 @@
+//imports
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViewController ,Loading,LoadingController } from 'ionic-angular';
@@ -10,6 +11,8 @@ import {ApiProvider} from '../../providers/api/api';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+ //declarations
 @IonicPage()
 @Component({
   selector: 'page-results',
@@ -20,6 +23,7 @@ public data:any = [];
 public results:any = [];
 loading: Loading;
 
+//constructor for varibale definitions
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -28,52 +32,45 @@ loading: Loading;
     public loadingCtrl:LoadingController,
     public api: ApiProvider
   ) {
+    // Initial loading of data
     this.data = this.navParams.data.data;
-    this.loadResults();
-    // console.log(this.data);
-   
+    this.loadResults();   
   }
 
-  ionViewDidLoad() {
-    console.log("page loaded");
-  }
+  ionViewDidLoad() {}
 
+  //show loader
   showLoading() {
     if (!this.loading){
       this.loading = this.loadingCtrl.create({
         content: "Loading..."
         });
         this.loading.present();
-    }
+      }
+  }
 
-    }
-
+  //hide loader
   dismissLoading(){
     if(this.loading){
       this.loading.dismiss();
       this.loading = null;
     }
-
   }
 
+  //load results through api call
   loadResults(){
     this.showLoading();
     this.api.loadresults(this.data).subscribe(
       res=>{
-        // console.log(res);
         this.results = res;
-        // console.log(this.results);
-        // for (let data of res){
-          // console.log(data.results);
-        // }
         this.dismissLoading();
     });
   }
 
+  //close results page
   closeModal(){
     if (this.view){
       this.view.dismiss();
     }
   } 
-
 }

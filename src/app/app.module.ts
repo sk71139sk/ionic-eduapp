@@ -10,7 +10,6 @@ import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import { Camera } from '@ionic-native/camera';
 
 import { MapPage } from '../pages/map/map';
-import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { ModalPage } from '../pages/modal/modal';
 import {ResultsPage} from '../pages/results/results';
 import {ProfilePage} from '../pages/profile/profile';
@@ -24,11 +23,14 @@ import { ToastController } from 'ionic-angular';
 import { TargetProvider } from '../providers/target/target';
 import { ApiProvider } from '../providers/api/api';
 
+
+/* The connection strings must be uncommented depending on the testing scenario */
+
 // const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
-// const config:SocketIoConfig = {url: 'http://27.123.150.94:6001', options: {}};
-const config:SocketIoConfig = {url: 'http://192.168.8.161:6001', options: {}};
+const config:SocketIoConfig = {url: 'http://27.123.150.94:6001', options: {}};
+// const config:SocketIoConfig = {url: 'http://localIpHere:6001', options: {}};
 
-
+//declarations
 @NgModule({
   declarations: [
     MyApp,
@@ -38,7 +40,6 @@ const config:SocketIoConfig = {url: 'http://192.168.8.161:6001', options: {}};
     ScoreboardPage,
     ResultsPage,
     ProfilePage,
-    TabsNavigationPage,
     MenuPage 
   ],
   imports: [
@@ -56,8 +57,7 @@ const config:SocketIoConfig = {url: 'http://192.168.8.161:6001', options: {}};
     ResultsPage,
     ScoreboardPage,
     ProfilePage,
-    MenuPage,
-    TabsNavigationPage
+    MenuPage
   ],
   providers: [
     SplashScreen,

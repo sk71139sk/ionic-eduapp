@@ -1,33 +1,25 @@
+// Style declarations for this page
 page-results {
-        ion-icon{
+      ion-icon{
           color: white;
       }
-
       ion-card  {
-        // filter: blur(2px);
           background-image: url('../assets/img/bkg_ion-card.jpg')!important;
           background-size: 100% 100% !important;
         }
-
       .correct-tick{
         color: green;
       }
-
       .incorrect-tick{
         color: red;
       }
-
       .correct{
         background-color:rgba($color: green, $alpha: 0.1)
       }
-
       .inCorrect{
         background-color:rgba($color: red, $alpha: 0.1)
       }
-
       .yellow{
         background-color:rgba($color: yellow, $alpha: 0.2)
-      }
-
-      
+      }      
 }

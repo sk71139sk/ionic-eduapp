@@ -4,8 +4,9 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
 
+<!-- Menu page shows the list of games for the user to participate, games saved and the games completed -->
+<ion-header>
   <ion-navbar hideBackButton color="teal">
     <ion-title>Games </ion-title>
     <ion-fab top right>
@@ -14,15 +15,15 @@
       </button>
   </ion-fab>
   </ion-navbar>
-
 </ion-header>
 
-
+<!-- main view area -->
 <ion-content padding>
+  <!-- Refersher, reloads data asynchronously -->
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-
+  <!-- Segments are tabs on top allowing user to switch the list of data (New, Load Game or View Results) -->
   <ion-segment [(ngModel)]="catType">
     <ion-segment-button value="All">
         <ion-icon class="icons" name="create" > New </ion-icon>
@@ -34,9 +35,11 @@
         <ion-icon class="icons" name="list-box" > Result </ion-icon>
     </ion-segment-button>
   </ion-segment>
+
   <div>
+    <!-- AngularJs is used to filter the lists -->
     <ion-list *ngIf= "catType == 'All'"> 
-        <!-- <ion-item *ngFor="let cat of getData('All')" (click)="startGame(cat.cat_id,cat.cat_name)"><p>{{cat.cat_name}} </p> </ion-item> -->
+      <!-- A card is made for evrey item in the list using AngularJs -->
         <ion-card *ngFor="let cat of getData('All')" > 
           <ion-card-header> <strong>{{cat.cat_name}}  </strong> </ion-card-header>
           <ion-badge *ngIf="cat.course != 'OPEN'" style="margin: auto; "> {{cat.course}} </ion-badge>
@@ -68,8 +71,6 @@
             <label> Level: </label>
             <ion-badge> {{cat.level}}/{{cat.levels}} </ion-badge>
           </ion-item>
-
-
         </ion-card-content>
         <ion-row>
           <ion-col>
@@ -86,22 +87,17 @@
       </ion-card>
     </ion-list>
     <ion-list *ngIf= "catType == 'Completed'"> 
-      <!-- <ion-item *ngFor="let cat of getData('Completed')" (click)="resultPage(cat.cat_id)"><p>{{cat.cat_name}} </p> </ion-item> -->
       <ion-card *ngFor="let cat of getData('Completed')" >
         <ion-card-header><strong>{{cat.cat_name}}  </strong>  </ion-card-header>
         <ion-row>
           <ion-col>
+            <!-- view Result button is disabled until enabled remotely by the coordinator -->
               <button [disabled] ="!cat.completed" ion-button icon-only class="btnPlay" color= "teal" (click)="resultPage(cat.cat_id)"> View
                   <ion-icon item-end name="log-in" > </ion-icon>
               </button>  
-              <!-- <button *ngIf="cat.completed== '0' " ion-button icon-only class="btnPlay" color= "teal" (click)="resultPage(cat.cat_id)"> View
-                  <ion-icon item-end name="log-in" > </ion-icon>
-              </button>  -->
           </ion-col>
         </ion-row>
       </ion-card>
     </ion-list>
   </div>
-
-  <!-- <button color="gold" class="center_button" ion-button (click)="loadTabsPage()"> Submit  </button> -->
 </ion-content>

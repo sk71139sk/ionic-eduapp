@@ -12,20 +12,30 @@ import { AlertController } from 'ionic-angular';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+//  declarations
 @IonicPage()
 @Component({
   selector: 'page-modal',
   templateUrl: 'modal.html',
 })
+
+// class declarations and definitions
 export class ModalPage {
 loading: Loading;
 public questions : Array<any>;
-// public answers : Array<any> = [];
-// public alertScore : any;
 
-  constructor(public loadingCtrl:LoadingController,private view: ViewController , private navParams: NavParams, private alertCtrl: AlertController,public api:ApiProvider,public target:TargetProvider) {
-  }
+//definition of all variables
+  constructor(
+    public loadingCtrl:LoadingController,
+    private view: ViewController ,
+    private navParams: NavParams,
+    private alertCtrl: AlertController,
+    public api:ApiProvider,
+    public target:TargetProvider
+  ){}
 
+  //on page load, these functions are called, and these operations are carried out
   ionViewDidLoad() {
     this.target.numLev = this.target.numLev - 1;
     this.target.lev_id = this.target.lev_id + 1;
@@ -34,15 +44,14 @@ public questions : Array<any>;
     this.loadCards();
   }
 
+  //close the view
   closeModal(){
     if (this.view){
       this.view.dismiss();
     }
-
-
-
   }
 
+  //laod the data | Async
   loadCards(){
     this.showLoading();
     console.log("modal sees level ", this.target.lev_id);
@@ -52,28 +61,15 @@ public questions : Array<any>;
         this.questions = (res);
         this.target.question = [];
         for (let data of res){
-          console.log("This is ques Ids: ", data.ID);
-          // this.target.question = data.ID;
- 
+          console.log("This is ques Ids: ", data.ID); 
           this.target.question.push(data.ID);
-          this.dismissLoading();
-          // this.questions.push(data);
-          
-          // console.log("Question ",data.Number , ": " , data.Content);
-          // for (let ans of data.answers){ 
-          //   console.log("This is ans: ", ans);
-          // }
-          
+          this.dismissLoading();          
         }
-
-        // console.log(this.questions);
-         //console.log("this is the data: " ,this.questions);
       }
     );
-
-    //console.log("this is questions: ",this.questions);
   }
 
+  //show loader
   showLoading() {
     if (!this.loading){
       this.loading = this.loadingCtrl.create({
@@ -81,17 +77,17 @@ public questions : Array<any>;
         });
         this.loading.present();
     }
+  }
 
-    }
-
+  //hide loader
   dismissLoading(){
     if(this.loading){
       this.loading.dismiss();
       this.loading = null;
     }
-
   }
 
+  //store answer to an array
   pushAns(valueq:any,valuea:any){
     this.target.answers.splice(valueq,this.target.answers.length ,valuea);   
   }

@@ -1,7 +1,7 @@
+// imports
 import { Injectable , NgZone} from '@angular/core';
 import {Events} from 'ionic-angular';
 import 'rxjs/add/operator/map';
-import { Img } from '../../../node_modules/ionic-angular/umd/components/img/img-interface';
 
 /*
   Generated class for the TargetProvider provider.
@@ -9,6 +9,8 @@ import { Img } from '../../../node_modules/ionic-angular/umd/components/img/img-
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
+
+//defintions
 @Injectable()
 export class TargetProvider {
 
@@ -17,12 +19,13 @@ export class TargetProvider {
   }
 
   //api address
+
   // public baseUrl : string = "http://127.0.0.1/";
   // public hostname :string = "http://127.0.0.1:6001";
-  // public baseUrl : string = "http://27.123.150.94/";
-  // public hostname :string = "http://27.123.150.94:6001";
-    public baseUrl : string = "http://192.168.8.161/";
-    public hostname :string = "http://192.168.8.161:6001";
+  public baseUrl : string = "http://27.123.150.94/";
+  public hostname :string = "http://27.123.150.94:6001";
+    // public baseUrl : string = "http://192.168.8.161/";
+    // public hostname :string = "http://192.168.8.161:6001";
 
 
   //first run
@@ -32,6 +35,7 @@ export class TargetProvider {
   username : any;
   firstName: any ;
   lastName: any  ;
+  defaultPhoto : any = '../../assets/img/default.png';
   photo : any = '../../assets/img/default.png';
   pBase64 : any ;
 
@@ -99,6 +103,7 @@ export class TargetProvider {
 
   }
 
+  //update coordinates for coconuts
   public setCoords(lat1:any,lng1:any,lat2:any,lng2:any,lat3:any,lng3:any){
       this.coco1_coord = new google.maps.LatLng(lat1, lng1);
       this.coco2_coord = new google.maps.LatLng(lat2, lng2);

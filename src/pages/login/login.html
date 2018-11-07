@@ -5,45 +5,27 @@
   Ionic pages and navigation.
 -->
 
-
-
-  <!-- <ion-navbar color="teal"  >
-  </ion-navbar> -->
-
-
-
+<!-- The Login Page view -->
 
 <ion-content padding id="login">
     <p> <br><br> <br>  </p>
   <div class="logo"><img src="assets/img/icon-quiz02.png" alt="logo"></div>
   <h1>EDUAPP</h1>
 
+  <!-- Binded to variables with Angular -->
   <form (ngSubmit)="login(username.value, password.value)" class="loginForm" #registerForm="ngForm">
-
           <ion-item>
             <ion-input type="text" placeholder="Username" #username name="username" required></ion-input>
           </ion-item>
-
           <ion-item>
-            <ion-input type="{{passwordType}}" placeholder="Password" name="password"  #password required></ion-input>
- 
-            <!-- <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()">
-               <ion-icon name="eye" item-end></ion-icon></button>
-            <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()">
-              <ion-icon name="eye" item-end></ion-icon></button> -->
-              
+            <ion-input type="{{passwordType}}" placeholder="Password" name="password"  #password required></ion-input>             
             <button class="eyeBtn" ion-button clear color="dark" type="button" item-right (touchstart)="showPassword()" (touchend)="hidePassword()">
                 <ion-icon name="eye" item-end></ion-icon>
             </button>
-
           </ion-item>
-
-
     <ion-row>
       <button ion-button block class="submit-btn" color="dark" block type="submit" [disabled]="!registerForm.form.valid">LOGIN</button>
-
     </ion-row>
-
   </form>
 
 </ion-content>
