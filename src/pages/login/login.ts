@@ -35,8 +35,7 @@ export class LoginPage {
   login(username: any, password: any) {
     this.showLoading();
     this.api.checkUSPApi(username, password).subscribe(res => {
-      if (res == 1) {
-        // return false;
+      if (res.status == '422') {     
         this.showError("Your password or username do not match our records. Please enter correct login details.")
       }
       else if (res.status == '200') {
@@ -51,12 +50,6 @@ export class LoginPage {
   );
 }
 
-skip(){
-  this.showLoading();
-  this.presentToast('Login Skipped, logged in as Vineet');  
-  this.target.username = 'Vineet';
-  this.navCtrl.push(MenuPage);
-}
 
 // showPassword() {
 //   this.passwordShown = !this.passwordShown;

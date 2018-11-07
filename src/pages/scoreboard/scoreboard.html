@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="teal">
-    <ion-title>Scoreboard</ion-title>
+    <ion-title>Scoreboard for: {{target.cat_name}}</ion-title>
     <ion-fab top right>
         <button ion-button icon-only clear (click)="closeModal()">
             <ion-icon name="close"></ion-icon>
@@ -19,14 +19,23 @@
 
 
 <ion-content padding>
+<ion-grid>
+  <ion-row class="score-header"> 
+    <ion-col col-1> </ion-col>
+    <ion-col col-5>  Student </ion-col>
+    <ion-col col-6>  Score</ion-col>
+  </ion-row>
+  <ion-row  class="score-row" *ngFor="let data of dataArray" > 
+    <ion-col col-1 > {{data[0]}} </ion-col>
+    <ion-col col-5 *ngIf="data[1] != target.username"> {{data[1]}}</ion-col>
+    <ion-col col-5 *ngIf="data[1] == target.username"> You </ion-col>
+    <ion-col col-3> {{data[2]}}</ion-col>
+    <ion-col col-1 *ngIf="data[1] == target.username" ><ion-icon name="star"> </ion-icon> </ion-col>
+  </ion-row>
+  
+</ion-grid>
+   
 
-  <table>
-    <tr *ngFor="let data of dataArray"> 
-      <td> {{data[0]}}</td>  
-      <td> {{data[1]}} </td>  
-      <td>{{data[2]}}</td>  
-    </tr>    
-  </table>
 
 
 

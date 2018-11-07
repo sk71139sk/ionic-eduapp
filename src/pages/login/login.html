@@ -32,8 +32,9 @@
             <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()">
               <ion-icon name="eye" item-end></ion-icon></button> -->
               
-            <button  ion-button clear color="dark" type="button" item-right (touchstart)="showPassword()" (touchend)="hidePassword()">
-                <ion-icon name="eye" item-end></ion-icon></button>
+            <button class="eyeBtn" ion-button clear color="dark" type="button" item-right (touchstart)="showPassword()" (touchend)="hidePassword()">
+                <ion-icon name="eye" item-end></ion-icon>
+            </button>
 
           </ion-item>
 
@@ -44,5 +45,5 @@
     </ion-row>
 
   </form>
-  <button ion-button block class="submit-btn" color="dark" (click)="skip()" > SKIP </button>
+
 </ion-content>

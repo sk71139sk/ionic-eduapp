@@ -24,8 +24,8 @@ import { ToastController } from 'ionic-angular';
 import { TargetProvider } from '../providers/target/target';
 import { ApiProvider } from '../providers/api/api';
 
-const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
-// const config:SocketIoConfig = {url: 'http://27.123.150.94:6001', options: {}};
+// const config:SocketIoConfig = {url: 'http://127.0.0.1:6001', options: {}};
+const config:SocketIoConfig = {url: 'http://27.123.150.94:6001', options: {}};
 // const config:SocketIoConfig = {url: 'http://192.168.8.161:6001', options: {}};
 
 

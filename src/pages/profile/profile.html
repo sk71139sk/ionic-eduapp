@@ -10,7 +10,7 @@
     <ion-title>Your Profile</ion-title>
     <ion-fab top right>
         <button  clear ion-button icon-only [disabled]='buttonDisabled' (click)="editProfile()">
-            <ion-icon name="create"></ion-icon>
+            <ion-icon class="btnLogOut" name="create"></ion-icon>
         </button>
     </ion-fab>
   </ion-navbar>
@@ -68,17 +68,48 @@
           <ion-col col-auto class="profile-coconuts"></ion-col> 
           <ion-col class="text-coconuts">{{target.coconuts}} </ion-col>
     </ion-row>
-    <ion-row class="scoreboard-container">
-      <ion-label style="text-align: center;"> <h4>Score per game</h4>   </ion-label>
-          <canvas #lineCanvas></canvas>
-    </ion-row>
+
   </ion-grid>
+  <ion-card >
+    <ion-card-header> <h2> <strong>Score per game  </strong></h2> </ion-card-header>
+    <ion-card-content style="overflow-x:scroll;">
+        <canvas #lineCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+  <ion-card >
+    <ion-card-header> <h2> <strong> Overall Standings </strong> </h2> </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row class="points-header"> 
+              <ion-col col-1> </ion-col>
+              <ion-col col-5> Student</ion-col>
+              <ion-col col-3> Points</ion-col>
+            </ion-row>
+  
+            <ion-row *ngFor="let data of standings| slice:0:5; let i=index" class="points-row">
+                <ion-col col-1 > {{data[0]}} </ion-col>
+                <ion-col col-5 *ngIf="data[1] != target.username"> {{data[1]}}</ion-col>
+                <ion-col col-5 *ngIf="data[1] == target.username"> You </ion-col>
+                <ion-col col-3> {{data[2]}}</ion-col>
+                <ion-col col-1 *ngIf="data[1] == target.username" ><ion-icon name="star"> </ion-icon> </ion-col>
+            </ion-row>
+          <hr style="color: black">
+            <ion-row *ngFor="let data of standings" class="points-me">
+                <ion-col col-1 *ngIf="data[1] == target.username"> {{data[0]}} </ion-col>
+                <ion-col col-5 *ngIf="data[1] == target.username"> You </ion-col>
+                <ion-col col-3 *ngIf="data[1 ] == target.username"> {{data[2]}}</ion-col>
+            </ion-row>  
+          </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+
 
 <ion-footer  >
   <ion-toolbar color="teal">
     <button class="btnLogOut" clear ion-button icon-only (click)="logOut()">
-      <ion-icon name="log-out"></ion-icon> Log Out
+      <ion-icon  class="btnLogOut" name="log-out"></ion-icon> Log Out
     </button>    
   </ion-toolbar>
 

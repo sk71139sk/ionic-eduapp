@@ -12,7 +12,6 @@ import {Echo} from 'laravel-echo-ionic';
 // import { TabsNavigationPage } from '../pages/tabs-navigation/tabs-navigation';
 import { LoginPage } from '../pages/login/login';
 import { MenuPage } from '../pages/menu/menu';
-import { MapPage } from '../pages/map/map';
 import { google } from "google-maps";
 
 @Component({
@@ -41,8 +40,15 @@ export class MyApp {
 
         //call api to check whether token is valid or student exists.
         this.api.checkToken(localStorage.getItem('student_id')).subscribe((res)=>{
+            if(res.status == '200'){
             this.target.username = localStorage.getItem('student_id');
-            this.nav.push(MenuPage);
+            this.nav.push(MenuPage);  
+            }
+            else{
+                localStorage.clear();
+                this.nav.push(LoginPage);
+            }
+
         });
       }
       else{
@@ -70,9 +76,11 @@ export class MyApp {
     });
 
     this.echo.channel("score-changed")
-    .listen("gameOver", e=>{
+    .listen("scoreChanged", e=>{
+        console.log('score changed');
         console.log(e.data);
         if (e.data == this.target.cat_id){
+            console.log('publishing');
             this.target.event.publish('score-changed');
         }
     });

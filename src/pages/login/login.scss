@@ -1,4 +1,10 @@
 page-login {
+  ion-icon{
+    color: black;
+  }
+  .eyeBtn{
+    z-index : 100;
+  }
         #login {
           background: color($colors, teal);
         }

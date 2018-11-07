@@ -53,20 +53,8 @@ cats : any ={
     public api : ApiProvider, 
     public navParams: NavParams) 
     {
-      this.loadCat();
-      this.api.getUserData().subscribe(
-        (res)=>{
-          this.target.points = res.points;
-          this.target.coconuts = res.coconuts;
-          this.target.firstName = res.fName;
-          this.target.lastName = res.lName;
-          // this.target.photo =  res.photo;
-          if(res.photo != null){
-            this.target.setPhoto(res.photo);
-          }
 
-        }
-      );
+      this.init();
  
     }
 
@@ -75,6 +63,31 @@ cats : any ={
     //console.log('ionViewDidLoad MenuPage');
 
 
+  }
+
+  init(){
+    this.loadCat();
+    this.api.getUserData().subscribe(
+      (res)=>{
+        this.target.points = res.points;
+        this.target.coconuts = res.coconuts;
+        this.target.firstName = res.fName;
+        this.target.lastName = res.lName;
+        // this.target.photo =  res.photo;
+        if(res.photo != null){
+          this.target.setPhoto(res.photo);
+        }
+
+      }
+    );
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+    this.init();
+    setTimeout(() => {
+      refresher.complete();
+    }, 2000);
   }
 
   loadCat(){

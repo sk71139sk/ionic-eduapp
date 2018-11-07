@@ -50,8 +50,12 @@ public questions : Array<any>;
       res => {
         console.log("this is res: ", res);
         this.questions = (res);
+        this.target.question = [];
         for (let data of res){
-          console.log("This is data: ", data);
+          console.log("This is ques Ids: ", data.ID);
+          // this.target.question = data.ID;
+ 
+          this.target.question.push(data.ID);
           this.dismissLoading();
           // this.questions.push(data);
           

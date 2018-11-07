@@ -15,18 +15,23 @@ import { Chart } from 'chart.js';
 export class ProfilePage {
   @ViewChild('lineCanvas') lineCanvas;
 
+
   lineChart: any;
+  standings: any;
 
   visibility1: boolean = false;
   visibility2: boolean = true;
   buttonDisabled: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public target: TargetProvider, public api: ApiProvider, public camera:Camera) {
+
   }
 
   ionViewDidLoad() {
-    this.api.getUserData();
     this.loadLinechart();
+    this.loadStandings();
+    this.api.getUserData();
+
   }
 
   editProfile(){
@@ -37,6 +42,7 @@ export class ProfilePage {
 
   logOut(){
     localStorage.clear();
+    this.api.logOut().subscribe();
     this.navCtrl.setRoot(LoginPage);
   }
 
@@ -77,11 +83,7 @@ openGallery(){
 
   update(){
     this.api.updateDetails().subscribe(
-      (res)=>{
-
-
-      }
-  );
+      (res)=>{});
   this.buttonDisabled = false;
   this.visibility2 = true;
   this.visibility1 = false;
@@ -91,6 +93,15 @@ openGallery(){
     this.buttonDisabled = false;
     this.visibility2 = true;
     this.visibility1 = false;
+  }
+
+  loadStandings(){
+    this.api.loadStandings().subscribe(
+      (res)=>{
+        console.log(res);
+        this.standings = res;
+      }
+    );
   }
 
 

@@ -100,42 +100,54 @@ export class MapPage {
     this.target.event.subscribe('coco1False',()=>{
       this.coco1.setIcon({
         url: 'assets/img/rock.png',
-        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+        scaledSize: new google.maps.Size(50,50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(19,50)
       })
     })
 
     this.target.event.subscribe('coco2False',()=>{
       this.coco2.setIcon({
         url: 'assets/img/rock.png',
-        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+        scaledSize: new google.maps.Size(50,50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(19,50)
       })
     })
 
     this.target.event.subscribe('coco3False',()=>{
       this.coco3.setIcon({
         url: 'assets/img/rock.png',
-        scaledSize: new google.maps.Size(5, 5,'vh','vh')
+        scaledSize: new google.maps.Size(50,50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(19,50)
       })
     })
 
     this.target.event.subscribe('coco1True',()=>{
       this.coco1.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
     })
 
     this.target.event.subscribe('coco2True',()=>{
       this.coco2.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
     })
 
     this.target.event.subscribe('coco3True',()=>{
       this.coco3.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
     })
 
@@ -143,17 +155,23 @@ export class MapPage {
       this.coco1.setPosition(this.target.coco1_coord);
       this.coco1.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
       this.coco2.setPosition(this.target.coco2_coord);
       this.coco2.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
       this.coco3.setPosition(this.target.coco3_coord);
       this.coco3.setIcon({
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'vh','vh')
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       })
     })
 
@@ -164,13 +182,10 @@ export class MapPage {
     })
 
     this.loadMap();
-    // this.loadFirstLevel(this.target.cat_id);
     this.create1stDummyCircle();
     this.create2ndDummyCircle();
     this.loadNextLevel();
-    // this.createEndAlert();
     this.createModalQs();
-    // console.log('values to be used for the circle: ',this.target.testLat,this.target.testLng)
     this.createCircle(this.target.testLat, this.target.testLng);
 
     this.createCoco1();
@@ -210,11 +225,9 @@ export class MapPage {
   createAndListen() {
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
-      , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)/* && (this.checking) */) {
-        // this.target.setScore(this.target.cocoPoints);
-        // swal("Nice!","You earned 10 coconuts!",'success');
-        // this.stopGeo();
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
+      , this.target.coco1_coord) <= this.target.safeArea) && (this.target.coco1)&& (this.checking)) {
+        this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco1False');
@@ -227,11 +240,9 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
-      , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)/* && (this.checking) */) {
-        // this.target.setScore(this.target.cocoPoints);
-        // swal("Nice!","You earned 10 coconuts!",'success');
-        // this.stopGeo();
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
+      , this.target.coco2_coord) <= this.target.safeArea) && (this.target.coco2)&& (this.checking)) {
+        this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco2False');
@@ -244,10 +255,10 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed',()=>{
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
-      , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)/* && (this.checking) */) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
+      , this.target.coco3_coord) <= this.target.safeArea) && (this.target.coco3)&& (this.checking)) {
 
-        // this.stopGeo();
+        this.stopGeo();
         this.animateCoco(this.target.cocoPoints);
         setTimeout(()=>{
           this.target.event.publish('coco3False');
@@ -260,10 +271,10 @@ export class MapPage {
     })
 
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter()
-        , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)/* && (this.checking) */) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */
+        , this.circle1.getCenter()) <= this.target.safeArea) && (!this.target.dummy1given) && (!this.target.quesFound)&& (this.checking)) {
 
-        // this.stopGeo();
+        this.stopGeo();
         this.target.numcircles--;
         if (this.target.numcircles == 1){
           this.buttonShown = 'hidden';
@@ -293,10 +304,10 @@ export class MapPage {
     });
 
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
-        this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)/* && (this.checking) */) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */,
+        this.circle2.getCenter()) <= this.target.safeArea) && (!this.target.dummy2given) && (!this.target.quesFound)&& (this.checking)) {
 
-        // this.stopGeo();
+        this.stopGeo();
         this.target.numcircles--;
         if (this.target.numcircles == 1){
           this.buttonShown = 'hidden';
@@ -327,10 +338,10 @@ export class MapPage {
 
     // main listener
     google.maps.event.addListener(this.map, 'center_changed', () => {
-      if ((google.maps.geometry.spherical.computeDistanceBetween(/* new google.maps.LatLng(this.lat,this.lng) */this.map.getCenter(),
-        this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)/* && (this.checking) */) {
+      if ((google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(this.lat,this.lng)/* this.map.getCenter() */,
+        this.circle.getCenter()) <= this.target.safeArea) && (!this.target.alertGiven)&& (this.checking)) {
 
-        // this.stopGeo();
+        this.stopGeo();
         this.marker.setIcon({
           url: 'assets/img/sparks.gif',
           scaledSize: new google.maps.Size(15, 15,'vh','vh')
@@ -357,10 +368,6 @@ export class MapPage {
           this.map.setZoom(16);
           this.map.setCenter(new google.maps.LatLng(-18.148540, 178.445526));
           this.checkScore();
-          // if (this.target.numLev > 0 ){
-
-
-          // }
 
         })
         this.levFinished = true;
@@ -468,7 +475,7 @@ export class MapPage {
 
 
   checkScore() {
-    this.api.loadScore(this.target.cat_id, this.target.lev_id, this.target.answers.toLocaleString()).subscribe(
+    this.api.loadScore(this.target.cat_id, this.target.lev_id, this.target.question.toLocaleString(),this.target.answers.toLocaleString()).subscribe(
       res => {
         console.log("check Score is called in Level " + this.target.lev_id);
         console.log("this is score response: ", res.score);
@@ -489,7 +496,7 @@ export class MapPage {
         this.alertScore.onDidDismiss(() => {
           this.animateCoin(parseInt(res.score));
             this.target.setScore(parseInt(res.score));
-            console.log("score: "+ this.target.score);           
+            console.log("score: "+ this.target.score);         
           console.log("Current Level for this score: ", this.target.lev_id);
           console.log("Levels Remaining after showing score: ", this.target.numLev);
 
@@ -529,6 +536,10 @@ export class MapPage {
           //     this.createAnotherDummyCircles(res[1].lat, res[1].lng);
           //   }
           // );
+        }
+
+        if (this.target.numcircles == 1){
+          this.buttonShown = 'hidden';
         }
         let temp: any = parseInt(localStorage.getItem('userScore')) + parseInt(res.score)
         localStorage.setItem('userScore', temp);
@@ -751,9 +762,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'px','px'),
-        origin: new google.maps.Point(0,0), 
-        anchor: new google.maps.Point(0, 0) 
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       }
     });
   }
@@ -767,9 +778,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'px','px'),
-        origin: new google.maps.Point(0,0), 
-        anchor: new google.maps.Point(0, 0) 
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       }
     });
   }
@@ -783,9 +794,9 @@ export class MapPage {
       optimized: false,
       icon: {
         url: 'assets/img/coco.gif',
-        scaledSize: new google.maps.Size(15, 15,'px','px'),
-        origin: new google.maps.Point(0,0), 
-        anchor: new google.maps.Point(0, 0) 
+        scaledSize: new google.maps.Size(100,100),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(56,100)
       }
     });
   }
