@@ -62,8 +62,8 @@
     <allow-navigation href="http://192.168.8.180:8100" />
     <allow-navigation href="http://192.168.8.161:8100" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
+    <plugin name="cordova-plugin-vibration" spec="^3.1.0" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.0.0" />
-    <plugin name="cordova-plugin-vibration" spec="^3.1.0" />
 </widget>

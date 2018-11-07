@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import { Camera } from '@ionic-native/camera';
+import { Vibration } from '@ionic-native/vibration';
 
 import { MapPage } from '../pages/map/map';
 import { ModalPage } from '../pages/modal/modal';
@@ -61,6 +62,7 @@ const config:SocketIoConfig = {url: 'http://27.123.150.94:6001', options: {}};
   ],
   providers: [
     SplashScreen,
+    Vibration,
     Camera,
     StatusBar,
     Geolocation,
