@@ -142,6 +142,13 @@ cats : any ={
     this.api.checkNumLevel(this.target.cat_id).subscribe(
       res => {
         this.target.numLev = res[0].numLev;  
+
+
+        let i = 0;
+        while( i < (res[0].numLev + 1)){
+          console.log(i++);
+        }
+
         // this.target.lev_id = 1;
         console.log("{menu} Total Number of Levels: " , this.target.numLev);   
         this.api.loadGame(this.target.username,value).subscribe((res)=>{

@@ -39,6 +39,8 @@
         <!-- <ion-item *ngFor="let cat of getData('All')" (click)="startGame(cat.cat_id,cat.cat_name)"><p>{{cat.cat_name}} </p> </ion-item> -->
         <ion-card *ngFor="let cat of getData('All')" > 
           <ion-card-header> <strong>{{cat.cat_name}}  </strong> </ion-card-header>
+          <ion-badge *ngIf="cat.course != 'OPEN'" style="margin: auto; "> {{cat.course}} </ion-badge>
+          <ion-badge *ngIf="cat.course == 'OPEN'" style="margin: auto;background-color: green;"> {{cat.course}} </ion-badge>
           <ion-row>
               <ion-col>
                   <ion-icon class="info" name="radio-button-on" > {{cat.points}} </ion-icon>

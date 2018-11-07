@@ -52,6 +52,7 @@ export class TargetProvider {
   public numcircles: number = 1;
   public answers : Array<any> = [];
   public question : Array<any> = [];
+  public levels : Array<any> = [];
   public score : number =0;
   public points: number = 0;
   public coconuts:number = 0;
